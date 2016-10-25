@@ -1,0 +1,70 @@
+.icon-button{
+  display: -webkit-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 60px;
+  min-height: 60px;
+  overflow: hidden;
+  background-color: transparent;
+  outline: none;
+  border: 0 solid transparent;
+  cursor: pointer;
+  padding: 10px 0;
+  position: relative;
+  color: #7794aa;
+
+  .icon{
+    display: block;
+    width: 25px;
+    height: 25px;
+    fill: #7794aa;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .label{
+    margin-top: 3px;
+    font-size: 10px;
+    text-align: center;
+    color: #7794aa;
+  }
+
+  &.active{
+    .label {
+      color: #000000;
+    }
+    .icon {
+      fill: #000000;
+    }
+  }
+
+  &.blue{
+    .label {
+      color: #ffffff;
+    }
+    .icon {
+      fill: #ffffff;
+    }
+  }
+}
+
+@media screen and (max-width: $mobileBreakPoint){
+
+  .icon-button {
+    min-width: 45px;
+    min-height: 45px;
+    padding: 5px;
+    margin: 0;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .label {
+      //white-space: nowrap;
+    }
+  }
+
+}

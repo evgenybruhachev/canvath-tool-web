@@ -58,10 +58,10 @@ if(NODE_ENV === 'development'){
   };
 
   config.module.loaders.push({
-    test:   /\.css$/,
+    test:   /\.scss$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?-url&sourceMap&modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss-loader'
+      'css-loader?-url&sourceMap!postcss-loader!sass-loader?sourceMap'
     )
   });
 
@@ -91,10 +91,10 @@ if(NODE_ENV === 'production'){
   };
 
   config.module.loaders.push({
-    test:   /\.css$/,
+    test:   /\.scss$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?-url&minimize&modules&importLoaders=1&localIdentName=[hash:base64:5]!postcss-loader'
+      'css-loader?-url&minimize!postcss-loader!sass-loader'
     )
   });
 

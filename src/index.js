@@ -8,6 +8,8 @@ import configure from './store';
 
 const store = configure();
 
+import './styles/styles.scss';
+
 ReactDOM.render(
   <Provider store={store}>
     <App/>
