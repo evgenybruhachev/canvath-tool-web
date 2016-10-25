@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
+import MediaQuery from 'react-responsive';
 
 import IconButton from '../../components/icon-button';
-
-import style from './style.css';
 
 class Toolbar extends Component{
 
   render(){
+
     return (
-      <div className={style.toolbar}>
-        <IconButton icon="zoom-in" label={'Zoom In'} />
-        <IconButton icon="zoom-out" label={'Zoom Out'} />
-        <IconButton icon="undo" label={'Undo'} />
-        <IconButton icon="redo" label={'Redo'} />
+      <div className='toolbar'>
+
+        <MediaQuery query='(min-width: 769px)'>
+          <IconButton icon="zoom-in" label={'Zoom In'} />
+          <IconButton icon="zoom-out" label={'Zoom Out'} />
+          <IconButton icon="undo" label={'Undo'} />
+          <IconButton icon="redo" label={'Redo'} />
+        </MediaQuery>
         <IconButton icon="hand" label={'Panning'} />
         <IconButton icon="cursor" label={'移動'} active={true}/>
         <IconButton icon="cancel" label={'削除'} />

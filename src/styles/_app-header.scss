@@ -1,0 +1,35 @@
+.app-header{
+  height: $headerHeight;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+
+  .logo{
+    width: 60px;
+    height: 60px;
+  }
+}
+
+
+@media screen and (max-width: $mobileBreakPoint){
+  .app-header {
+    height: $headerHeightMobile;
+    background-color: #0F5FD4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    min-width: 300px;
+    z-index: 100;
+    .icon-button{
+      color: #ffffff;
+    }
+  }
+}

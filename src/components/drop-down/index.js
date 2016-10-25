@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-
-import style from './style.css';
 
 function DropDown ({label, onSelect}){
   return (
-    <div className={style.dropDown} label={label}>
-      <span className={style.label}>{label}</span>
-      <svg className={style.icon}>
+    <div className='drop-down' label={label}>
+      <span className='label'>{label}</span>
+      <svg className='icon'>
         <use xlinkHref={`#icon-list`} />
       </svg>
     </div>

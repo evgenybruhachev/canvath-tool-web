@@ -1,0 +1,23 @@
+.toolbar{
+  width: 60px;
+  min-height: 100%;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+@media screen and (max-width: $mobileBreakPoint){
+  .toolbar {
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    min-height: 45px;
+    background-color: #fafafa;
+    overflow-x: scroll;
+    .icon-button{
+      min-width: 60px;
+    }
+  }
+}
