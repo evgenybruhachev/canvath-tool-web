@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const config = module.exports = {};
+const config = {};
 
 config.context = __dirname + '/src';
 
@@ -32,12 +32,7 @@ config.module = {
   ]
 };
 
-config.postcss = function (webpack) {
-  return {
-    defaults: [autoprefixer],
-    cleaner:  [autoprefixer({ browsers: ['last 2 versions'] })]
-  };
-};
+config.postcss = [ autoprefixer({ browsers: ['last 3 versions'] }) ];
 
 config.plugins = [
   new HtmlWebpackPlugin({
@@ -63,11 +58,10 @@ if(NODE_ENV === 'development'){
   };
 
   config.module.loaders.push({
-    test:   /\.(scss)$/,
+    test:   /\.css$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?-url&minimize&sourceMap&modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]',
-      'sass-loader?sourceMap'
+      'css-loader?-url&sourceMap&modules&importLoaders=1&localIdentName=[local]___[hash:base64:5]!postcss-loader'
     )
   });
 
@@ -97,11 +91,10 @@ if(NODE_ENV === 'production'){
   };
 
   config.module.loaders.push({
-    test:   /\.(scss)$/,
+    test:   /\.css$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
-      'css-loader?-url&minimize&modules&importLoaders=1&localIdentName=[hash:base64:5]',
-      'sass-loader'
+      'css-loader?-url&minimize&modules&importLoaders=1&localIdentName=[hash:base64:5]!postcss-loader'
     )
   });
 
@@ -133,3 +126,4 @@ if(NODE_ENV === 'production'){
   );
 
 }
+module.exports = config;

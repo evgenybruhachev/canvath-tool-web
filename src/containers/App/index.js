@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../Header';
 import Toolbar from '../Toolbar';
 
-import style from './style.scss';
+import style from './style.css';
 
 class App extends Component {
 
