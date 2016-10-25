@@ -11,6 +11,7 @@ class Header extends Component{
       <div className={style.header}>
         <img src="assets/logo.png" alt="Nobori" className={style.logo}/>
         <IconButton icon="poster" label={'開く'} />
+        <IconButton icon="save" label={'開く'} />
       </div>
     )
   }

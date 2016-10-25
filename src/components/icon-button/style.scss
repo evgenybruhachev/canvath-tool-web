@@ -2,11 +2,31 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   width: 60px;
   height: 60px;
   overflow: hidden;
   background-color: transparent;
   outline: none;
   border: 0 solid transparent;
+  cursor: pointer;
+  padding: 0;
 }
 
+.icon{
+  width: 25px;
+  height: 25px;
+  fill: #7794aa;
+}
+
+.label{
+  margin-top: 3px;
+  font-size: 10px;
+  text-align: center;
+  color: #7794aa;
+}
+
+.active{
+  color: #000000;
+  fill: #000000;
+}
