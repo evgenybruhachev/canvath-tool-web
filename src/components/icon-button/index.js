@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import Ink from 'react-ink';
 
-import style from './style.scss';
+import style from './style.css';
 
 function IconButton ({icon, label, onClick, active = false, type = 'button'}){
   return (
@@ -9,6 +10,7 @@ function IconButton ({icon, label, onClick, active = false, type = 'button'}){
       label={label}
       onClick={onClick}
       type={type}>
+      <Ink/>
       <svg className={classNames(style.icon, {[style.active]: active})}>
         <use xlinkHref={`#icon-${icon}`} />
       </svg>

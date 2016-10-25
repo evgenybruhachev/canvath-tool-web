@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import style from './style.scss';
+import style from './style.css';
 
 function DropDown ({label, onSelect}){
   return (

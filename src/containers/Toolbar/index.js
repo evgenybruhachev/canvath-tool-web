@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import IconButton from '../../components/icon-button';
 
-import style from './style.scss';
+import style from './style.css';
 
 class Toolbar extends Component{
 

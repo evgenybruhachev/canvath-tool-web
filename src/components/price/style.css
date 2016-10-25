@@ -1,7 +1,5 @@
 .button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   height: 30px;
   overflow: hidden;
   background-color: #005bd7;
@@ -12,12 +10,16 @@
   padding: 0 10px;
   margin-left: auto;
   margin-right: 10px;
+  position: relative;
+  text-align: center;
 }
 
 .icon{
   width: 20px;
   height: 20px;
   fill: #ffffff;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .label{
@@ -25,4 +27,6 @@
   font-size: 12px;
   text-align: center;
   color: #ffffff;
+  display: inline-block;
+  vertical-align: middle;
 }

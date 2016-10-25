@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server -d --inline --progress --colors --port 3000",
     "watch": "NODE_ENV=development webpack --watch",
-    "build": "NODE_ENV=production webpack"
+    "build": "NODE_ENV=production webpack",
+    "ghpages": "rm -rf build/; npm run build; gh-pages -d build;"
   },
   "author": "Alexey Korzun",
   "license": "ISC",
@@ -24,6 +25,8 @@
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.22.0",
     "node-sass": "^3.10.1",
+    "postcss": "^5.2.5",
+    "postcss-loader": "^1.0.0",
     "redux-actions": "^0.12.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
@@ -33,6 +36,7 @@
   "dependencies": {
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-ink": "^5.1.1",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0"
   }

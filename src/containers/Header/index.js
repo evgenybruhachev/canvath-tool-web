@@ -4,7 +4,7 @@ import IconButton from '../../components/icon-button';
 import DropDown from '../../components/drop-down';
 import Price from '../../components/price';
 
-import style from './style.scss';
+import style from './style.css';
 
 class Header extends Component{
 
