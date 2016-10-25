@@ -13,6 +13,7 @@
   padding: 10px 0;
   position: relative;
   color: #7794aa;
+  user-select: none;
 
   .icon{
     display: block;
@@ -28,6 +29,7 @@
     font-size: 10px;
     text-align: center;
     color: #7794aa;
+    white-space: nowrap;
   }
 
   &.active{
@@ -60,10 +62,6 @@
     .icon {
       width: 20px;
       height: 20px;
-    }
-
-    .label {
-      //white-space: nowrap;
     }
   }
 
