@@ -4,7 +4,7 @@ import Ink from 'react-ink';
 function CartButton ({value, onClick}){
   return (
     <button className='cart-button'>
-      <Ink/>
+      <Ink hasTouch={false}/>
       <svg className='icon'>
         <use xlinkHref={`#icon-cart`} />
       </svg>

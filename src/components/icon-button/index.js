@@ -14,7 +14,7 @@ function IconButton ({icon, label, onClick, active = false, type = 'button', cla
         <use xlinkHref={`#icon-${icon}`} />
       </svg>
       {label && <span className='label'>{label}</span>}
-      <Ink/>
+      <Ink hasTouch={false}/>
     </button>
   )
 };
