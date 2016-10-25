@@ -1,0 +1,28 @@
+.button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  overflow: hidden;
+  background-color: #005bd7;
+  outline: none;
+  border: 0 solid transparent;
+  border-radius: 2px;;
+  cursor: pointer;
+  padding: 0 10px;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.icon{
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+}
+
+.label{
+  margin-left: 5px;
+  font-size: 12px;
+  text-align: center;
+  color: #ffffff;
+}
