@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import Ink from 'react-ink';
 
 import FlatButton from '../flat-button';
-import ProductCard from '../product-card';
 
-import {items} from '../../api/products';
 
 class ProductLoad extends Component{
 
@@ -18,20 +16,21 @@ class ProductLoad extends Component{
 
   render() {
 
-    const {onSelect, close} = this.props;
+    const {onSelect, close, title, back} = this.props;
 
     return (
       <div className='product-load'>
         <div className="head">
-          <div className="back"></div>
-          <div className="title">テンプレート</div>
-          <FlatButton icon={'close'} label={'esc'} onClick={close}/>
+          <div className="aside">
+            {back && <FlatButton icon={'back'} label={'back'} onClick={back}/>}
+          </div>
+          <div className="title">{title}</div>
+          <div className="aside">
+            <FlatButton icon={'close'} label={'esc'} onClick={close}/>
+          </div>
         </div>
         
-        <div className="content">
-          {items.map((item, index) => <ProductCard key={index} image={item.img} images={item.previews}/>)}
-
-        </div>
+        <div className="content">{this.props.children}</div>
       </div>
     )
   }

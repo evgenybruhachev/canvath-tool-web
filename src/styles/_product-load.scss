@@ -17,6 +17,12 @@
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #f4f4f5;
+    .aside{
+      width: 100px;
+      &:last-child{
+        text-align: right;
+      }
+    }
   }
   .content{
     display: -webkit-flex;
