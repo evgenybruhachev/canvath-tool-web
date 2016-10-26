@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 
-function DropDown ({label, onSelect}){
+function DropDown ({label, onSelect, onClick, style}){
   return (
-    <div className='drop-down' label={label}>
+    <button className='drop-down' label={label} style={style} onClick={onClick}>
       <span className='label'>{label}</span>
       <svg className='icon'>
         <use xlinkHref={`#icon-list`} />
       </svg>
-    </div>
+    </button>
   )
 };
 
 DropDown.propTypes = {
   label: React.PropTypes.string.isRequired,
-  onSelect: React.PropTypes.func
+  onSelect: React.PropTypes.func,
+  onClick: React.PropTypes.func,
+  style: React.PropTypes.object,
 };
 
 export default DropDown;
