@@ -10,6 +10,7 @@ import Toolbar from '../Toolbar';
 
 import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
+import IconButton from '../../components/icon-button';
 
 import * as ProductActions from '../../actions/product';
 
@@ -56,6 +57,7 @@ class App extends Component {
 
         <div className='app-container'>
           <Toolbar/>
+          <IconButton icon="trash" label={'全削除'} className={'trash'}/>
         </div>
 
         { load_product_container ? <ProductLoad title={'テンプレート'} close={this._closeProductLoad.bind(this)}>
