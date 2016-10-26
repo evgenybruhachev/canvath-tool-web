@@ -1,0 +1,40 @@
+.flat-button{
+  display: -webkit-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-width: 30px;
+  min-height: 30px;
+  overflow: hidden;
+  background-color: transparent;
+  outline: none;
+  border: 0 solid transparent;
+  cursor: pointer;
+  position: relative;
+  color: #bdbdbd;
+  user-select: none;
+  padding: 0;
+
+  .icon{
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: #bdbdbd;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .label{
+    margin-top: 3px;
+    font-size: 9px;
+    text-align: center;
+    color: #bdbdbd;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+}
+
+//@media screen and (max-width: $mobileBreakPoint){
+//
+//
+//}
