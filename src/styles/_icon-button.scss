@@ -49,6 +49,14 @@
       fill: #ffffff;
     }
   }
+
+  &.trash{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #fafafa;
+    border-radius: 2px;
+  }
 }
 
 @media screen and (max-width: $mobileBreakPoint){
