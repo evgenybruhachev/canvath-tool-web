@@ -1,5 +1,5 @@
 .flat-button{
-  display: -webkit-flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -17,15 +17,15 @@
 
   .icon{
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     fill: #bdbdbd;
     margin: 0 auto;
     display: block;
   }
 
   .label{
-    margin-top: 3px;
+    margin-top: -3px;
     font-size: 9px;
     text-align: center;
     color: #bdbdbd;

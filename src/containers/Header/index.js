@@ -10,6 +10,14 @@ import * as ProductActions from '../../actions/product';
 
 class Header extends Component{
 
+  _openProductLoad(){
+    this.props.actions.toggle_load_product_container(true);
+  }
+
+  _openCategorySelect(){
+    this.props.actions.toggle_load_product_category_container(true);
+  }
+
   render(){
 
     const { load_product_container, actions } = this.props;
@@ -17,9 +25,9 @@ class Header extends Component{
     return (
       <div className='app-header'>
         <img src="assets/logo.png" alt="Nobori" className='logo'/>
-        <IconButton icon="poster" label='開く' onClick={actions.toggle_load_product_container}/>
+        <IconButton icon="poster" label='開く' onClick={this._openProductLoad.bind(this)}/>
         <IconButton icon="save" label='開く' />
-        <DropDown label='Type' style={{width: 200+'px'}}/>
+        <DropDown label='Type' style={{width: 200+'px'}} onClick={this._openCategorySelect.bind(this)}/>
         <DropDown label='Side' />
         <DropDown label='Color' />
         <Price value='5000' />

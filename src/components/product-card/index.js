@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-function ProductCard ({title, onClick, image, images}){
+function ProductCard ({title, actionTitle, onClick, image, images}){
   return (
     <div className="product-card">
       {title && <div className="title">{title}</div>}
-      <img className="preview" src={image} alt=""/>
-      {images.length && <div className="previews">{images.map((item, index) => <img src={item} alt='' key={index}/> ) }</div>}
+      <img className="preview" src={image} alt="" onClick={onClick}/>
+      {actionTitle && <button className="action-button">{actionTitle}</button>}
+      {images && <div className="previews">{images.map((item, index) => <img src={item} alt='' key={index}/> ) }</div>}
     </div>
   )
 };
