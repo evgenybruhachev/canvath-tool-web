@@ -10,6 +10,7 @@
   padding: 0 10px;
   background: transparent;
   cursor: pointer;
+  position: relative;
 
   .icon{
     width: 14px;
@@ -21,5 +22,37 @@
   .label{
     font-size: 12px;
     color: #1f2c36;
+  }
+
+  .list{
+    display: none;
+    position: absolute;
+    width: calc(100% + 2px);
+    top: -1px;
+    left: -1px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1);
+    background-color: #ffffff;
+    text-align: left;
+    &.active{
+      display: block;
+    }
+    .list-item{
+      width: 100%;
+      display: block;
+      font-size: 12px;
+      padding: 5px 10px;
+      &:hover{
+        background-color: #fafafa;
+      }
+    }
+  }
+
+  .color{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 5px;
   }
 }
