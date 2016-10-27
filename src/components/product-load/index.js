@@ -7,12 +7,25 @@ import FlatButton from '../flat-button';
 
 class ProductLoad extends Component{
 
+  constructor(props){
+    super(props);
+    this._hide = this._hide.bind(this);
+  }
+
   componentDidMount() {
+    document.addEventListener('keyup', this._hide, true);
     document.body.classList.add('fixed');
   }
 
   componentWillUnmount() {
+    document.removeEventListener('keyup', this._hide, true);
     document.body.classList.remove('fixed');
+  }
+
+  _hide(e){
+    if(e.keyCode === 27){
+      this.props.close.call();
+    }
   }
 
   render() {
