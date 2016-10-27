@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 class DropDown extends Component{
   constructor(props){
+
     super(props);
+
+    this.state = {
+      active: false,
+      label: 'Select'
+    }
+
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this._openList = this._openList.bind(this);
+    this._select = this._select.bind(this);
   }
 
   componentDidMount() {
+    this.setState(state => Object.assign(state, {label: this.props.label}));
     document.addEventListener('click', this.handleClickOutside, true);
   }
 
@@ -17,38 +27,41 @@ class DropDown extends Component{
   }
 
   handleClickOutside(e) {
-    const domNode = ReactDOM.findDOMNode(this);
-    if (!domNode.contains(e.target)) {
+    this.setState(state => Object.assign(state, {active: false}));
+  }
 
-      this.refs.dropDown.classList.remove('active');
+  _openList(e){
+    const domNode = ReactDOM.findDOMNode(this);
+    if (domNode === e.target) {
+      this.setState(state => Object.assign(state, {active: true}));
     }
   }
 
-  _openList(){
-    this.refs.dropDown.classList.add('active');
+  _select(val){
+    this.setState(state => Object.assign(state, {label: val, active: false}));
   }
 
   render() {
     return (
-      <button className='drop-down' ref="dropDown" label={this.props.label} style={this.props.style}
-              onClick={this.props.onClick || this._openList.bind(this)}>
-        <span className='label'>{this.props.label}</span>
+      <button className={classNames('drop-down', {'active' : this.state.active })} label={this.props.label}
+              style={this.props.style}
+              onClick={!this.state.active && (this.props.onClick || this._openList.bind(this))}>
+        <span className='label'>{this.state.label}</span>
         <svg className='icon'>
           <use xlinkHref={`#icon-list`}/>
         </svg>
         <div className="list">
-          {this.props.children}
+          {
+            React.Children.map(
+              this.props.children, child => {
+                return React.cloneElement(child, {onClick: this._select.bind(this, child.props.children) })
+              }
+            )
+          }
         </div>
       </button>
     )
   }
-};
-
-DropDown.propTypes = {
-  label: React.PropTypes.string.isRequired,
-  onSelect: React.PropTypes.func,
-  onClick: React.PropTypes.func,
-  style: React.PropTypes.object,
 };
 
 export default DropDown;
