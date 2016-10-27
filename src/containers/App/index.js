@@ -57,7 +57,9 @@ class App extends Component {
 
         <div className='app-container'>
           <Toolbar/>
-          <IconButton icon="trash" label={'全削除'} className={'trash'}/>
+          <MediaQuery query='(min-width: 769px)'>
+            <IconButton icon="trash" label={'全削除'} className={'trash'}/>
+          </MediaQuery>
         </div>
 
         { load_product_container ? <ProductLoad title={'テンプレート'} close={this._closeProductLoad.bind(this)}>
