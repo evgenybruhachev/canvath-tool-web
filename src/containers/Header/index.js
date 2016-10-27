@@ -24,7 +24,7 @@ class Header extends Component{
 
     return (
       <div className='app-header'>
-        <img src="assets/logo.png" alt="Nobori" className='logo'/>
+        <img src="assets/img/logo.png" alt="Nobori" className='logo'/>
         <IconButton icon="poster" label='開く' onClick={this._openProductLoad.bind(this)}/>
         <IconButton icon="save" label='開く' />
         <DropDown label='Type' style={{width: 200+'px'}} onClick={this._openCategorySelect.bind(this)}/>
