@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 class DropDown extends Component{
-  _toggleList(){
-    this.refs._list.classList.toggle('active');
+  constructor(props){
+    super(props);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  _openList(){
+    this.refs._list.classList.add('active');
   }
 
   componentDidMount() {
-    this.__wrappedComponent = this.refs.dropDown;
-    document.addEventListener('click', this.handleClickOutside.bind(this), true);
+    document.addEventListener('click', this.handleClickOutside, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside.bind(this), true);
+    document.removeEventListener('click', this.handleClickOutside, true);
   }
 
   handleClickOutside(e) {
@@ -25,8 +29,8 @@ class DropDown extends Component{
 
   render() {
     return (
-      <button className='drop-down' ref="dropDown" label={this.props.label} style={this.props.style}
-              onClick={this.props.onClick || this._toggleList.bind(this)}>
+      <button className='drop-down' label={this.props.label} style={this.props.style}
+              onClick={this.props.onClick || this._openList.bind(this)}>
         <span className='label'>{this.props.label}</span>
         <svg className='icon'>
           <use xlinkHref={`#icon-list`}/>
