@@ -5,10 +5,7 @@ class DropDown extends Component{
   constructor(props){
     super(props);
     this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  _openList(){
-    this.refs._list.classList.add('active');
+    this._openList = this._openList.bind(this);
   }
 
   componentDidMount() {
@@ -23,19 +20,23 @@ class DropDown extends Component{
     const domNode = ReactDOM.findDOMNode(this);
     if (!domNode.contains(e.target)) {
 
-      this.refs._list.classList.remove('active');
+      this.refs.dropDown.classList.remove('active');
     }
+  }
+
+  _openList(){
+    this.refs.dropDown.classList.add('active');
   }
 
   render() {
     return (
-      <button className='drop-down' label={this.props.label} style={this.props.style}
+      <button className='drop-down' ref="dropDown" label={this.props.label} style={this.props.style}
               onClick={this.props.onClick || this._openList.bind(this)}>
         <span className='label'>{this.props.label}</span>
         <svg className='icon'>
           <use xlinkHref={`#icon-list`}/>
         </svg>
-        <div className="list" ref="_list">
+        <div className="list">
           {this.props.children}
         </div>
       </button>

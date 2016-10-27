@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Ink from 'react-ink';
+import MediaQuery from 'react-responsive';
 
 import FlatButton from '../flat-button';
 
@@ -22,7 +23,12 @@ class ProductLoad extends Component{
       <div className='product-load'>
         <div className="head">
           <div className="aside">
-            {back && <FlatButton icon={'back'} label={'back'} onClick={back}/>}
+            <MediaQuery query='(min-width: 769px)'>
+              {back && <FlatButton icon={'back'} label={'back'} onClick={back}/>}
+            </MediaQuery>
+            <MediaQuery query='(max-width: 768px)'>
+              {back && <FlatButton icon={'back-m'} label={'back'} onClick={back}/>}
+            </MediaQuery>
           </div>
           <div className="title">{title}</div>
           <div className="aside">

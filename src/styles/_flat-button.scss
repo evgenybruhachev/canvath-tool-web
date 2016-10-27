@@ -34,7 +34,11 @@
   }
 }
 
-//@media screen and (max-width: $mobileBreakPoint){
-//
-//
-//}
+@media screen and (max-width: $mobileBreakPoint){
+  .flat-button {
+    .label{
+      display: none;
+    }
+  }
+
+}

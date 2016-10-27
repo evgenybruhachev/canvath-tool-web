@@ -12,7 +12,8 @@
     display: block;
   }
   .head{
-    padding: 15px 35px;
+    padding: 0 35px;
+    height: 65px;
     display: -webkit-flex;
     align-items: center;
     justify-content: space-between;
@@ -33,5 +34,20 @@
     margin: 0 auto;
     width: 840px;
     min-height: calc(100% - 65px);
+  }
+}
+
+@media screen and (max-width: $mobileBreakPoint){
+  .product-load{
+    .head{
+      padding: 15px;
+      height: 50px;
+      .aside {
+        width: 50px;
+      }
+    }
+    .content{
+      width: 100%;
+    }
   }
 }

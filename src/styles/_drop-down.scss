@@ -1,5 +1,5 @@
 .drop-down{
-  height: 30px;
+  max-height: 30px;
   border: 1px solid #bdbdbd;
   border-radius: 2px;
   display: flex;
@@ -11,6 +11,7 @@
   background: transparent;
   cursor: pointer;
   position: relative;
+  flex-wrap: wrap;
 
   .icon{
     width: 14px;
@@ -24,6 +25,12 @@
     color: #1f2c36;
   }
 
+  &.active{
+    .list{
+      display: block;
+    }
+  }
+
   .list{
     display: none;
     position: absolute;
@@ -33,9 +40,6 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1);
     background-color: #ffffff;
     text-align: left;
-    &.active{
-      display: block;
-    }
     .list-item{
       width: 100%;
       display: block;
@@ -54,5 +58,78 @@
     border-radius: 2px;
     vertical-align: middle;
     margin-right: 5px;
+  }
+
+}
+
+@media screen and (max-width: $mobileBreakPoint){
+  .drop-down{
+    max-height: 45px;
+    border: none;
+    border-top: 1px solid #bdbdbd;
+    border-radius: 0;
+    background-color: #ffffff;
+    margin: 0;
+    width: 100%;
+    padding: 0 15px;
+    transition: all .5s;
+
+    &:first-child{
+      margin-top: 15px;
+    }
+    &:last-child{
+      border-bottom: 1px solid #bdbdbd;
+      margin-bottom: 15px;
+    }
+
+    .icon{
+      width: 20px;
+      height: 20px;
+    }
+
+    .label{
+      padding: 8px 0;
+      font-size: 18px;
+    }
+    &.active{
+      max-height: 345px;
+      .list{
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+    }
+
+    .list{
+      display: block;
+      position: relative;
+      width: calc(100% + 30px);
+      top: 0px;
+      left: 0px;
+      margin: 0 -15px;
+      box-shadow: none;
+      background-color: #ffffff;
+      text-align: left;
+      max-height: 0px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      transition: all .5s;
+
+      .list-item {
+        width: 100%;
+        display: block;
+        font-size: 16px;
+        padding: 10px 15px;
+      }
+    }
+
+    .color{
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
   }
 }

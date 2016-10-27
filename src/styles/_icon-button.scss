@@ -43,9 +43,12 @@
 
   &.blue{
     .label {
+      display: none;
       color: #ffffff;
     }
     .icon {
+      width: 25px;
+      height: 25px;
       fill: #ffffff;
     }
   }
