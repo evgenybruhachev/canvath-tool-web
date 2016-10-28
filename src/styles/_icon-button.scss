@@ -80,6 +80,9 @@
     min-height: 65px;
     padding: 5px;
     margin: 0;
+    &.blue{
+      flex-direction: row;
+    }
 
     .icon {
       width: 30px;
@@ -87,4 +90,19 @@
     }
   }
 
+}
+
+@media screen and (max-width: 320px){
+  .icon-button.blue {
+    min-width: 35px;
+    min-height: 65px;
+    padding: 2px;
+    margin: 0;
+    flex-direction: row;
+
+    .icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
 }
