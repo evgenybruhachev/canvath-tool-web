@@ -57,8 +57,19 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #fafafa;
+    background-color: #ececec;
     border-radius: 2px;
+    min-height: 20px;
+    padding: 5px 10px;
+    color: #757575;
+    .icon{
+      display: none;
+    }
+    .label{
+      margin: 0;
+      color: #757575;
+      font-size: 12px;
+    }
   }
 }
 
@@ -66,13 +77,13 @@
 
   .icon-button {
     min-width: 45px;
-    min-height: 45px;
+    min-height: 65px;
     padding: 5px;
     margin: 0;
 
     .icon {
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
     }
   }
 

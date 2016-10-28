@@ -50,19 +50,21 @@ class MobileNavigation extends Component{
             <span className="label">開く</span>
           </button>
 
-          <DropDown label='Type' onClick={this._openCategorySelect.bind(this)}/>
+          <div>
+            <DropDown label='Type' onClick={this._openCategorySelect.bind(this)}/>
 
-          <DropDown label='Side'>
-            <div className="list-item">Side 1</div>
-            <div className="list-item">Side 2</div>
-            <div className="list-item">Side 3</div>
-          </DropDown>
+            <DropDown label='Side'>
+              <div className="list-item">Side 1</div>
+              <div className="list-item">Side 2</div>
+              <div className="list-item">Side 3</div>
+            </DropDown>
 
-          <DropDown label='Color'>
-            <div className="list-item"><span className="color" style={{'backgroundColor': 'red'}}></span>Red</div>
-            <div className="list-item"><span className="color" style={{'backgroundColor': 'blue'}}></span>Blue</div>
-            <div className="list-item"><span className="color" style={{'backgroundColor': 'green'}}></span>Green</div>
-          </DropDown>
+            <DropDown label='Color'>
+              <div className="list-item"><span className="color" style={{'backgroundColor': 'red'}}></span>Red</div>
+              <div className="list-item"><span className="color" style={{'backgroundColor': 'blue'}}></span>Blue</div>
+              <div className="list-item"><span className="color" style={{'backgroundColor': 'green'}}></span>Green</div>
+            </DropDown>
+          </div>
 
           <button className="btn">
             <Icon icon={'save'} />

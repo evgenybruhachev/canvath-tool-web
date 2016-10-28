@@ -25,7 +25,7 @@ class Toolbar extends Component{
           <IconButton icon="zoom-out" label={'Zoom Out'} />
           <IconButton icon="undo" label={'Undo'} />
           <IconButton icon="redo" label={'Redo'} />
-          <IconButton icon="cancel" label={'削除'} onClick={this._toggleActiveTool.bind(this, 'eraser')} active={active_tool === 'eraser'}/>
+          <IconButton icon="trash" label={'削除'} onClick={this._toggleActiveTool.bind(this, 'eraser')} active={active_tool === 'eraser'}/>
           <div className="separator"></div>
         </MediaQuery>
         <IconButton icon="hand" label={'Panning'} onClick={this._toggleActiveTool.bind(this, 'panning')} active={active_tool === 'panning'}/>

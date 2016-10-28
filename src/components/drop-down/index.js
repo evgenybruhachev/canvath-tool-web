@@ -12,28 +12,30 @@ class DropDown extends Component{
       label: 'Select'
     }
 
-    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this._handleClickOutside = this._handleClickOutside.bind(this);
     this._openList = this._openList.bind(this);
     this._select = this._select.bind(this);
   }
 
   componentDidMount() {
     this.setState(state => Object.assign(state, {label: this.props.label}));
-    document.addEventListener('click', this.handleClickOutside, true);
+    document.addEventListener('click', this._handleClickOutside, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutside, true);
+    document.removeEventListener('click', this._handleClickOutside, true);
   }
 
-  handleClickOutside(e) {
-    this.setState(state => Object.assign(state, {active: false}));
+  _handleClickOutside(e) {
+    const domNode = ReactDOM.findDOMNode(this);
+    if(!domNode.contains(e.target)) {
+      this.setState(state => Object.assign(state, {active: false}));
+    }
   }
 
   _openList(e){
-    const domNode = ReactDOM.findDOMNode(this);
-    if (domNode === e.target) {
-      this.setState(state => Object.assign(state, {active: true}));
+    if (e.target.classList.contains('drop-down_head')) {
+      this.setState(state => Object.assign(state, {active: !this.state.active}));
     }
   }
 
@@ -45,11 +47,13 @@ class DropDown extends Component{
     return (
       <button className={classNames('drop-down', {'active' : this.state.active })} label={this.props.label}
               style={this.props.style}
-              onClick={!this.state.active && (this.props.onClick || this._openList.bind(this))}>
-        <span className='label'>{this.state.label}</span>
-        <svg className='icon'>
-          <use xlinkHref={`#icon-list`}/>
-        </svg>
+              onClick={this.props.onClick || this._openList.bind(this)}>
+        <span className="drop-down_head">
+          <span className='label'>{this.state.label}</span>
+          <svg className='icon'>
+            <use xlinkHref={`#icon-list`}/>
+          </svg>
+          </span>
         <div className="list">
           {
             React.Children.map(
