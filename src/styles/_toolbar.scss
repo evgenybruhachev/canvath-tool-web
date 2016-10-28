@@ -22,12 +22,14 @@
     flex-direction: row;
     width: 100%;
     min-height: 45px;
-    height: 45px;
+    height: 60px;
     background-color: #fafafa;
     overflow-x: scroll;
     overflow-y: hidden;
+    padding: 0 20px;
     .icon-button{
       min-width: 60px;
+      margin-right: 10px;
     }
   }
 }
