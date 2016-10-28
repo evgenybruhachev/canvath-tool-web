@@ -49,6 +49,10 @@ class MobileNavigation extends Component{
             <Icon icon={'poster'} />
             <span className="label">開く</span>
           </button>
+          <button className="btn">
+            <Icon icon={'save'} />
+            <span className="label">保存</span>
+          </button>
 
           <div>
             <DropDown label='Type' onClick={this._openCategorySelect.bind(this)}/>
@@ -66,10 +70,6 @@ class MobileNavigation extends Component{
             </DropDown>
           </div>
 
-          <button className="btn">
-            <Icon icon={'save'} />
-            <span className="label">保存</span>
-          </button>
           <button className="btn">
             <span className="label">全削除</span>
           </button>
