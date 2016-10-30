@@ -1,0 +1,28 @@
+.color-picker{
+  width: 20px;
+  height: 20px;
+
+  .color {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+  }
+  .swatch {
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .popover {
+    position: absolute;
+    z-index: 2;
+  }
+  .cover {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
+
+}

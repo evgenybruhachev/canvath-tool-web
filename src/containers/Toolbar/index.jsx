@@ -44,7 +44,7 @@ class Toolbar extends Component {
         <Button icon="text" label={'テキスト'} onClick={() => this.toggleActiveTool('text')} active={activeTool === 'text'} />
         <Button icon="image" label={'画像'} onClick={() => this.toggleActiveTool('image')} active={activeTool === 'image'} />
         <Button icon="sticker" label={'スタンプ'} onClick={() => this.toggleActiveTool('sticker')} active={activeTool === 'sticker'} />
-        <Button icon="figures" label={'シェイプ'} onClick={() => this.toggleActiveTool('svg')} active={activeTool === 'svg'} />
+        <Button icon="figures" label={'シェイプ'} onClick={() => this.toggleActiveTool('shapes')} active={activeTool === 'shapes'} />
         <Button icon="opacity" label={'カラー削除'} onClick={() => this.toggleActiveTool('removeColor')} active={activeTool === 'removeColor'} />
         <Button icon="layers" label={'レイヤ'} onClick={() => this.toggleActiveTool('layers')} active={activeTool === 'layers'} />
       </div>
