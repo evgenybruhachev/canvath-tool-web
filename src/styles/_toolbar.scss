@@ -14,8 +14,6 @@
   }
 }
 
-
-
 @media screen and (max-width: $mobileBreakPoint){
   .toolbar {
     justify-content: space-between;
@@ -27,7 +25,7 @@
     overflow-x: scroll;
     overflow-y: hidden;
     padding: 0 10px;
-    .icon-button{
+    .button{
       min-width: 60px;
       margin-right: 10px;
     }

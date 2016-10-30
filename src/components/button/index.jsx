@@ -1,17 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 import Ink from 'react-ink';
+import Icon from '../icon';
 
-function IconButton({ label, onClick, active = false, type = 'button', className, style }) {
+function IconButton({ label, icon, onClick, active = false, type = 'button', className, style }) {
   return (
     <button
-      className={classNames('icon-button', { active }, className)}
+      className={classNames('button', { active }, className)}
       label={label}
       onClick={onClick}
       type={type}
       style={style}
     >
-      <span className="label">{label}</span>
+      {icon && <Icon icon={icon} />}
+      {label && <span className="label">{label}</span>}
       <Ink hasTouch={false} />
     </button>
   );
@@ -19,6 +21,7 @@ function IconButton({ label, onClick, active = false, type = 'button', className
 
 IconButton.propTypes = {
   label: React.PropTypes.string,
+  icon: React.PropTypes.string,
   onClick: React.PropTypes.func,
   active: React.PropTypes.bool,
   type: React.PropTypes.oneOf(['button', 'reset', 'submit']),

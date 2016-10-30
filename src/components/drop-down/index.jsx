@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 class DropDown extends Component {
 
   static propTypes = {
     label: React.PropTypes.string,
-    style: React.PropTypes.any,
+    style: React.PropTypes.obj,
+    className: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    children: React.PropTypes.any,
+    children: React.PropTypes.element,
   }
 
   constructor(props) {
@@ -49,15 +49,17 @@ class DropDown extends Component {
   }
 
   render() {
+    const { label, style, onClick, children, className } = this.props;
+
     return (
       <button
-        className={classNames('drop-down', { active: this.state.active })} label={this.props.label}
-        style={this.props.style}
-        onClick={this.props.onClick || this.openList}
+        className={classNames('drop-down', { active: this.state.active }, className)} label={label}
+        style={style}
+        onClick={onClick || this.openList}
         ref={(node) => { this.node = node; return node; }}
       >
         <span className="drop-down_head">
-          <span className="label">{this.state.label || this.props.label}</span>
+          <span className="label">{this.state.label || label}</span>
           <svg className="icon">
             <use xlinkHref={'#icon-list'} />
           </svg>
@@ -65,7 +67,7 @@ class DropDown extends Component {
         <div className="list">
           {
             React.Children.map(
-              this.props.children, child => React.cloneElement(child,
+              children, child => React.cloneElement(child,
                 { onClick: () => this.select(child.props.children) }
               )
             )

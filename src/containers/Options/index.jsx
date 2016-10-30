@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import IconButton from '../../components/icon-button';
+import Button from '../../components/button';
+import DropDown from '../../components/drop-down';
 
 import * as DrawToolActions from '../../actions/draw-tool';
 
@@ -22,19 +23,33 @@ class Options extends Component {
 
     let content;
 
-    if (activeTool === 'pointer') {
-      content = (
-        <div className="options">
-          <IconButton icon={'align-top'} label={'Top'} />
-          <IconButton icon={'align-ver-center'} label={'Vertical Center'} />
-          <IconButton icon={'align-bottom'} label={'Bottom'} />
-          <IconButton icon={'align-left'} label={'Left'} />
-          <IconButton icon={'align-hor-center'} label={'Horizontal Center'} />
-          <IconButton icon={'align-right'} label={'Right'} />
-        </div>
-      );
-    } else {
-      content = (null);
+    switch (activeTool) {
+      case 'pointer':
+        content = (
+          <div className="options">
+            <Button icon={'align-top'} label={'Top'} />
+            <Button icon={'align-ver-center'} label={'Vertical Center'} />
+            <Button icon={'align-bottom'} label={'Bottom'} />
+            <Button icon={'align-left'} label={'Left'} />
+            <Button icon={'align-hor-center'} label={'Horizontal Center'} />
+            <Button icon={'align-right'} label={'Right'} />
+          </div>
+        );
+        break;
+      case 'brush':
+        content = (
+          <div className="options">
+            <Button icon={'align-top'} label={'Top'} />
+            <Button icon={'align-ver-center'} label={'Vertical Center'} />
+            <Button icon={'align-bottom'} label={'Bottom'} />
+            <Button icon={'align-left'} label={'Left'} />
+            <Button icon={'align-hor-center'} label={'Horizontal Center'} />
+            <Button icon={'align-right'} label={'Right'} />
+          </div>
+        );
+        break;
+      default:
+        content = (null);
     }
 
     return content;

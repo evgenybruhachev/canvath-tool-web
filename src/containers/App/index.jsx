@@ -12,7 +12,7 @@ import MobileNavigation from '../MobileNavigation';
 
 import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
-import IconButton from '../../components/icon-button';
+import Button from '../../components/button';
 
 import * as ProductActions from '../../actions/product';
 
@@ -96,7 +96,7 @@ class App extends Component {
           <Toolbar />
 
           <MediaQuery query="(min-width: 769px)">
-            <IconButton icon="trash" label={'全削除'} className={'trash'} />
+            <Button icon="trash" label={'全削除'} className={'trash'} />
           </MediaQuery>
 
           <div className="app-container-inner">

@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import IconButton from '../../components/icon-button';
-import Price from '../../components/cart-button';
-
+import Button from '../../components/button';
 
 class HeaderMobile extends Component {
 
@@ -37,19 +35,19 @@ class HeaderMobile extends Component {
 
     return (
       <div className="app-header">
-        <IconButton icon="hamburger" className="blue" onClick={this.showMobileNav} />
-        <IconButton icon="zoom-in" label="Zoom In" className="blue" />
-        <IconButton icon="zoom-out" label="Zoom Out" className="blue" />
-        <IconButton icon="undo" label="Undo" className="blue" />
-        <IconButton icon="redo" label="Redo" className="blue" />
-        <IconButton
+        <Button icon="hamburger" className="blue" onClick={this.showMobileNav} />
+        <Button icon="zoom-in" label="Zoom In" className="blue" />
+        <Button icon="zoom-out" label="Zoom Out" className="blue" />
+        <Button icon="undo" label="Undo" className="blue" />
+        <Button icon="redo" label="Redo" className="blue" />
+        <Button
           icon="trash"
           label={'削除'}
           className="blue"
           onClick={() => this.toggleActiveTool('eraser')}
           active={activeTool === 'eraser'}
         />
-        <Price value={'5000'} />
+        <Button icon="cart" label="5000" className="cart-button" />
       </div>
     );
   }
