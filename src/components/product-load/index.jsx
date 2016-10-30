@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MediaQuery from 'react-responsive';
-import FlatButton from '../flat-button';
+import Button from '../button';
 
 class ProductLoad extends Component {
 
@@ -40,15 +40,15 @@ class ProductLoad extends Component {
         <div className="head">
           <div className="aside">
             <MediaQuery query="(min-width: 769px)">
-              {back && <FlatButton icon={'back'} label={'back'} onClick={back} />}
+              {back && <Button className="flat-button" icon={'back'} label={'back'} onClick={back} />}
             </MediaQuery>
             <MediaQuery query="(max-width: 768px)">
-              {back && <FlatButton icon={'back-m'} label={'back'} onClick={back} />}
+              {back && <Button className="flat-button" icon={'back-m'} label={'back'} onClick={back} />}
             </MediaQuery>
           </div>
           <div className="title">{title}</div>
           <div className="aside">
-            <FlatButton icon={'close'} label={'esc'} onClick={close} />
+            <Button className="flat-button" icon={'close'} label={'esc'} onClick={close} />
           </div>
         </div>
 

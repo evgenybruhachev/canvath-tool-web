@@ -3,8 +3,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-width: 60px;
-  min-height: 60px;
+  width: 60px;
+  height: 60px;
   overflow: hidden;
   background-color: transparent;
   outline: none;
@@ -53,13 +53,49 @@
     }
   }
 
+  &.cart-button{
+    display: block;
+    width: auto;
+    flex-direction: row;
+    height: 30px;
+    overflow: hidden;
+    background-color: #0F5FD4;
+    outline: none;
+    border: 0 solid transparent;
+    border-radius: 2px;;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-left: auto;
+    margin-right: 10px;
+    position: relative;
+    text-align: center;
+    color: #ffffff;
+    .icon{
+      width: 20px;
+      height: 20px;
+      fill: #ffffff;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .label{
+      margin-left: 5px;
+      margin-top: 0;
+      font-size: 12px;
+      text-align: center;
+      color: #ffffff;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
   &.trash{
     position: fixed;
     bottom: 20px;
     right: 20px;
     background-color: #ececec;
     border-radius: 2px;
-    min-height: 20px;
+    height: 30px;
     padding: 5px 10px;
     color: #757575;
     .icon{
@@ -76,8 +112,8 @@
 @media screen and (max-width: $mobileBreakPoint){
 
   .icon-button {
-    min-width: 45px;
-    min-height: 65px;
+    width: 45px;
+    height: 60px;
     padding: 5px;
     margin: 0;
     &.blue{
@@ -88,21 +124,54 @@
       width: 30px;
       height: 30px;
     }
+
+    &.cart-button{
+      display: -webkit-flex;
+      align-items: stretch;
+      justify-content: space-around;
+      flex-direction: column;
+      width: 65px;
+      height: 65px;
+      padding: 5px;
+      margin: 0;
+
+      .icon {
+        width: 30px;
+        height: 30px;
+        fill: #ffffff;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .label {
+        margin: 0;
+        font-size: 10px;
+        text-align: center;
+        color: #ffffff;
+      }
+    }
   }
 
 }
 
 @media screen and (max-width: 320px){
-  .icon-button.blue {
-    min-width: 35px;
-    min-height: 65px;
-    padding: 2px;
-    margin: 0;
-    flex-direction: row;
+  .icon-button{
+    &.blue {
+      width: 35px;
+      height: 65px;
+      padding: 2px;
+      margin: 0;
+      flex-direction: row;
 
-    .icon {
-      width: 25px;
-      height: 25px;
+      .icon {
+        width: 25px;
+        height: 25px;
+      }
+    }
+    &.cart-button{
+      width: 55px;
+      height: 65px;
     }
   }
+
 }

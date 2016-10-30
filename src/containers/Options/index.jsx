@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import IconButton from '../../components/icon-button';
+import Button from '../../components/button';
 
 import * as DrawToolActions from '../../actions/draw-tool';
 
@@ -25,12 +25,12 @@ class Options extends Component {
     if (activeTool === 'pointer') {
       content = (
         <div className="options">
-          <IconButton icon={'align-top'} label={'Top'} />
-          <IconButton icon={'align-ver-center'} label={'Vertical Center'} />
-          <IconButton icon={'align-bottom'} label={'Bottom'} />
-          <IconButton icon={'align-left'} label={'Left'} />
-          <IconButton icon={'align-hor-center'} label={'Horizontal Center'} />
-          <IconButton icon={'align-right'} label={'Right'} />
+          <Button icon={'align-top'} label={'Top'} />
+          <Button icon={'align-ver-center'} label={'Vertical Center'} />
+          <Button icon={'align-bottom'} label={'Bottom'} />
+          <Button icon={'align-left'} label={'Left'} />
+          <Button icon={'align-hor-center'} label={'Horizontal Center'} />
+          <Button icon={'align-right'} label={'Right'} />
         </div>
       );
     } else {

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import * as ProductActions from '../../actions/product';
 
-import FlatButton from '../../components/flat-button';
+import Button from '../../components/button';
 import Icon from '../../components/icon';
 import DropDown from '../../components/drop-down';
 
@@ -46,7 +46,7 @@ class MobileNavigation extends Component {
           <div className="aside" />
           <img src="assets/img/logo-s.png" alt="Nobori" className="logo" />
           <div className="aside">
-            <FlatButton icon={'close'} onClick={this.hideMobileNav} />
+            <Button className="flat-button" icon={'close'} onClick={this.hideMobileNav} />
           </div>
         </div>
         <div className="content">

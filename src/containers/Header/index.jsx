@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import IconButton from '../../components/icon-button';
+import Button from '../../components/button';
 import DropDown from '../../components/drop-down';
-import Price from '../../components/cart-button';
 
 import * as ProductActions from '../../actions/product';
 
@@ -33,8 +32,8 @@ class Header extends Component {
     return (
       <div className="app-header">
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
-        <IconButton icon="poster" label="開く" onClick={this.openProductLoad} />
-        <IconButton icon="save" label="開く" />
+        <Button icon="poster" label="開く" onClick={this.openProductLoad} />
+        <Button icon="save" label="開く" />
         <DropDown label="Type" style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown label="Side">
           <div className="list-item">Side 1</div>
@@ -46,7 +45,7 @@ class Header extends Component {
           <div className="list-item"><span className="color" style={{ backgroundColor: 'blue' }} />Blue</div>
           <div className="list-item"><span className="color" style={{ backgroundColor: 'green' }} />Green</div>
         </DropDown>
-        <Price value="5000" />
+        <Button icon="cart" label="5000" className="cart-button" />
       </div>
     );
   }
