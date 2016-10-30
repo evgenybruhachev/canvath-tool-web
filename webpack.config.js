@@ -10,59 +10,63 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {};
 
-config.context = __dirname + '/src';
+config.context = path.join(__dirname, '/src');
 
 config.entry = {
-  app: './index.js',
-    vendor: [
+  app: './index.jsx',
+  vendor: [
     'react',
     'react-dom',
     'react-redux',
-    'redux'
-  ]
+    'redux',
+  ],
+};
+
+config.resolve = {
+  extensions: ['', '.js', '.jsx'],
 };
 
 config.module = {
   loaders: [
     {
-      test: /src.*\.js$/,
+      test: /src.*\.(js|jsx$)/,
       exclude: /node_modules/,
-      loader: 'babel'
-    }
-  ]
+      loader: 'babel',
+    },
+  ],
 };
 
-config.postcss = [ autoprefixer({ browsers: ['last 3 versions'] }) ];
+config.postcss = [autoprefixer({ browsers: ['last 3 versions'] })];
 
 config.plugins = [
   new HtmlWebpackPlugin({
     filename: 'index.html',
-    template: 'index.html'
+    template: 'index.html',
   }),
   new webpack.DefinePlugin({
     NODE_ENV: JSON.stringify(NODE_ENV),
     'process.env': {
-      'NODE_ENV': JSON.stringify(NODE_ENV)
-    }
+      NODE_ENV: JSON.stringify(NODE_ENV),
+    },
   }),
-  new ExtractTextPlugin('[name].css')
+  new ExtractTextPlugin('[name].css'),
 ];
 
 
 // Development
-if(NODE_ENV === 'development'){
 
+if (NODE_ENV === 'development') {
   config.output = {
-    path: __dirname + '/build/',
-    filename: '[name].js'
+    path: path.join(__dirname, '/build/'),
+    filename: '[name].js',
   };
 
   config.module.loaders.push({
-    test:   /\.scss$/,
+    test: /\.scss$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
       'css-loader?-url&sourceMap!postcss-loader!sass-loader?sourceMap'
-    )
+    ),
   });
 
   config.plugins.push(
@@ -71,31 +75,29 @@ if(NODE_ENV === 'development'){
 
   config.plugins.push(
     new CopyWebpackPlugin([
-      {from: 'assets', to: 'assets'},
+      { from: 'assets', to: 'assets' },
     ], {
-      copyUnmodified: false
+      copyUnmodified: false,
     })
   );
 
   config.devtool = 'cheap-module-source-map';
-
 }
 
+// Production
 
-//Production
-if(NODE_ENV === 'production'){
-
+if (NODE_ENV === 'production') {
   config.output = {
-    path: __dirname + '/build/',
-    filename: '[name].min.js'
+    path: path.join(__dirname, '/build/'),
+    filename: '[name].min.js',
   };
 
   config.module.loaders.push({
-    test:   /\.scss$/,
+    test: /\.scss$/,
     loader: ExtractTextPlugin.extract(
       'style-loader',
       'css-loader?-url&minimize!postcss-loader!sass-loader'
-    )
+    ),
   });
 
   config.plugins.push(
@@ -109,21 +111,21 @@ if(NODE_ENV === 'production'){
         dead_code: true, // eslint-disable-line camelcase
         screw_ie8: true, // eslint-disable-line camelcase
         unused: true,
-        warnings: false
+        warnings: false,
       },
       mangle: {
-        screw_ie8: true  // eslint-disable-line camelcase
-      }
+        screw_ie8: true,  // eslint-disable-line camelcase
+      },
     })
   );
 
   config.plugins.push(
     new CopyWebpackPlugin([
-      {from: 'assets', to: 'assets'},
+      { from: 'assets', to: 'assets' },
     ], {
-      copyUnmodified: true
+      copyUnmodified: true,
     })
   );
-
 }
+
 module.exports = config;

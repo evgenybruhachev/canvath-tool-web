@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+
+import './styles/styles.scss';
 
 import App from './containers/App';
 
@@ -8,10 +10,9 @@ import configure from './store';
 
 const store = configure();
 
-import './styles/styles.scss';
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById('root'));

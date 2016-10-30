@@ -1,10 +1,10 @@
 export default {
   load: {
     en: 'Load',
-    jp: '開く'
+    jp: '開く',
   },
   save: {
     en: 'Save',
-    jp: '保存'
-  }
-}
+    jp: '保存',
+  },
+};
