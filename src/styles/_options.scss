@@ -1,11 +1,25 @@
 .options{
   width: 100%;
-  height: 60px;
   background-color: #ececec;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+
+  .top{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+  }
+
+  .bottom{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    border-top: 1px solid #bdbdbd;
+  }
 
   .button{
     color: #9e9e9e;
