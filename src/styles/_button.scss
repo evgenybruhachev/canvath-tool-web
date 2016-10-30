@@ -15,13 +15,20 @@
   color: #7794aa;
   user-select: none;
 
+  .image{
+    display: block;
+    width: 25px;
+    height: 25px;
+    fill: #7794aa;
+    margin: 0 auto;
+  }
+
   .icon{
     display: block;
     width: 25px;
     height: 25px;
     fill: #7794aa;
     margin: 0 auto;
-    display: block;
   }
 
   .label{
@@ -46,7 +53,8 @@
       display: none;
       color: #ffffff;
     }
-    .icon {
+    .icon,
+    .image {
       width: 25px;
       height: 25px;
       fill: #ffffff;
@@ -70,7 +78,9 @@
     position: relative;
     text-align: center;
     color: #ffffff;
-    .icon{
+
+    .icon,
+    .image {
       width: 20px;
       height: 20px;
       fill: #ffffff;
@@ -120,7 +130,8 @@
       flex-direction: row;
     }
 
-    .icon {
+    .icon,
+    .image {
       width: 30px;
       height: 30px;
     }
@@ -135,7 +146,8 @@
       padding: 5px;
       margin: 0;
 
-      .icon {
+      .icon,
+      .image {
         width: 30px;
         height: 30px;
         fill: #ffffff;
@@ -163,7 +175,8 @@
       margin: 0;
       flex-direction: row;
 
-      .icon {
+      .icon,
+      .image {
         width: 25px;
         height: 25px;
       }
