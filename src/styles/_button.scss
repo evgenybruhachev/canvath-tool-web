@@ -1,7 +1,7 @@
-.icon-button{
+.button{
   display: -webkit-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   width: 60px;
   height: 60px;
@@ -111,7 +111,7 @@
 
 @media screen and (max-width: $mobileBreakPoint){
 
-  .icon-button {
+  .button {
     width: 45px;
     height: 60px;
     padding: 5px;
@@ -155,7 +155,7 @@
 }
 
 @media screen and (max-width: 320px){
-  .icon-button{
+  .button{
     &.blue {
       width: 35px;
       height: 65px;

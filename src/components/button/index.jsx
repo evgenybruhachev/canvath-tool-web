@@ -6,7 +6,7 @@ import Icon from '../icon';
 function IconButton({ label, icon, onClick, active = false, type = 'button', className, style }) {
   return (
     <button
-      className={classNames('icon-button', { active }, className)}
+      className={classNames('button', { active }, className)}
       label={label}
       onClick={onClick}
       type={type}
