@@ -5,10 +5,9 @@ class DropDownMaterial extends Component {
 
   static propTypes = {
     label: React.PropTypes.string,
-    style: React.PropTypes.obj,
+    value: React.PropTypes.string,
     className: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    elements: React.PropTypes.obj,
+    elements: React.PropTypes.arr,
   }
 
   constructor(props) {
@@ -16,7 +15,7 @@ class DropDownMaterial extends Component {
 
     this.state = {
       active: false,
-      selected: {},
+      value: null,
     };
 
     this.handleClickOutside = this.handleClickOutside.bind(this);
@@ -39,32 +38,36 @@ class DropDownMaterial extends Component {
   }
 
   openList(e) {
+    console.log(e.target.classList);
     if (e.target.classList.contains('drop-down_head')) {
       this.setState(state => Object.assign(state, { active: !this.state.active }));
     }
   }
 
-  select(val) {
-    this.setState(state => Object.assign(state, { label: val, active: false }));
+  select(val, node) {
+    this.setState(state => Object.assign(state, { value: node, active: false }));
   }
 
   render() {
-    const { label, style, onClick, elements, className } = this.props;
+    const { label, value, elements, className } = this.props;
 
     return (
       <button
-        className={classNames('drop-down-material', { active: this.state.active }, className)} label={label}
-        style={style}
-        onClick={onClick || this.openList}
+        className={classNames('drop-down-material', { active: this.state.active }, className)}
+        value={value}
+        onClick={this.openList}
         ref={(node) => { this.node = node; return node; }}
       >
         <div className="drop-down_head">
-          <span className="label">{this.state.label || label}</span>
+          <div className="label">{label}</div>
+          <div className="value">
+            {this.state.value || value}<div className="arrow" />
+          </div>
         </div>
         <div className="list">
           {
-            elements.map((el, val) => React.cloneElement(el,
-              { onClick: () => this.select(el, val) }
+            elements.map((el, key) => React.cloneElement(el.node,
+              { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
             ))
           }
         </div>

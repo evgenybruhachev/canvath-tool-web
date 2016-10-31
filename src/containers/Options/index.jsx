@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Button from '../../components/button';
-import DropDown from '../../components/drop-down';
+import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
 import Layer from '../../components/layer';
 
@@ -47,6 +47,34 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               <ColorPicker color="#ffaaff" />
+              <DropDownM
+                label="Size"
+                value="28px"
+                elements={
+                  [{
+                    val: '12px',
+                    node: <span>12px</span>,
+                  },
+                  {
+                    val: '28px',
+                    node: <span>28px</span>,
+                  }]
+                }
+              />
+              <DropDownM
+                label="Opacity"
+                value="100%"
+                elements={
+                  [{
+                    val: '50%',
+                    node: <span>50%</span>,
+                  },
+                  {
+                    val: '25%',
+                    node: <span>25%</span>,
+                  }]
+                }
+              />
             </div>
           </div>
         );
@@ -56,6 +84,36 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               <ColorPicker color="#ffaaff" />
+
+              <DropDownM
+                label="Font"
+                value="Arial"
+                elements={
+                  [{
+                    val: 'Arial',
+                    node: <span>Arial</span>,
+                  },
+                  {
+                    val: 'Helvetica',
+                    node: <span>Helvetica</span>,
+                  }]
+                }
+              />
+
+              <DropDownM
+                label="Size"
+                value="14px"
+                elements={
+                  [{
+                    val: '14px',
+                    node: <span>14px</span>,
+                  },
+                  {
+                    val: '18px',
+                    node: <span>18px</span>,
+                  }]
+                }
+              />
 
               <Button icon={'text-align-justify'} label={'Justify'} />
               <Button icon={'text-align-left'} label={'Left'} />
