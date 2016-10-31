@@ -22,7 +22,7 @@ export default handleActions({
   }),
 
   TOGGLE_MOBILE_NAVIGATION: (state, action) => Object.assign({}, state, {
-    mobile_navigation: action.payload,
+    mobileNavigation: action.payload,
   }),
 
 }, initialState);
