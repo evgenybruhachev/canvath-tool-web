@@ -6,6 +6,7 @@ import Button from '../../components/button';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
 import Layer from '../../components/layer';
+import Icon from '../../components/icon';
 
 import * as DrawToolActions from '../../actions/draw-tool';
 
@@ -46,6 +47,20 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
+              <DropDownM
+                className="icons"
+                value="pen"
+                elements={
+                  [{
+                    val: 'pen',
+                    node: <Icon icon="pen" />,
+                  },
+                  {
+                    val: 'pen',
+                    node: <Icon icon="pen" />,
+                  }]
+                }
+              />
               <ColorPicker color="#ffaaff" />
               <DropDownM
                 label="Size"
