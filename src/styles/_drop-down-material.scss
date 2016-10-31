@@ -52,16 +52,14 @@
   }
   .list{
     display: none;
-    position: absolute;
-    min-width: calc(100% + 2px);
-    top: -1px;
-    left: -1px;
+    position: fixed;
+    margin-top: -28px;
+    margin-left: -1px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1);
     background-color: #ffffff;
     text-align: left;
     z-index: 999;
     .list-item{
-      width: 100%;
       display: block;
       font-size: 12px;
       padding: 5px 10px;
@@ -69,6 +67,7 @@
         background-color: #fafafa;
       }
       &.icon{
+        width: 45px;
         height: 45px;
         padding: 10px;
         margin: 0 auto;
