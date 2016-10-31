@@ -38,7 +38,6 @@ class DropDownMaterial extends Component {
   }
 
   openList(e) {
-    console.log(e.target.classList);
     if (e.target.classList.contains('drop-down_head')) {
       this.setState(state => Object.assign(state, { active: !this.state.active }));
     }
