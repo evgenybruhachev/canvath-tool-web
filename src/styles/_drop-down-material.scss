@@ -1,13 +1,12 @@
 .drop-down-material{
   display: block;
-  margin: 0 10px;
+  margin: 0 14px 0 10px;
   cursor: pointer;
   text-align: left;
   border: 0 solid transparent;
   background-color: transparent;
   padding: 0;
   position: relative;
-  min-width: 50px;
   .label{
     font-size: 11px;
     color: #757575;
@@ -15,16 +14,21 @@
     pointer-events: none;
   }
   .value{
+    display: inline-block;
+    vertical-align: middle;
     font-size: 14px;
     color: #424242;
     line-height: 1;
     position: relative;
-    padding-right: 10px;
     pointer-events: none;
+    .icon{
+      width: 25px;
+      height: 25px;
+    }
     .arrow{
-      position: absolute;
-      top: 50%;
-      right: 0px;
+      margin-left: 5px;
+      display: inline-block;
+      vertical-align: middle;
       width: 0;
       height: 0;
       border-style: solid;
@@ -38,6 +42,14 @@
       display: block;
     }
   }
+  &.icons{
+    .arrow {
+      border-color: #9e9e9e transparent transparent transparent;
+    }
+    .icon{
+      fill: #9e9e9e;
+    }
+  }
   .list{
     display: none;
     position: absolute;
@@ -47,6 +59,7 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1);
     background-color: #ffffff;
     text-align: left;
+    z-index: 999;
     .list-item{
       width: 100%;
       display: block;
@@ -54,6 +67,11 @@
       padding: 5px 10px;
       &:hover{
         background-color: #fafafa;
+      }
+      &.icon{
+        height: 45px;
+        padding: 10px;
+        margin: 0 auto;
       }
     }
   }

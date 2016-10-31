@@ -59,9 +59,9 @@ class DropDownMaterial extends Component {
         ref={(node) => { this.node = node; return node; }}
       >
         <div className="drop-down_head">
-          <div className="label">{label}</div>
+          {label && <div className="label">{label}</div>}
           <div className="value">
-            {this.state.value || value}<div className="arrow" />
+            {this.state.value || elements[0].node}<div className="arrow" />
           </div>
         </div>
         <div className="list">
