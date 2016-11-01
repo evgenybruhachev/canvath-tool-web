@@ -11,6 +11,12 @@
   }
 }
 
+.draw-tool{
+  width: 100vh;
+  margin: 0 auto;
+  height: calc(100% - 60px);
+}
+
 @media screen and (max-width: $mobileBreakPoint){
   .app-container{
     padding-top: $headerHeightMobile;

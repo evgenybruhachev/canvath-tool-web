@@ -19,6 +19,7 @@ config.entry = {
     'react-dom',
     'react-redux',
     'redux',
+    './draw-tool/drawtool.js',
   ],
 };
 
@@ -30,7 +31,7 @@ config.module = {
   loaders: [
     {
       test: /src.*\.(js|jsx$)/,
-      exclude: /node_modules/,
+      exclude: /(node_modules|drawtool.js)/,
       loader: 'babel',
     },
   ],

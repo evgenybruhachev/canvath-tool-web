@@ -4,11 +4,15 @@ import classNames from 'classnames';
 class DropDown extends Component {
 
   static propTypes = {
-    label: React.PropTypes.string,
-    style: React.PropTypes.obj,
+    label: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.element,
+    ]),
+    style: React.PropTypes.object,
     className: React.PropTypes.string,
     onClick: React.PropTypes.func,
-    children: React.PropTypes.element,
+    children: React.PropTypes.array,
+    onChange: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -44,8 +48,9 @@ class DropDown extends Component {
     }
   }
 
-  select(val) {
+  select(val, meta) {
     this.setState(state => Object.assign(state, { label: val, active: false }));
+    if (this.props.onChange) this.props.onChange(meta || val);
   }
 
   render() {
@@ -68,7 +73,7 @@ class DropDown extends Component {
           {
             React.Children.map(
               children, child => React.cloneElement(child,
-                { onClick: () => this.select(child.props.children) }
+                { onClick: () => this.select(child.props.children, child.props['data-meta']) }
               )
             )
           }

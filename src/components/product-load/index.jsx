@@ -5,7 +5,7 @@ import Button from '../button';
 class ProductLoad extends Component {
 
   static propTypes = {
-    children: React.PropTypes.arr,
+    children: React.PropTypes.array,
     close: React.PropTypes.func,
     title: React.PropTypes.string,
     back: React.PropTypes.func,
