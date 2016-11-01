@@ -7,7 +7,7 @@ class DropDownMaterial extends Component {
     label: React.PropTypes.string,
     value: React.PropTypes.string,
     className: React.PropTypes.string,
-    elements: React.PropTypes.arr,
+    elements: React.PropTypes.array,
   }
 
   constructor(props) {

@@ -12,7 +12,7 @@ import DropDown from '../../components/drop-down';
 class MobileNavigation extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.obj,
+    actions: React.PropTypes.object,
     mobileNavigation: React.PropTypes.bool,
   }
 
@@ -62,16 +62,16 @@ class MobileNavigation extends Component {
           <div>
             <DropDown label="Type" onClick={this.openCategorySelect} />
 
-            <DropDown label="Side">
-              <div className="list-item">Side 1</div>
-              <div className="list-item">Side 2</div>
-              <div className="list-item">Side 3</div>
-            </DropDown>
-
             <DropDown label="Color">
               <div className="list-item"><span className="color" style={{ backgroundColor: 'red' }} />Red</div>
               <div className="list-item"><span className="color" style={{ backgroundColor: 'blue' }} />Blue</div>
               <div className="list-item"><span className="color" style={{ backgroundColor: 'green' }} />Green</div>
+            </DropDown>
+
+            <DropDown label="Side">
+              <div className="list-item">Side 1</div>
+              <div className="list-item">Side 2</div>
+              <div className="list-item">Side 3</div>
             </DropDown>
           </div>
 

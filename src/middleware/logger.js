@@ -1,1 +1,4 @@
-export default store => next => action => next(action);
+export default store => next => action => {
+  console.log(action);
+  return next(action);
+}

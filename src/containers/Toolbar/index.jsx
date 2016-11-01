@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MediaQuery from 'react-responsive';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import Button from '../../components/button';
@@ -11,8 +10,9 @@ import * as DrawToolActions from '../../actions/draw-tool';
 class Toolbar extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.obj,
+    actions: React.PropTypes.object,
     activeTool: React.PropTypes.string,
+    activeSide: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -20,10 +20,13 @@ class Toolbar extends Component {
 
     this.state = {
       mobile: false,
+      height: 600,
     };
 
     this.toggleActiveTool = this.toggleActiveTool.bind(this);
     this.getIsMobile = this.getIsMobile.bind(this);
+    this.undo = this.undo.bind(this);
+    this.redo = this.redo.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +46,14 @@ class Toolbar extends Component {
 
   toggleActiveTool(tool) {
     this.props.actions.setActiveTool(tool);
+  }
+
+  undo() {
+    this.props.actions.undo(this.props.activeSide);
+  }
+
+  redo() {
+    this.props.actions.redo(this.props.activeSide);
   }
 
   render() {
@@ -74,11 +85,11 @@ class Toolbar extends Component {
           autoHeightMax={this.state.height - 60}
         >
           <div className="toolbar">
-            <Button icon="zoom-in" label={'Zoom In'} />
-            <Button icon="zoom-out" label={'Zoom Out'} />
-            <Button icon="undo" label={'Undo'} />
-            <Button icon="redo" label={'Redo'} />
-            <Button icon="trash" label={'削除'} onClick={() => this.toggleActiveTool('eraser')} active={activeTool === 'eraser'} />
+            <Button icon="zoom-in" label={'Zoom In'} onClick={this.props.actions.zoomIn} />
+            <Button icon="zoom-out" label={'Zoom Out'} onClick={this.props.actions.zoomOut} />
+            <Button icon="undo" label={'Undo'} onClick={this.undo} />
+            <Button icon="redo" label={'Redo'} onClick={this.redo} />
+            <Button icon="trash" label={'削除'} onClick={this.props.actions.remove} />
             <div className="separator" />
             <Button icon="hand" label={'Panning'} onClick={() => this.toggleActiveTool('panning')} active={activeTool === 'panning'} />
             <Button icon="cursor" label={'移動'} onClick={() => this.toggleActiveTool('pointer')} active={activeTool === 'pointer'} />
@@ -103,6 +114,7 @@ class Toolbar extends Component {
 function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
+    activeSide: state.drawTool.activeSide,
   };
 }
 

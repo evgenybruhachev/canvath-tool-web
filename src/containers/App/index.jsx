@@ -14,64 +14,74 @@ import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
 import Button from '../../components/button';
 
-import * as ProductActions from '../../actions/product';
+import DrawTool from '../../draw-tool/drawtool';
 
-import items from '../../api/products';
+import DrawToolComponent from '../../components/draw-tool';
+
+import * as ProductActions from '../../actions/product';
+import * as DrawToolActions from '../../actions/draw-tool';
+
+import { api } from '../../api/products';
 
 class App extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.obj,
     loadProductContainer: React.PropTypes.bool,
     loadProductCatContainer: React.PropTypes.bool,
     loadProductTypeContainer: React.PropTypes.bool,
-    // mobileNavigation: React.PropTypes.bool,
+    categories: React.PropTypes.array,
+    products: React.PropTypes.array,
+    colors: React.PropTypes.array,
+    sides: React.PropTypes.object,
+    dispatch: React.PropTypes.func,
   }
 
   constructor(props) {
     super(props);
 
-    this.closeProductLoad = this.closeProductLoad.bind(this);
-    this.closeCategorySelect = this.closeCategorySelect.bind(this);
     this.goToCategory = this.goToCategory.bind(this);
-    this.closeTypeSelector = this.closeTypeSelector.bind(this);
     this.typeSelectorBack = this.typeSelectorBack.bind(this);
     this.mobileClose = this.mobileClose.bind(this);
     this.mobileBack = this.mobileBack.bind(this);
+    this.loadProduct = this.loadProduct.bind(this);
   }
 
-  closeProductLoad() {
-    this.props.actions.toggleLoadProductContainer(false);
+  componentWillMount() {
+    const { dispatch } = this.props;
+    api.getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
   }
 
-  closeCategorySelect() {
-    this.props.actions.toggleLoadProductCategoryContainer(false);
-  }
-
-  goToCategory() {
-    this.props.actions.toggleLoadProductCategoryContainer(false);
-    this.props.actions.toggleLoadProductTypeContainer(true);
-  }
-
-  closeTypeSelector() {
-    this.props.actions.toggleLoadProductTypeContainer(false);
+  goToCategory(id) {
+    const { dispatch } = this.props;
+    api.getProductsByCategory(id).then(data => dispatch(ProductActions.loadProducts(data)));
+    dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
+    dispatch(ProductActions.toggleLoadProductTypeContainer(true));
   }
 
   typeSelectorBack() {
-    this.props.actions.toggleLoadProductTypeContainer(false);
-    this.props.actions.toggleLoadProductCategoryContainer(true);
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleLoadProductTypeContainer(false));
+    dispatch(ProductActions.toggleLoadProductCategoryContainer(true));
   }
 
   mobileClose() {
-    this.props.actions.toggleMobileNavigation(false);
-    this.closeProductLoad();
-    this.closeCategorySelect();
-    this.closeTypeSelector();
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleMobileNavigation(false));
+    dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
+    dispatch(ProductActions.toggleLoadProductTypeContainer(false));
+
+    dispatch(ProductActions.toggleLoadProductContainer(false));
   }
 
   mobileBack() {
-    this.props.actions.toggleLoadProductContainer(false);
-    this.props.actions.toggleLoadProductCategoryContainer(false);
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleLoadProductContainer(false));
+    dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
+  }
+
+  loadProduct(id) {
+    const { dispatch } = this.props;
+    api.getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
   }
 
   render() {
@@ -79,7 +89,13 @@ class App extends Component {
       loadProductContainer,
       loadProductCatContainer,
       loadProductTypeContainer,
+      categories,
+      products,
+      dispatch,
+      colors
     } = this.props;
+
+    const items = [];
 
     return (
       <div className="app">
@@ -96,12 +112,12 @@ class App extends Component {
           <Toolbar />
 
           <MediaQuery query="(min-width: 769px)">
-            <Button icon="trash" label={'全削除'} className={'trash'} />
+            <Button icon="trash" label={'全削除'} className={'trash'} onClick={DrawToolActions.empty} />
           </MediaQuery>
 
           <div className="app-container-inner">
             <Options />
-            <div>asdasdasd</div>
+            {colors && <DrawToolComponent colors={colors} />}
           </div>
 
         </div>
@@ -110,7 +126,7 @@ class App extends Component {
 
           { loadProductContainer ? <ProductLoad
             title={'テンプレート'}
-            close={this.closeProductLoad}
+            close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
           >
             { items.map((item, index) => <ProductCard
               key={index}
@@ -142,28 +158,29 @@ class App extends Component {
 
           { loadProductCatContainer ? <ProductLoad
             title={'カテゴリ'}
-            close={this.closeCategorySelect}
+            close={() => dispatch(ProductActions.toggleLoadProductCategoryContainer(false))}
           >
-            {items.map((item, index) => <ProductCard
+            {categories.map((item, index) => <ProductCard
               key={index}
-              title={'小カワテ飛問'}
-              image={item.img}
+              title={item.Category.title}
+              image={item.Category.image_url}
               actionTitle={'選択'}
-              onClick={this.goToCategory}
+              onClick={() => this.goToCategory(item.Category.id)}
             />)}
           </ProductLoad> : null }
 
 
           { loadProductTypeContainer ? <ProductLoad
             title={'Select type'}
-            close={this.closeTypeSelector}
+            close={() => dispatch(ProductActions.toggleLoadProductTypeContainer(false))}
             back={this.typeSelectorBack}
           >
-            {items.map((item, index) => <ProductCard
+            {products.map((item, index) => <ProductCard
               key={index}
-              title={'小カワテ飛問'}
-              image={item.img}
-              images={item.previews}
+              title={item.Product.title}
+              image={item.Product.image_url}
+              images={item.Product.sides}
+              onClick={() => this.loadProduct(item.Product.id)}
             />)}
           </ProductLoad> : null }
 
@@ -176,12 +193,12 @@ class App extends Component {
             close={this.mobileClose}
             back={this.mobileBack}
           >
-            {items.map((item, index) => <ProductCard
+            {categories.map((item, index) => <ProductCard
               key={index}
-              title={'小カワテ飛問'}
-              image={item.img}
+              title={item.Category.title}
+              image={item.Category.image_url}
               actionTitle={'選択'}
-              onClick={this.goToCategory}
+              onClick={() => this.goToCategory(item.Category.id)}
             />)}
           </ProductLoad> : null }
 
@@ -191,11 +208,12 @@ class App extends Component {
             close={this.mobileClose}
             back={this.typeSelectorBack}
           >
-            {items.map((item, index) => <ProductCard
+            {products.map((item, index) => <ProductCard
               key={index}
-              title={'小カワテ飛問'}
-              image={item.img}
-              images={item.previews}
+              title={item.Product.title}
+              image={item.Product.image_url}
+              images={item.Product.sides}
+              onClick={() => this.loadProduct(item.id)}
             />)}
           </ProductLoad> : null }
 
@@ -216,17 +234,14 @@ function mapStateToProps(state) {
     loadProductContainer: state.product.loadProductContainer,
     loadProductCatContainer: state.product.loadProductCatContainer,
     loadProductTypeContainer: state.product.loadProductTypeContainer,
-    mobileNavigation: state.product.mobileNavigation,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(ProductActions, dispatch),
+    categories: state.product.categories,
+    products: state.product.products,
+    product: state.product.product,
+    colors: state.product.colors,
+    sideSelected: state.product.sideSelected,
   };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(App);

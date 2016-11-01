@@ -28,7 +28,7 @@ IconButton.propTypes = {
   active: React.PropTypes.bool,
   type: React.PropTypes.oneOf(['button', 'reset', 'submit']),
   className: React.PropTypes.string,
-  style: React.PropTypes.obj,
+  style: React.PropTypes.object,
 };
 
 export default IconButton;

@@ -10,7 +10,7 @@ import Button from '../../components/button';
 class HeaderMobile extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.obj,
+    actions: React.PropTypes.object,
     activeTool: React.PropTypes.string,
   }
 

@@ -40,6 +40,7 @@
     "webpack-dev-server": "^1.16.1"
   },
   "dependencies": {
+    "babel-polyfill": "^6.16.0",
     "classnames": "^2.2.5",
     "react": "^15.3.2",
     "react-color": "^2.4.0",
