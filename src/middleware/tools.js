@@ -43,6 +43,16 @@ export default store => next => (action) => {
         DrawTool.sides.selected.items.addText(options);
       }
       break;
+    case 'UNDO':
+      if (isSelectedSide()) {
+        DrawTool.history.undo(DrawTool.sides.selected.id)
+      }
+      break;
+    case 'REDO':
+      if (isSelectedSide()) {
+        DrawTool.history.redo(DrawTool.sides.selected.id)
+      }
+      break;
     default:
 
   }
