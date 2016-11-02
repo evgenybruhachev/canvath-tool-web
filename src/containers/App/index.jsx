@@ -18,6 +18,8 @@ import DrawTool from '../../draw-tool/drawtool';
 
 import DrawToolComponent from '../../components/draw-tool';
 
+import escapeJSON from '../../utils/escapeJSON';
+
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
@@ -83,8 +85,19 @@ class App extends Component {
   }
 
   loadProduct(id) {
-    const { dispatch } = this.props;
-    getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
+    const { dispatch, colors } = this.props;
+
+    getProduct(id).then((data) => dispatch(ProductActions.loadProduct(data)));
+
+    DrawTool.on('history:update', (e) => {
+      
+      let data = {
+        layers: DrawTool.sides.selected.layers.update(),
+        side: JSON.parse(e).side.id,
+      };
+
+      dispatch(DrawToolActions.updateLayers(data));
+    });
   }
 
   render() {
@@ -95,7 +108,7 @@ class App extends Component {
       categories,
       products,
       dispatch,
-      colors
+      colors,
     } = this.props;
 
     const items = [];
@@ -120,7 +133,7 @@ class App extends Component {
 
           <div className="app-container-inner">
             <Options />
-            {colors && <DrawToolComponent colors={colors} />}
+            <DrawToolComponent colors={colors} />
           </div>
 
         </div>
