@@ -22,3 +22,4 @@ export const selectTextSize = createAction('SELECT_TEXT_SIZE');
 export const selectTextAlign = createAction('SELECT_TEXT_ALIGN');
 export const selectTextBold = createAction('SELECT_TEXT_BOLD');
 export const selectTextItalic = createAction('SELECT_TEXT_ITALIC');
+export const selectTextVertical = createAction('SELECT_TEXT_VERTICAL');

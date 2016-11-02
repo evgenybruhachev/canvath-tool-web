@@ -60,5 +60,8 @@ export default handleActions({
   SELECT_TEXT_ITALIC: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { italic: action.payload }),
   }),
+  SELECT_TEXT_VERTICAL: (state, action) => Object.assign({}, state, {
+    textOptions: Object.assign({}, state.textOptions, { vertical: action.payload }),
+  }),
 
 }, initialState);
