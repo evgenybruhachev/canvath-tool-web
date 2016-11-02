@@ -3,7 +3,7 @@ import DrawTool from '../draw-tool/drawtool';
 const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 
 export default store => next => (action) => {
-  const { activeTool, activeBrush, brushOptions } = store.getState().drawTool;
+  const { activeTool, activeBrush, brushOptions, textOptions } = store.getState().drawTool;
 
   if (isSelectedSide()) DrawTool.sides.selected.items.finalizeBrush();
 
@@ -26,6 +26,21 @@ export default store => next => (action) => {
     case 'SELECT_BRUSH_COLOR':
       if (isSelectedSide()) {
         DrawTool.sides.selected.items[activeBrush](brushOptions);
+      }
+      break;
+    case 'ADD_TEXT':
+      const options = {
+        fontSize: textOptions.size,
+        fontFamily: textOptions.font,
+        fontStyle: textOptions.italic ? 'italic' : 'normal',
+        fontWeight: textOptions.bold ? 'bold' : 'normal',
+        fill: textOptions.color,
+        textAlign: textOptions.align,
+        editable: true,
+      }
+
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.items.addText(options);
       }
       break;
     default:

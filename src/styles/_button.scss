@@ -118,6 +118,25 @@
       font-size: 12px;
     }
   }
+
+  &.add-text{
+    background-color: #9E9E9E;
+    border-radius: 2px;
+    height: 24px;
+    width: auto;
+    margin: 0 10px;
+    padding: 5px 10px;
+    color: #ffffff;
+    z-index: 999;
+    .icon{
+      display: none;
+    }
+    .label{
+      margin: 0;
+      color: #ffffff;
+      font-size: 12px;
+    }
+  }
 }
 
 @media screen and (max-width: $mobileBreakPoint){

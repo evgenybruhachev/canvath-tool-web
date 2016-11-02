@@ -55,7 +55,6 @@ class DropDownMaterial extends Component {
     const { label, value, elements, className } = this.props;
 
     const valueNode = elements.find(el => el.val === value);
-    console.log(valueNode);
 
     return (
       <button

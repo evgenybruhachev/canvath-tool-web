@@ -22,7 +22,7 @@ import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
 import { getCategories, getProductsByCategory, getProduct } from '../../api/products';
-import { getBrushes } from '../../api/options';
+import { getBrushes, getFonts } from '../../api/options';
 
 class App extends Component {
 
@@ -51,6 +51,7 @@ class App extends Component {
     const { dispatch } = this.props;
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
+    getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
   }
 
   goToCategory(id) {
