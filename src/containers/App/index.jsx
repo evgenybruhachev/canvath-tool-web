@@ -21,7 +21,8 @@ import DrawToolComponent from '../../components/draw-tool';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import { api } from '../../api/products';
+import { getCategories, getProductsByCategory, getProduct } from '../../api/products';
+import { getBrushes } from '../../api/options';
 
 class App extends Component {
 
@@ -48,12 +49,13 @@ class App extends Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
-    api.getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
+    getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
+    getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
   }
 
   goToCategory(id) {
     const { dispatch } = this.props;
-    api.getProductsByCategory(id).then(data => dispatch(ProductActions.loadProducts(data)));
+    getProductsByCategory(id).then(data => dispatch(ProductActions.loadProducts(data)));
     dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
     dispatch(ProductActions.toggleLoadProductTypeContainer(true));
   }
@@ -81,7 +83,7 @@ class App extends Component {
 
   loadProduct(id) {
     const { dispatch } = this.props;
-    api.getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
+    getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
   }
 
   render() {

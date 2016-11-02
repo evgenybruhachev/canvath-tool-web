@@ -10,7 +10,7 @@ class Toolbar extends Component {
 
   static propTypes = {
     activeTool: React.PropTypes.string,
-    activeSide: React.PropTypes.string,
+    activeSide: React.PropTypes.object,
     dispatch: React.PropTypes.func,
   }
 

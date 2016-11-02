@@ -71,7 +71,6 @@ class DropDownMaterial extends Component {
         </div>
         <div className="list">
           <Scrollbars
-            // style={{ width: 60 }}
             autoHide
             hideTracksWhenNotNeeded
             autoHeight

@@ -2,6 +2,8 @@ import { createAction } from 'redux-actions';
 
 import DrawTool from '../draw-tool/drawtool';
 
+export const updateBrushes = createAction('UPDATE_BRUSHES');
+
 export const setActiveTool = createAction('SET_ACTIVE_TOOL');
 export const empty = createAction('EMPTY', () => DrawTool.sides.selected.empty);
 export const zoomIn = createAction('ZOOM_IN', () => DrawTool.sides.selected.zoomIn());

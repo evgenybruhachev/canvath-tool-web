@@ -22,7 +22,7 @@ class Options extends Component {
 
 
   render() {
-    const { activeTool, activeBrush, brushOptions, dispatch } = this.props;
+    const { activeTool, availableBrushes, activeBrush, brushOptions, dispatch } = this.props;
 
     let content;
 
@@ -51,28 +51,7 @@ class Options extends Component {
                 className="icons"
                 value={activeBrush}
                 onChange={brush => dispatch(actions.selectBrush(brush))}
-                elements={
-                  [{
-                    val: 'pencilBrush',
-                    node: <Icon icon="pen" />,
-                  },
-                  {
-                    val: 'markerBrush',
-                    node: <Icon icon="marker" />,
-                  },
-                  {
-                    val: 'sprayBrush',
-                    node: <Icon icon="spray" />,
-                  },
-                  {
-                    val: 'crayonBrush',
-                    node: <Icon icon="brush" />,
-                  },
-                  {
-                    val: 'inkBrush',
-                    node: <Icon icon="brush-2" />,
-                  }]
-                }
+                elements={availableBrushes.map(brush => { return {val: brush, node: <Icon icon={brush} />, }})}
               />
               <ColorPicker color={brushOptions.color} onChange={color => dispatch(actions.selectBrushColor(color))} />
               <DropDownM
@@ -215,6 +194,7 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     activeBrush: state.drawTool.activeBrush,
     brushOptions: state.drawTool.brushOptions,
+    availableBrushes: state.drawTool.availableBrushes,
   };
 }
 
