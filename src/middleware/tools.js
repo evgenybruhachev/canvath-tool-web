@@ -15,6 +15,11 @@ export default store => next => (action) => {
       } else if (action.payload !== 'brush' && isSelectedSide()) {
         DrawTool.sides.selected.drawingMode(false);
       }
+      if (action.payload === 'panning' && isSelectedSide()) {
+        DrawTool.sides.selected.panning = true;
+      } else if (action.payload !== 'panning' && isSelectedSide()) {
+        DrawTool.sides.selected.panning = false;
+      }
       break;
     case 'SELECT_BRUSH':
       if (isSelectedSide()) {
