@@ -8,7 +8,7 @@ import ColorPicker from '../../components/color-picker';
 import Layer from '../../components/layer';
 import Icon from '../../components/icon';
 
-import * as DrawToolActions from '../../actions/draw-tool';
+import * as actions from '../../actions/draw-tool';
 
 class Options extends Component {
 
@@ -22,7 +22,7 @@ class Options extends Component {
 
 
   render() {
-    const activeTool = this.props.activeTool;
+    const { activeTool, activeBrush, brushOptions, dispatch } = this.props;
 
     let content;
 
@@ -49,46 +49,43 @@ class Options extends Component {
             <div className="top">
               <DropDownM
                 className="icons"
-                value="pen"
+                value={activeBrush}
+                onChange={brush => dispatch(actions.selectBrush(brush))}
                 elements={
                   [{
-                    val: 'pen',
+                    val: 'pencilBrush',
                     node: <Icon icon="pen" />,
                   },
                   {
-                    val: 'pen',
-                    node: <Icon icon="pen" />,
+                    val: 'markerBrush',
+                    node: <Icon icon="marker" />,
+                  },
+                  {
+                    val: 'sprayBrush',
+                    node: <Icon icon="spray" />,
+                  },
+                  {
+                    val: 'crayonBrush',
+                    node: <Icon icon="brush" />,
+                  },
+                  {
+                    val: 'inkBrush',
+                    node: <Icon icon="brush-2" />,
                   }]
                 }
               />
-              <ColorPicker color="#ffaaff" />
+              <ColorPicker color={brushOptions.color} onChange={color => dispatch(actions.selectBrushColor(color))} />
               <DropDownM
                 label="Size"
-                value="28px"
-                elements={
-                  [{
-                    val: '12px',
-                    node: <span>12px</span>,
-                  },
-                  {
-                    val: '28px',
-                    node: <span>28px</span>,
-                  }]
-                }
+                value={brushOptions.width.toString()}
+                elements={Array(100).fill(null).map((i, index) => { return { val: String(index+1), node: <span>{index+1}px</span> }})}
+                onChange={size => dispatch(actions.selectBrushSize(size))}
               />
               <DropDownM
                 label="Opacity"
-                value="100%"
-                elements={
-                  [{
-                    val: '50%',
-                    node: <span>50%</span>,
-                  },
-                  {
-                    val: '25%',
-                    node: <span>25%</span>,
-                  }]
-                }
+                value={brushOptions.opacity.toString()}
+                elements={Array(10).fill(null).map((i, index) => { return { val: String((index+1)/10), node: <span>{(index+1)*10}%</span> }})}
+                onChange={value => dispatch(actions.selectBrushOpacity(value))}
               />
             </div>
           </div>
@@ -216,16 +213,11 @@ class Options extends Component {
 function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(DrawToolActions, dispatch),
+    activeBrush: state.drawTool.activeBrush,
+    brushOptions: state.drawTool.brushOptions,
   };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Options);

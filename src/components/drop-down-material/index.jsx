@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class DropDownMaterial extends Component {
 
@@ -8,6 +9,7 @@ class DropDownMaterial extends Component {
     value: React.PropTypes.string,
     className: React.PropTypes.string,
     elements: React.PropTypes.array,
+    onChange: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -38,37 +40,49 @@ class DropDownMaterial extends Component {
   }
 
   openList(e) {
+    e.preventDefault();
     if (e.target.classList.contains('drop-down_head')) {
-      this.setState(state => Object.assign(state, { active: !this.state.active }));
+      this.setState(state => Object.assign(state, { active: true }));
     }
   }
 
   select(val, node) {
     this.setState(state => Object.assign(state, { value: node, active: false }));
+    if (this.props.onChange) this.props.onChange(val);
   }
 
   render() {
     const { label, value, elements, className } = this.props;
 
+    const valueNode = elements.find(el => el.val === value);
+    console.log(valueNode);
+
     return (
       <button
         className={classNames('drop-down-material', { active: this.state.active }, className)}
-        value={value}
-        onClick={this.openList}
         ref={(node) => { this.node = node; return node; }}
       >
-        <div className="drop-down_head">
+        <div className="drop-down_head" onClick={this.openList}>
           {label && <div className="label">{label}</div>}
           <div className="value">
-            {this.state.value || elements[0].node}<div className="arrow" />
+            {valueNode ? valueNode.node : elements[0].node}
+            <div className="arrow" />
           </div>
         </div>
         <div className="list">
-          {
-            elements.map((el, key) => React.cloneElement(el.node,
-              { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
-            ))
-          }
+          <Scrollbars
+            // style={{ width: 60 }}
+            autoHide
+            hideTracksWhenNotNeeded
+            autoHeight
+            autoHeightMax={300}
+          >
+            {
+              elements.map((el, key) => React.cloneElement(el.node,
+                { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
+              ))
+            }
+          </Scrollbars>
         </div>
       </button>
     );

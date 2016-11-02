@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import Button from '../../components/button';
 
-import * as DrawToolActions from '../../actions/draw-tool';
+import * as actions from '../../actions/draw-tool';
 
 class Toolbar extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.object,
     activeTool: React.PropTypes.string,
     activeSide: React.PropTypes.string,
+    dispatch: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -23,7 +22,6 @@ class Toolbar extends Component {
       height: 600,
     };
 
-    this.toggleActiveTool = this.toggleActiveTool.bind(this);
     this.getIsMobile = this.getIsMobile.bind(this);
     this.undo = this.undo.bind(this);
     this.redo = this.redo.bind(this);
@@ -44,35 +42,31 @@ class Toolbar extends Component {
       }));
   }
 
-  toggleActiveTool(tool) {
-    this.props.actions.setActiveTool(tool);
-  }
-
   undo() {
-    this.props.actions.undo(this.props.activeSide);
+    actions.undo(this.props.activeSide.title.toLowerCase());
   }
 
   redo() {
-    this.props.actions.redo(this.props.activeSide);
+    actions.redo(this.props.activeSide.title.toLowerCase());
   }
 
   render() {
-    const { activeTool } = this.props;
+    const { activeTool, dispatch } = this.props;
 
     let view;
 
     if (this.state.mobile) {
       view = (
         <div className="toolbar">
-          <Button icon="hand" label={'Panning'} onClick={() => this.toggleActiveTool('panning')} active={activeTool === 'panning'} />
-          <Button icon="cursor" label={'移動'} onClick={() => this.toggleActiveTool('pointer')} active={activeTool === 'pointer'} />
-          <Button icon="brush" label={'筆'} onClick={() => this.toggleActiveTool('brush')} active={activeTool === 'brush'} />
-          <Button icon="text" label={'テキスト'} onClick={() => this.toggleActiveTool('text')} active={activeTool === 'text'} />
-          <Button icon="image" label={'画像'} onClick={() => this.toggleActiveTool('image')} active={activeTool === 'image'} />
-          <Button icon="sticker" label={'スタンプ'} onClick={() => this.toggleActiveTool('sticker')} active={activeTool === 'sticker'} />
-          <Button icon="figures" label={'シェイプ'} onClick={() => this.toggleActiveTool('shapes')} active={activeTool === 'shapes'} />
-          <Button icon="opacity" label={'カラー削除'} onClick={() => this.toggleActiveTool('removeColor')} active={activeTool === 'removeColor'} />
-          <Button icon="layers" label={'レイヤ'} onClick={() => this.toggleActiveTool('layers')} active={activeTool === 'layers'} />
+          <Button icon="hand" label={'Panning'} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
+          <Button icon="cursor" label={'移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
+          <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
+          <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
+          <Button icon="image" label={'画像'} onClick={() => dispatch(actions.setActiveTool('image'))} active={activeTool === 'image'} />
+          <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />
+          <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
+          <Button icon="opacity" label={'カラー削除'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
+          <Button icon="layers" label={'レイヤ'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
         </div>
       );
     } else {
@@ -85,21 +79,21 @@ class Toolbar extends Component {
           autoHeightMax={this.state.height - 60}
         >
           <div className="toolbar">
-            <Button icon="zoom-in" label={'Zoom In'} onClick={this.props.actions.zoomIn} />
-            <Button icon="zoom-out" label={'Zoom Out'} onClick={this.props.actions.zoomOut} />
+            <Button icon="zoom-in" label={'Zoom In'} onClick={() => dispatch(actions.zoomIn())} />
+            <Button icon="zoom-out" label={'Zoom Out'} onClick={() => dispatch(actions.zoomOut())} />
             <Button icon="undo" label={'Undo'} onClick={this.undo} />
             <Button icon="redo" label={'Redo'} onClick={this.redo} />
-            <Button icon="trash" label={'削除'} onClick={this.props.actions.remove} />
+            <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())} />
             <div className="separator" />
-            <Button icon="hand" label={'Panning'} onClick={() => this.toggleActiveTool('panning')} active={activeTool === 'panning'} />
-            <Button icon="cursor" label={'移動'} onClick={() => this.toggleActiveTool('pointer')} active={activeTool === 'pointer'} />
-            <Button icon="brush" label={'筆'} onClick={() => this.toggleActiveTool('brush')} active={activeTool === 'brush'} />
-            <Button icon="text" label={'テキスト'} onClick={() => this.toggleActiveTool('text')} active={activeTool === 'text'} />
-            <Button icon="image" label={'画像'} onClick={() => this.toggleActiveTool('image')} active={activeTool === 'image'} />
-            <Button icon="sticker" label={'スタンプ'} onClick={() => this.toggleActiveTool('sticker')} active={activeTool === 'sticker'} />
-            <Button icon="figures" label={'シェイプ'} onClick={() => this.toggleActiveTool('shapes')} active={activeTool === 'shapes'} />
-            <Button icon="opacity" label={'カラー削除'} onClick={() => this.toggleActiveTool('removeColor')} active={activeTool === 'removeColor'} />
-            <Button icon="layers" label={'レイヤ'} onClick={() => this.toggleActiveTool('layers')} active={activeTool === 'layers'} />
+            <Button icon="hand" label={'Panning'} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
+            <Button icon="cursor" label={'移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
+            <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
+            <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
+            <Button icon="image" label={'画像'} onClick={() => dispatch(actions.setActiveTool('image'))} active={activeTool === 'image'} />
+            <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />
+            <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
+            <Button icon="opacity" label={'カラー削除'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
+            <Button icon="layers" label={'レイヤ'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
           </div>
         </Scrollbars>
       );
@@ -114,17 +108,10 @@ class Toolbar extends Component {
 function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
-    activeSide: state.drawTool.activeSide,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(DrawToolActions, dispatch),
+    activeSide: state.product.sideSelected,
   };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Toolbar);
