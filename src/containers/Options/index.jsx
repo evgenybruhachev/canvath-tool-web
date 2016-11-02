@@ -20,6 +20,8 @@ class Options extends Component {
     brushOptions: React.PropTypes.object,
     textOptions: React.PropTypes.object,
     dispatch: React.PropTypes.func,
+    layers: React.PropTypes.object,
+    side: React.PropTypes.object,
   }
 
   // constructor(props) {
@@ -35,7 +37,9 @@ class Options extends Component {
       activeBrush,
       textOptions,
       brushOptions,
-      dispatch
+      layers,
+      side,
+      dispatch,
     } = this.props;
 
     let content;
@@ -167,7 +171,7 @@ class Options extends Component {
               {/* <Button icon={'text-underline'} label={'Underline'} /> */}
             </div>
             <div className="bottom">
-              <AddTextForm onSubmit={(text) => dispatch(actions.addText(text))} />
+              <AddTextForm onSubmit={text => dispatch(actions.addText(text))} />
             </div>
           </div>
         );
@@ -225,10 +229,10 @@ class Options extends Component {
               <Button icon={'align-right'} label={'Right'} />
             </div>
             <div className="bottom">
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
+              {
+                layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]
+                .map((layer, index) => <Layer path={layer.preview} uuid={layer.uuid} key={index} />)
+              }
             </div>
           </div>
         );
@@ -251,6 +255,8 @@ function mapStateToProps(state) {
     textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,
     availableFonts: state.drawTool.availableFonts,
+    layers: state.drawTool.layers,
+    side: state.product.sideSelected,
   };
 }
 

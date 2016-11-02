@@ -5,6 +5,7 @@ class Layer extends Component {
 
   static propTypes = {
     path: React.PropTypes.string,
+    uuid: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -22,14 +23,14 @@ class Layer extends Component {
   }
 
   render() {
-    const { path } = this.props;
+    const { path, uuid } = this.props;
 
     return (
-      <img
-        src={path}
-        alt=""
+      <div
         className={classNames('layer', { active: this.state.active })}
         onClick={this.toggle}
+        data-uuid={uuid}
+        style={{ backgroundImage: `url(${path})` }}
       />
     );
   }
