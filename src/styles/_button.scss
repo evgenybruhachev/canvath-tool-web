@@ -120,9 +120,11 @@
   }
 
   &.add-text{
+    display: inline-block;
+    vertical-align: middle;
     background-color: #9E9E9E;
     border-radius: 2px;
-    height: 24px;
+    height: 26px;
     width: auto;
     margin: 0 10px;
     padding: 5px 10px;

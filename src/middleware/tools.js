@@ -41,11 +41,17 @@ export default store => next => (action) => {
         fontWeight: textOptions.bold ? 'bold' : 'normal',
         fill: textOptions.color,
         textAlign: textOptions.align,
-        editable: true,
+        editable: false,
+      }
+
+      let text = action.payload;
+
+      if (textOptions.vertical) {
+        text = text.split('').join('\n');
       }
 
       if (isSelectedSide()) {
-        DrawTool.sides.selected.items.addText(options);
+        DrawTool.sides.selected.items.addText(options, text);
       }
       break;
     case 'UNDO':

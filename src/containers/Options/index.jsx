@@ -6,6 +6,7 @@ import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
 import Layer from '../../components/layer';
 import Icon from '../../components/icon';
+import AddTextForm from '../../components/add-text-form';
 
 import * as actions from '../../actions/draw-tool';
 
@@ -98,12 +99,6 @@ class Options extends Component {
           <div className="options">
             <div className="top">
 
-              <Button
-                label={'Add Text'}
-                onClick={() => dispatch(actions.addText())}
-                className="add-text"
-              />
-
               <ColorPicker
                 color={textOptions.color}
                 onChange={color => dispatch(actions.selectTextColor(color))}
@@ -162,7 +157,17 @@ class Options extends Component {
                 onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
                 active={textOptions.italic}
               />
+
+              <Button
+                icon={'text-vertical'}
+                label={'Vertical text'}
+                onClick={() => dispatch(actions.selectTextVertical(!textOptions.vertical))}
+                active={textOptions.vertical}
+              />
               {/* <Button icon={'text-underline'} label={'Underline'} /> */}
+            </div>
+            <div className="bottom">
+              <AddTextForm onSubmit={(text) => dispatch(actions.addText(text))} />
             </div>
           </div>
         );
