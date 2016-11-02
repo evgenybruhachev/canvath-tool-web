@@ -23,8 +23,6 @@ class Toolbar extends Component {
     };
 
     this.getIsMobile = this.getIsMobile.bind(this);
-    this.undo = this.undo.bind(this);
-    this.redo = this.redo.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +38,6 @@ class Toolbar extends Component {
       { mobile: window.matchMedia('(max-width: 768px)').matches,
         height: window.innerHeight,
       }));
-  }
-
-  undo() {
-    actions.undo(this.props.activeSide.title.toLowerCase());
-  }
-
-  redo() {
-    actions.redo(this.props.activeSide.title.toLowerCase());
   }
 
   render() {
@@ -81,8 +71,8 @@ class Toolbar extends Component {
           <div className="toolbar">
             <Button icon="zoom-in" label={'Zoom In'} onClick={() => dispatch(actions.zoomIn())} />
             <Button icon="zoom-out" label={'Zoom Out'} onClick={() => dispatch(actions.zoomOut())} />
-            <Button icon="undo" label={'Undo'} onClick={this.undo} />
-            <Button icon="redo" label={'Redo'} onClick={this.redo} />
+            <Button icon="undo" label={'Undo'} onClick={() => dispatch(actions.undo())} />
+            <Button icon="redo" label={'Redo'} onClick={() => dispatch(actions.redo())} />
             <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())} />
             <div className="separator" />
             <Button icon="hand" label={'Panning'} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
