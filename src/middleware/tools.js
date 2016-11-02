@@ -53,6 +53,26 @@ export default store => next => (action) => {
         DrawTool.history.redo(DrawTool.sides.selected.id)
       }
       break;
+    case 'EMPTY':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.items.empty();
+      }
+      break;
+    case 'ZOOM_IN':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.zoomIn();
+      }
+      break;
+    case 'ZOOM_OUT':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.zoomOut();
+      }
+      break;
+    case 'REMOVE':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.items.selected.remove();
+      }
+      break;
     default:
 
   }

@@ -115,7 +115,7 @@ class App extends Component {
           <Toolbar />
 
           <MediaQuery query="(min-width: 769px)">
-            <Button icon="trash" label={'全削除'} className={'trash'} onClick={DrawToolActions.empty} />
+            <Button icon="trash" label={'全削除'} className={'trash'} onClick={() => dispatch(DrawToolActions.empty()) } />
           </MediaQuery>
 
           <div className="app-container-inner">

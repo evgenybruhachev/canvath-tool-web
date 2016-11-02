@@ -27,7 +27,7 @@ export default store => next => (action) => {
       DrawTool.sides.select(sideObj.title.toLowerCase());
       break;
     default:
-
+      break;
   }
   return next(action);
 };
