@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Button from '../../components/button';
@@ -14,6 +13,12 @@ class Options extends Component {
 
   static propTypes = {
     activeTool: React.PropTypes.string,
+    availableBrushes: React.PropTypes.array,
+    availableFonts: React.PropTypes.array,
+    activeBrush: React.PropTypes.string,
+    brushOptions: React.PropTypes.object,
+    textOptions: React.PropTypes.object,
+    dispatch: React.PropTypes.func,
   }
 
   // constructor(props) {
@@ -22,7 +27,15 @@ class Options extends Component {
 
 
   render() {
-    const { activeTool, availableBrushes, activeBrush, brushOptions, dispatch } = this.props;
+    const {
+      activeTool,
+      availableBrushes,
+      availableFonts,
+      activeBrush,
+      textOptions,
+      brushOptions,
+      dispatch
+    } = this.props;
 
     let content;
 
@@ -51,19 +64,29 @@ class Options extends Component {
                 className="icons"
                 value={activeBrush}
                 onChange={brush => dispatch(actions.selectBrush(brush))}
-                elements={availableBrushes.map(brush => { return {val: brush, node: <Icon icon={brush} />, }})}
+                elements={availableBrushes
+                  .map(brush => ({ val: brush, node: <Icon icon={brush} /> }))
+                }
               />
-              <ColorPicker color={brushOptions.color} onChange={color => dispatch(actions.selectBrushColor(color))} />
+              <ColorPicker
+                color={brushOptions.color}
+                onChange={color => dispatch(actions.selectBrushColor(color))}
+              />
               <DropDownM
                 label="Size"
                 value={brushOptions.width.toString()}
-                elements={Array(100).fill(null).map((i, index) => { return { val: String(index+1), node: <span>{index+1}px</span> }})}
+                elements={Array(100).fill(null)
+                  .map((i, index) => ({ val: String(index + 1), node: <span>{index + 1}px</span> })
+                )}
                 onChange={size => dispatch(actions.selectBrushSize(size))}
               />
               <DropDownM
                 label="Opacity"
                 value={brushOptions.opacity.toString()}
-                elements={Array(10).fill(null).map((i, index) => { return { val: String((index+1)/10), node: <span>{(index+1)*10}%</span> }})}
+                elements={Array(10).fill(null).map(
+                  (i, index) => ({ val: String((index + 1) / 10),
+                    node: <span>{(index + 1) * 10}%</span> })
+                )}
                 onChange={value => dispatch(actions.selectBrushOpacity(value))}
               />
             </div>
@@ -74,46 +97,72 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <ColorPicker color="#ffaaff" />
+
+              <Button
+                label={'Add Text'}
+                onClick={() => dispatch(actions.addText())}
+                className="add-text"
+              />
+
+              <ColorPicker
+                color={textOptions.color}
+                onChange={color => dispatch(actions.selectTextColor(color))}
+              />
 
               <DropDownM
                 label="Font"
-                value="Arial"
-                elements={
-                  [{
-                    val: 'Arial',
-                    node: <span>Arial</span>,
-                  },
-                  {
-                    val: 'Helvetica',
-                    node: <span>Helvetica</span>,
-                  }]
-                }
+                value={textOptions.font}
+                elements={availableFonts.map(font => ({ val: font,
+                  node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                onChange={font => dispatch(actions.selectTextFont(font))}
               />
 
               <DropDownM
                 label="Size"
-                value="14px"
-                elements={
-                  [{
-                    val: '14px',
-                    node: <span>14px</span>,
-                  },
-                  {
-                    val: '18px',
-                    node: <span>18px</span>,
-                  }]
-                }
+                value={textOptions.size.toString()}
+                elements={[6, 8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72]
+                  .map(size => ({ val: size.toString(), node: <span>{size}</span> }))}
+                onChange={size => dispatch(actions.selectTextSize(size))}
               />
 
-              <Button icon={'text-align-justify'} label={'Justify'} />
-              <Button icon={'text-align-left'} label={'Left'} />
-              <Button icon={'text-align-center'} label={'Center'} />
-              <Button icon={'text-align-right'} label={'Right'} />
+              <Button
+                icon={'text-align-justify'}
+                label={'Justify'}
+                onClick={() => dispatch(actions.selectTextAlign('justify'))}
+                active={textOptions.align === 'justify'}
+              />
+              <Button
+                icon={'text-align-left'}
+                label={'Left'}
+                onClick={() => dispatch(actions.selectTextAlign('left'))}
+                active={textOptions.align === 'left'}
+              />
+              <Button
+                icon={'text-align-center'}
+                label={'Center'}
+                onClick={() => dispatch(actions.selectTextAlign('center'))}
+                active={textOptions.align === 'center'}
+              />
+              <Button
+                icon={'text-align-right'}
+                label={'Right'}
+                onClick={() => dispatch(actions.selectTextAlign('right'))}
+                active={textOptions.align === 'right'}
+              />
 
-              <Button icon={'text-bold'} label={'Bold'} />
-              <Button icon={'text-italic'} label={'Italic'} />
-              <Button icon={'text-underline'} label={'Underline'} />
+              <Button
+                icon={'text-bold'}
+                label={'Bold'}
+                onClick={() => dispatch(actions.selectTextBold(!textOptions.bold))}
+                active={textOptions.bold}
+              />
+              <Button
+                icon={'text-italic'}
+                label={'Italic'}
+                onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
+                active={textOptions.italic}
+              />
+              {/* <Button icon={'text-underline'} label={'Underline'} /> */}
             </div>
           </div>
         );
@@ -194,7 +243,9 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     activeBrush: state.drawTool.activeBrush,
     brushOptions: state.drawTool.brushOptions,
+    textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,
+    availableFonts: state.drawTool.availableFonts,
   };
 }
 

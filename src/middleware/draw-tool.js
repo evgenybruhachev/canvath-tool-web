@@ -5,6 +5,9 @@ export default store => next => (action) => {
   const { colors, colorSelected, sideSelected } = store.getState().product;
 
   switch (action.type) {
+    case 'UPDATE_FONTS':
+      action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
+      break;
     case 'SELECT_COLOR':
       DrawTool.sides.empty();
       colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
