@@ -1,6 +1,11 @@
 .options{
   width: 100%;
   background-color: #ececec;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
 
   .top{
     display: flex;

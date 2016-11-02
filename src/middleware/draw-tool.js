@@ -26,6 +26,20 @@ export default store => next => (action) => {
         .find(side => side.ProductColorSide.id === action.payload).ProductColorSide;
       DrawTool.sides.select(sideObj.title.toLowerCase());
       break;
+    case 'LOAD_PRODUCT':
+      if(action.payload.colors.length){
+        action.payload.colors[0].sides.map((side) => {
+          let sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
+          let fSide = DrawTool.sides.addSide(sideProps.id);
+          fSide.setImage(sideProps.imageUrl, sideProps.size)
+            .then(() => {
+              fSide.setBorder(sideProps.border);
+              fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
+            });
+        })
+        DrawTool.sides.select(action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase())
+      }
+      break;
     default:
       break;
   }

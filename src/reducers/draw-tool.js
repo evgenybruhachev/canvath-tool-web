@@ -16,6 +16,7 @@ const initialState = {
     bold: false,
     italic: false,
   },
+  layers: {},
 };
 
 export default handleActions({
@@ -63,5 +64,10 @@ export default handleActions({
   SELECT_TEXT_VERTICAL: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { vertical: action.payload }),
   }),
+
+  UPDATE_LAYERS: (state, action) => Object.assign({}, state, {
+    layers: Object.assign({}, state.layers, { [action.payload.side]: action.payload.layers }),
+  }),
+
 
 }, initialState);
