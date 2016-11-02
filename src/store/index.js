@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 
-import { logger, drawTool } from '../middleware';
+import { logger, drawTool, tools } from '../middleware';
 import rootReducer from '../reducers';
 
 export default function configure(initialState) {
@@ -10,7 +10,8 @@ export default function configure(initialState) {
 
   const createStoreWithMiddleware = applyMiddleware(
     logger,
-    drawTool
+    drawTool,
+    tools
   )(create);
 
   const store = createStoreWithMiddleware(rootReducer, initialState);

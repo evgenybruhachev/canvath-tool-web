@@ -5,6 +5,7 @@ class ColorPicker extends Component {
 
   static propTypes = {
     color: React.PropTypes.string,
+    onChange: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -29,6 +30,7 @@ class ColorPicker extends Component {
 
   handleChange(color) {
     this.setState({ color: color.hex });
+    if(this.props.onChange) this.props.onChange(color.hex);
   }
 
   render() {
