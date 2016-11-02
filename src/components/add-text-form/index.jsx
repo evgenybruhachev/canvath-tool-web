@@ -24,6 +24,7 @@ class AddTextForm extends Component {
 
   handleSubmit() {
     if (this.props.onSubmit) this.props.onSubmit(this.state.value);
+    this.setState({ value: '' });
   }
 
   render() {
