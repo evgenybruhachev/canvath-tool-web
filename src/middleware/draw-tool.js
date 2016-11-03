@@ -81,6 +81,9 @@ export default store => next => (action) => {
     case 'ALIGN_ITEM':
       DrawTool.sides.selected.items.selected[action.payload]();
       break;
+    case 'INSERT_IMAGE':
+      DrawTool.sides.selected.items.addImage(action.payload);
+      break;
     default:
 
   }

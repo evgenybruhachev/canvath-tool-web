@@ -7,7 +7,7 @@
     "start": "webpack-dev-server -d --inline --progress --colors --port 3000",
     "watch": "NODE_ENV=development webpack --watch",
     "build": "NODE_ENV=production webpack",
-    "ghpages": "rm -rf build/; npm run build; gh-pages -d build;"
+    "ghpages": "rm -rf build/; npm run build; cp _config.yml build/; gh-pages -d build;"
   },
   "author": "Alexey Korzun",
   "license": "ISC",
@@ -46,6 +46,7 @@
     "react-color": "^2.4.0",
     "react-custom-scrollbars": "^4.0.0",
     "react-dom": "^15.3.2",
+    "react-dropzone": "^3.7.2",
     "react-ink": "^5.1.1",
     "react-redux": "^4.4.5",
     "react-responsive": "^1.2.1",

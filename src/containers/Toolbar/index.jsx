@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import Button from '../../components/button';
+import Upload from '../../components/upload';
+
+import { upload } from '../../api/extras';
 
 import * as actions from '../../actions/draw-tool';
 
@@ -39,6 +42,12 @@ class Toolbar extends Component {
       { mobile: window.matchMedia('(max-width: 768px)').matches,
         height: window.innerHeight,
       }));
+  }
+
+  fileUpload(files) {
+    const { dispatch } = this.props;
+
+    upload(files).then(data => dispatch(actions.insertImage(data)));
   }
 
   render() {
@@ -80,7 +89,7 @@ class Toolbar extends Component {
             <Button icon="cursor" label={'移動'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
             <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
             <Button icon="text" label={'テキスト'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
-            <Button icon="image" label={'画像'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('image'))} active={activeTool === 'image'} />
+            <Upload icon="image" label={'画像'} disabled={drawMode} onUpload={files => this.fileUpload(files)} />
             <Button icon="sticker" label={'スタンプ'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />
             <Button icon="figures" label={'シェイプ'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
             <Button icon="opacity" label={'カラー削除'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
