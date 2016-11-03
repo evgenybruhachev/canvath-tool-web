@@ -90,7 +90,6 @@ class App extends Component {
     getProduct(id).then((data) => dispatch(ProductActions.loadProduct(data)));
 
     DrawTool.on('history:update', (e) => {
-      
       let data = {
         layers: DrawTool.sides.selected.layers.update(),
         side: JSON.parse(e).side.id,

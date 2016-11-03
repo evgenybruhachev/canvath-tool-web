@@ -5,7 +5,11 @@ const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 export default store => next => (action) => {
   const { activeTool, activeBrush, brushOptions, textOptions, layersSelected } = store.getState().drawTool;
 
-  if (isSelectedSide()) DrawTool.sides.selected.items.finalizeBrush();
+  if (isSelectedSide() && action.type !== 'UPDATE_LAYERS') DrawTool.sides.selected.items.finalizeBrush();
+  
+  if (!isSelectedSide()) {
+    return next(action);
+  }
 
   switch (action.type) {
     case 'SET_ACTIVE_TOOL':
@@ -22,16 +26,12 @@ export default store => next => (action) => {
       }
       break;
     case 'SELECT_BRUSH':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items[action.payload](brushOptions);
-      }
+      DrawTool.sides.selected.items[action.payload](brushOptions);
       break;
     case 'SELECT_BRUSH_SIZE':
     case 'SELECT_BRUSH_OPACITY':
     case 'SELECT_BRUSH_COLOR':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items[activeBrush](brushOptions);
-      }
+      DrawTool.sides.selected.items[activeBrush](brushOptions);
       break;
     case 'ADD_TEXT':
       const options = {
@@ -49,51 +49,31 @@ export default store => next => (action) => {
       if (textOptions.vertical) {
         text = text.split('').join('\n');
       }
-
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items.addText(options, text);
-      }
+      DrawTool.sides.selected.items.addText(options, text);
       break;
     case 'UNDO':
-      if (isSelectedSide()) {
-        DrawTool.history.undo(DrawTool.sides.selected.id)
-      }
+      DrawTool.history.undo(DrawTool.sides.selected.id);
       break;
     case 'REDO':
-      if (isSelectedSide()) {
-        DrawTool.history.redo(DrawTool.sides.selected.id)
-      }
+      DrawTool.history.redo(DrawTool.sides.selected.id);
       break;
     case 'EMPTY':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items.empty();
-      }
+      DrawTool.sides.selected.items.empty();
       break;
     case 'ZOOM_IN':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.zoomIn();
-      }
+      DrawTool.sides.selected.zoomIn();
       break;
     case 'ZOOM_OUT':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.zoomOut();
-      }
+      DrawTool.sides.selected.zoomOut();
       break;
     case 'REMOVE':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items.selected.remove();
-      }
+      DrawTool.sides.selected.items.selected.remove();
       break;
     case 'ALIGN_LAYER':
-      if (isSelectedSide()) {
-        console.log(layersSelected)
-        DrawTool.sides.selected.layers[action.payload](...layersSelected);
-      }
+      DrawTool.sides.selected.layers[action.payload](...layersSelected);
       break;
     case 'ALIGN_ITEM':
-      if (isSelectedSide()) {
-        DrawTool.sides.selected.items.selected[action.payload]();
-      }
+      DrawTool.sides.selected.items.selected[action.payload]();
       break;
     default:
 
