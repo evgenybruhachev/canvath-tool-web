@@ -84,6 +84,26 @@ export default store => next => (action) => {
         DrawTool.sides.selected.items.selected.remove();
       }
       break;
+    case 'ALIGN_LAYER':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.layers.toVCenter(action.payload);
+        DrawTool.sides.selected.layers.toHCenter(action.payload);
+        DrawTool.sides.selected.layers.toLeft(action.payload);
+        DrawTool.sides.selected.layers.toRight(action.payload);
+        DrawTool.sides.selected.layers.toTop(action.payload);
+        DrawTool.sides.selected.layers.toBottom(action.payload);
+      }
+      break;
+    case 'ALIGN_ITEM':
+      if (isSelectedSide()) {
+        DrawTool.sides.selected.items.selected[action.payload]();
+        DrawTool.sides.selected.items.selected[action.payload]();
+        DrawTool.sides.selected.items.selected[action.payload]();
+        DrawTool.sides.selected.items.selected[action.payload]();
+        DrawTool.sides.selected.items.selected[action.payload]();
+        DrawTool.sides.selected.items.selected[action.payload]();
+      }
+      break;
     default:
 
   }
