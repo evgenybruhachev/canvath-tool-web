@@ -25,3 +25,6 @@ export const selectTextItalic = createAction('SELECT_TEXT_ITALIC');
 export const selectTextVertical = createAction('SELECT_TEXT_VERTICAL');
 
 export const updateLayers = createAction('UPDATE_LAYERS');
+
+export const alignLayer = createAction('ALIGN_LAYER');
+export const alignItem = createAction('ALIGN_ITEM');
