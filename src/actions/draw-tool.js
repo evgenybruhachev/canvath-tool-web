@@ -15,6 +15,8 @@ export const selectBrushColor = createAction('SELECT_BRUSH_COLOR');
 export const selectBrushSize = createAction('SELECT_BRUSH_SIZE');
 export const selectBrushOpacity = createAction('SELECT_BRUSH_OPACITY');
 
+export const toggleDrawMode = createAction('TOGGLE_DRAW_MODE');
+
 export const addText = createAction('ADD_TEXT');
 export const selectTextColor = createAction('SELECT_TEXT_COLOR');
 export const selectTextFont = createAction('SELECT_TEXT_FONT');

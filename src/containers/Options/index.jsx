@@ -16,6 +16,7 @@ class Options extends Component {
     activeTool: React.PropTypes.string,
     availableBrushes: React.PropTypes.array,
     availableFonts: React.PropTypes.array,
+    drawMode: React.PropTypes.bool,
     activeBrush: React.PropTypes.string,
     brushOptions: React.PropTypes.object,
     textOptions: React.PropTypes.object,
@@ -35,6 +36,7 @@ class Options extends Component {
       availableBrushes,
       availableFonts,
       activeBrush,
+      drawMode,
       textOptions,
       brushOptions,
       layers,
@@ -94,6 +96,11 @@ class Options extends Component {
                 )}
                 onChange={value => dispatch(actions.selectBrushOpacity(value))}
               />
+            <Button
+              className="add-text"
+              label={drawMode ? 'Exit draw mode' : 'Enter draw mode'}
+              onClick={() => dispatch(actions.toggleDrawMode(!drawMode))}
+            />
             </div>
           </div>
         );
@@ -255,6 +262,7 @@ function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
     activeBrush: state.drawTool.activeBrush,
+    drawMode: state.drawTool.drawMode,
     brushOptions: state.drawTool.brushOptions,
     textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,

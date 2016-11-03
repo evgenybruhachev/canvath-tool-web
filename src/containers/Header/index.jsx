@@ -9,6 +9,7 @@ import * as ProductActions from '../../actions/product';
 class Header extends Component {
 
   static propTypes = {
+    product: React.PropTypes.object,
     colors: React.PropTypes.array,
     colorSelected: React.PropTypes.object,
     sideSelected: React.PropTypes.object,
@@ -44,14 +45,14 @@ class Header extends Component {
     dispatch(ProductActions.selectSide(id));
   }
   render() {
-    const { colors, colorSelected, sideSelected } = this.props;
+    const { colors, colorSelected, sideSelected, product } = this.props;
 
     return (
       <div className="app-header">
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
         <Button icon="poster" label="開く" onClick={this.openProductLoad} />
         <Button icon="save" label="開く" />
-        <DropDown label="Type" style={{ width: '200px' }} onClick={this.openCategorySelect} />
+        <DropDown label={product ? product.title : 'Type'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown
           label={colorSelected ? <div className="list-item">
             <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
@@ -84,6 +85,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
   return {
+    product: state.product.product,
     colors: state.product.colors,
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
