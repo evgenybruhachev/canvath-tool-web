@@ -221,17 +221,21 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <Button icon={'align-top'} label={'Top'} />
-              <Button icon={'align-ver-center'} label={'Vertical Center'} />
-              <Button icon={'align-bottom'} label={'Bottom'} />
-              <Button icon={'align-left'} label={'Left'} />
-              <Button icon={'align-hor-center'} label={'Horizontal Center'} />
-              <Button icon={'align-right'} label={'Right'} />
+              <Button icon={'align-top'} label={'Top'} onClick={() => dispatch(actions.alignLayer('toTop'))} />
+              <Button icon={'align-ver-center'} label={'Vertical Center'} onClick={() => dispatch(actions.alignLayer('toVCenter'))} />
+              <Button icon={'align-bottom'} label={'Bottom'} onClick={() => dispatch(actions.alignLayer('toBottom'))} />
+              <Button icon={'align-left'} label={'Left'} onClick={() => dispatch(actions.alignLayer('toLeft'))} />
+              <Button icon={'align-hor-center'} label={'Horizontal Center'} onClick={() => dispatch(actions.alignLayer('toHCenter'))} />
+              <Button icon={'align-right'} label={'Right'} onClick={() => dispatch(actions.alignLayer('toRight'))} />
             </div>
             <div className="bottom">
               {
                 layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]
-                .map((layer, index) => <Layer path={layer.preview} uuid={layer.uuid} key={index} />)
+                .map((layer, index) => <Layer
+                  path={layer.preview} uuid={layer.index} key={index}
+                  onBlur={id => dispatch(actions.blurLayer(id))}
+                  onFocus={id => dispatch(actions.focusLayer(id))}
+                />)
               }
             </div>
           </div>

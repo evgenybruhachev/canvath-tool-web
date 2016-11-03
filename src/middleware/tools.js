@@ -3,7 +3,7 @@ import DrawTool from '../draw-tool/drawtool';
 const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 
 export default store => next => (action) => {
-  const { activeTool, activeBrush, brushOptions, textOptions } = store.getState().drawTool;
+  const { activeTool, activeBrush, brushOptions, textOptions, layersSelected } = store.getState().drawTool;
 
   if (isSelectedSide()) DrawTool.sides.selected.items.finalizeBrush();
 
@@ -86,21 +86,12 @@ export default store => next => (action) => {
       break;
     case 'ALIGN_LAYER':
       if (isSelectedSide()) {
-        DrawTool.sides.selected.layers.toVCenter(action.payload);
-        DrawTool.sides.selected.layers.toHCenter(action.payload);
-        DrawTool.sides.selected.layers.toLeft(action.payload);
-        DrawTool.sides.selected.layers.toRight(action.payload);
-        DrawTool.sides.selected.layers.toTop(action.payload);
-        DrawTool.sides.selected.layers.toBottom(action.payload);
+        console.log(layersSelected)
+        DrawTool.sides.selected.layers[action.payload](...layersSelected);
       }
       break;
     case 'ALIGN_ITEM':
       if (isSelectedSide()) {
-        DrawTool.sides.selected.items.selected[action.payload]();
-        DrawTool.sides.selected.items.selected[action.payload]();
-        DrawTool.sides.selected.items.selected[action.payload]();
-        DrawTool.sides.selected.items.selected[action.payload]();
-        DrawTool.sides.selected.items.selected[action.payload]();
         DrawTool.sides.selected.items.selected[action.payload]();
       }
       break;
