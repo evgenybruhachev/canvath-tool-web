@@ -1,47 +1,88 @@
 import DrawTool from '../draw-tool/drawtool';
-import escapeJSON from '../utils/escapeJSON';
+
+const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 
 export default store => next => (action) => {
-  const { colors, colorSelected, sideSelected } = store.getState().product;
+  const {
+    activeBrush,
+    brushOptions,
+    textOptions,
+    layersSelected
+  } = store.getState().drawTool;
+
+  if (!isSelectedSide()) {
+    return next(action);
+  }
 
   switch (action.type) {
-    case 'UPDATE_FONTS':
-      action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
-      break;
-    case 'SELECT_COLOR':
-      DrawTool.sides.empty();
-      colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
-        let sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
-        let fSide = DrawTool.sides.addSide(sideProps.id);
-        fSide.setImage(sideProps.imageUrl, sideProps.size)
-          .then(() => {
-            fSide.setBorder(sideProps.border);
-            fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
-          });
-      });
-      DrawTool.sides.select(sideSelected.title.toLowerCase());
-      break;
-    case 'SELECT_SIDE':
-      let sideObj = colors.find(color => color.ProductColor.id === colorSelected.id).sides
-        .find(side => side.ProductColorSide.id === action.payload).ProductColorSide;
-      DrawTool.sides.select(sideObj.title.toLowerCase());
-      break;
-    case 'LOAD_PRODUCT':
-      if(action.payload.colors.length){
-        action.payload.colors[0].sides.map((side) => {
-          let sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
-          let fSide = DrawTool.sides.addSide(sideProps.id);
-          fSide.setImage(sideProps.imageUrl, sideProps.size)
-            .then(() => {
-              fSide.setBorder(sideProps.border);
-              fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
-            });
-        })
-        DrawTool.sides.select(action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase())
+    case 'SET_ACTIVE_TOOL':
+      if (action.payload === 'panning' && isSelectedSide()) {
+        DrawTool.sides.selected.panning = true;
+      } else if (action.payload !== 'panning' && isSelectedSide()) {
+        DrawTool.sides.selected.panning = false;
       }
       break;
-    default:
+    case 'SELECT_BRUSH':
+      DrawTool.sides.selected.items[action.payload](brushOptions);
       break;
+    case 'SELECT_BRUSH_SIZE':
+    case 'SELECT_BRUSH_OPACITY':
+    case 'SELECT_BRUSH_COLOR':
+      DrawTool.sides.selected.items[activeBrush](brushOptions);
+      break;
+    case 'TOGGLE_DRAW_MODE':
+      if (action.payload) {
+        DrawTool.sides.selected.drawingMode(true);
+        DrawTool.sides.selected.items[activeBrush](brushOptions);
+      } else {
+        DrawTool.sides.selected.items.finalizeBrush();
+        DrawTool.sides.selected.drawingMode(false);
+      }
+      break;
+    case 'ADD_TEXT':
+      const options = {
+        fontSize: textOptions.size,
+        fontFamily: textOptions.font,
+        fontStyle: textOptions.italic ? 'italic' : 'normal',
+        fontWeight: textOptions.bold ? 'bold' : 'normal',
+        fill: textOptions.color,
+        textAlign: textOptions.align,
+        editable: false,
+      }
+
+      let text = action.payload;
+
+      if (textOptions.vertical) {
+        text = text.split('').join('\n');
+      }
+      DrawTool.sides.selected.items.addText(options, text);
+      break;
+    case 'UNDO':
+      DrawTool.history.undo(DrawTool.sides.selected.id);
+      break;
+    case 'REDO':
+      DrawTool.history.redo(DrawTool.sides.selected.id);
+      break;
+    case 'EMPTY':
+      DrawTool.sides.selected.items.empty();
+      break;
+    case 'ZOOM_IN':
+      DrawTool.sides.selected.zoomIn();
+      break;
+    case 'ZOOM_OUT':
+      DrawTool.sides.selected.zoomOut();
+      break;
+    case 'REMOVE':
+      DrawTool.sides.selected.items.selected.remove();
+      break;
+    case 'ALIGN_LAYER':
+      DrawTool.sides.selected.layers[action.payload](...layersSelected);
+      break;
+    case 'ALIGN_ITEM':
+      DrawTool.sides.selected.items.selected[action.payload]();
+      break;
+    default:
+
   }
   return next(action);
 };

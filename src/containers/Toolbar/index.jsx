@@ -77,8 +77,8 @@ class Toolbar extends Component {
             <Button icon="trash" label={'削除'} disabled={drawMode} onClick={() => dispatch(actions.remove())} />
             <div className="separator" />
             <Button icon="hand" label={'Panning'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
-            <Button icon="cursor" label={'移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
-            <Button icon="brush" label={'筆'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
+            <Button icon="cursor" label={'移動'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
+            <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
             <Button icon="text" label={'テキスト'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
             <Button icon="image" label={'画像'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('image'))} active={activeTool === 'image'} />
             <Button icon="sticker" label={'スタンプ'} disabled={drawMode} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />

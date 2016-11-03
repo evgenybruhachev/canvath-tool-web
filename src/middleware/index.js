@@ -1,9 +1,10 @@
 import logger from './logger';
+import product from './product';
 import drawTool from './draw-tool';
-import tools from './tools';
+
 
 export {
   logger,
   drawTool,
-  tools,
+  product,
 };
