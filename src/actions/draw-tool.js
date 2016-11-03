@@ -26,5 +26,7 @@ export const selectTextVertical = createAction('SELECT_TEXT_VERTICAL');
 
 export const updateLayers = createAction('UPDATE_LAYERS');
 
+export const focusLayer = createAction('FOCUS_LAYER');
+export const blurLayer = createAction('BLUR_LAYER');
 export const alignLayer = createAction('ALIGN_LAYER');
 export const alignItem = createAction('ALIGN_ITEM');

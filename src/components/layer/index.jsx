@@ -6,6 +6,8 @@ class Layer extends Component {
   static propTypes = {
     path: React.PropTypes.string,
     uuid: React.PropTypes.string,
+    onBlur: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -19,7 +21,16 @@ class Layer extends Component {
   }
 
   toggle() {
-    this.setState(state => Object.assign(state, { active: !this.state.active }));
+    const { onFocus, onBlur, uuid } = this.props;
+
+    this.setState((state) => {
+      if (state.active) {
+        onBlur(uuid);
+      } else {
+        onFocus(uuid);
+      }
+      return Object.assign(state, { active: !this.state.active })
+    });
   }
 
   render() {

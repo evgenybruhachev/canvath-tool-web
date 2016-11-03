@@ -17,6 +17,7 @@ const initialState = {
     italic: false,
   },
   layers: {},
+  layersSelected: [],
 };
 
 export default handleActions({
@@ -67,6 +68,14 @@ export default handleActions({
 
   UPDATE_LAYERS: (state, action) => Object.assign({}, state, {
     layers: Object.assign({}, state.layers, { [action.payload.side]: action.payload.layers }),
+    layersSelected: [],
+  }),
+
+  FOCUS_LAYER: (state, action) => Object.assign({}, state, {
+    layersSelected: state.layersSelected.concat(action.payload),
+  }),
+  BLUR_LAYER: (state, action) => Object.assign({}, state, {
+    layersSelected: state.layersSelected.filter(el => el !== action.payload),
   }),
 
 
