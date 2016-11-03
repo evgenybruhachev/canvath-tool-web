@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import Ink from 'react-ink';
 import Icon from '../icon';
 
-function IconButton({ label, icon, image, onClick, active = false, type = 'button', className, style }) {
+function IconButton({ label, icon, image, onClick, disabled, active = false, type = 'button', className, style }) {
   return (
     <button
-      className={classNames('button', { active }, className)}
+      className={classNames('button', { active, disabled }, className)}
       label={label}
       onClick={onClick}
       type={type}
@@ -29,6 +29,7 @@ IconButton.propTypes = {
   type: React.PropTypes.oneOf(['button', 'reset', 'submit']),
   className: React.PropTypes.string,
   style: React.PropTypes.object,
+  disabled: React.PropTypes.bool,
 };
 
 export default IconButton;

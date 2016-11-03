@@ -5,20 +5,12 @@ const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 export default store => next => (action) => {
   const { activeTool, activeBrush, brushOptions, textOptions, layersSelected } = store.getState().drawTool;
 
-  if (isSelectedSide() && action.type !== 'UPDATE_LAYERS') DrawTool.sides.selected.items.finalizeBrush();
-  
   if (!isSelectedSide()) {
     return next(action);
   }
 
   switch (action.type) {
     case 'SET_ACTIVE_TOOL':
-      if (action.payload === 'brush' && isSelectedSide()) {
-        DrawTool.sides.selected.drawingMode(true);
-        DrawTool.sides.selected.items.pencilBrush(brushOptions);
-      } else if (action.payload !== 'brush' && isSelectedSide()) {
-        DrawTool.sides.selected.drawingMode(false);
-      }
       if (action.payload === 'panning' && isSelectedSide()) {
         DrawTool.sides.selected.panning = true;
       } else if (action.payload !== 'panning' && isSelectedSide()) {
@@ -32,6 +24,12 @@ export default store => next => (action) => {
     case 'SELECT_BRUSH_OPACITY':
     case 'SELECT_BRUSH_COLOR':
       DrawTool.sides.selected.items[activeBrush](brushOptions);
+      break;
+    case 'TOGGLE_DRAW_MODE':
+      DrawTool.sides.selected.drawingMode(action.payload);
+      if (action.payload) {
+        DrawTool.sides.selected.items.pencilBrush(brushOptions);
+      }
       break;
     case 'ADD_TEXT':
       const options = {

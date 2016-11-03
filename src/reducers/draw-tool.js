@@ -8,6 +8,7 @@ const initialState = {
     width: 2,
     opacity: 1,
   },
+  drawMode: false,
   textOptions: {
     color: '#ffaaff',
     font: 'Verdana',
@@ -41,6 +42,10 @@ export default handleActions({
   }),
   SELECT_BRUSH_OPACITY: (state, action) => Object.assign({}, state, {
     brushOptions: Object.assign({}, state.brushOptions, { opacity: action.payload }),
+  }),
+
+  TOGGLE_DRAW_MODE: (state, action) => Object.assign({}, state, {
+    drawMode: action.payload,
   }),
 
   SELECT_TEXT_COLOR: (state, action) => Object.assign({}, state, {
