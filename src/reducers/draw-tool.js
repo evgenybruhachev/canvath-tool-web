@@ -96,6 +96,10 @@ export default handleActions({
       vertical: action.payload.vertical,
     }
   }),
+  SELECT_TEXT_OFF: (state, action) => Object.assign({}, state, {
+    textEl: null,
+    text: '',
+  }),
 
   UPDATE_LAYERS: (state, action) => Object.assign({}, state, {
     layers: Object.assign({}, state.layers, { [action.payload.side]: action.payload.layers }),
