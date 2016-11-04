@@ -30,7 +30,10 @@ class ColorPicker extends Component {
 
   handleChange(color) {
     this.setState({ color: color.hex });
-    if(this.props.onChange) this.props.onChange(color.hex);
+    if(this.props.onChange) {
+      this.props.onChange(color.hex);
+      this.setState({ color: null });
+    }
   }
 
   render() {
@@ -43,7 +46,7 @@ class ColorPicker extends Component {
         </div>
         { this.state.displayColorPicker ? <div className="popover">
           <div className="cover" onClick={this.handleClose} />
-          <SketchPicker color={this.state.color || color} onChange={this.handleChange} />
+          <SketchPicker color={color || this.state.color} onChange={this.handleChange} />
         </div> : null }
 
       </div>

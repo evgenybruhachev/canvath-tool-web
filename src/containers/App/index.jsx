@@ -100,6 +100,16 @@ class App extends Component {
 
       dispatch(DrawToolActions.updateLayers(data));
     });
+
+    DrawTool.on('object:selected', () => {
+      const item = DrawTool.sides.selected.items.selected.item;
+
+      if (item.type === 'textbox') {
+        dispatch(DrawToolActions.selectText(item));
+      }
+
+
+    });
   }
 
   render() {

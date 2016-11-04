@@ -5,14 +5,14 @@ class AddTextForm extends Component {
 
   static propTypes = {
     onSubmit: React.PropTypes.func,
+    value: React.PropTypes.string,
+    selected: React.PropTypes.bool,
   }
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      value: '',
-    };
+    this.state = {};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,20 +23,24 @@ class AddTextForm extends Component {
   }
 
   handleSubmit() {
-    if (this.props.onSubmit) this.props.onSubmit(this.state.value);
-    this.setState({ value: '' });
+    if (this.props.onSubmit) {
+      this.props.onSubmit(this.state.value);
+      this.setState({ value: '' });
+    }
   }
 
   render() {
+    const { selected, value } = this.props;
+
     return (
       <div>
         <input
-          value={this.state.value}
+          value={this.state.value || value}
           onChange={this.handleChange}
           className="add-text-input"
         />
         <Button
-          label={'Add Text'}
+          label={selected ? 'Edit Text' : 'Add Text'}
           onClick={this.handleSubmit}
           className="add-text"
         />

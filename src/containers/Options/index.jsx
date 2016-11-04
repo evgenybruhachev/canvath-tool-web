@@ -27,6 +27,8 @@ class Options extends Component {
     layers: React.PropTypes.object,
     side: React.PropTypes.object,
     shapeColor: React.PropTypes.string,
+    text: React.PropTypes.string,
+    textEl: React.PropTypes.object,
   }
 
   // constructor(props) {
@@ -48,6 +50,8 @@ class Options extends Component {
       side,
       dispatch,
       shapeColor,
+      text,
+      textEl,
     } = this.props;
 
     let content;
@@ -182,7 +186,11 @@ class Options extends Component {
               {/* <Button icon={'text-underline'} label={'Underline'} /> */}
             </div>
             <div className="bottom">
-              <AddTextForm onSubmit={text => dispatch(actions.addText(text))} />
+              <AddTextForm
+                value={text}
+                selected={!!textEl}
+                onSubmit={val => dispatch(textEl ? actions.changeText(val) : actions.addText(val))}
+              />
             </div>
           </div>
         );
@@ -285,6 +293,8 @@ function mapStateToProps(state) {
     layers: state.drawTool.layers,
     side: state.product.sideSelected,
     shapeColor: state.drawTool.shapeColor,
+    text: state.drawTool.text,
+    textEl: state.drawTool.textEl,
   };
 }
 
