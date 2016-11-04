@@ -9,6 +9,8 @@ const initialState = {
     opacity: 1,
   },
   drawMode: false,
+  textEl: null,
+  text: '',
   textOptions: {
     color: '#ffaaff',
     font: 'Verdana',
@@ -16,10 +18,11 @@ const initialState = {
     align: 'center',
     bold: false,
     italic: false,
+    vertical: false,
   },
   layers: {},
   layersSelected: [],
-  shapeColor: '#ffaaff'
+  shapeColor: '#ffaaff',
 };
 
 export default handleActions({
@@ -73,6 +76,25 @@ export default handleActions({
   }),
   SELECT_TEXT_VERTICAL: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { vertical: action.payload }),
+  }),
+  ADD_TEXT: (state, action) => Object.assign({}, state, {
+    text: '',
+  }),
+  CHANGE_TEXT: (state, action) => Object.assign({}, state, {
+    text: action.payload,
+  }),
+  SELECT_TEXT: (state, action) => Object.assign({}, state, {
+    textEl: action.payload,
+    text: action.payload.text,
+    textOptions: {
+      color: action.payload.fill,
+      font: action.payload.fontFamily,
+      size: action.payload.fontSize,
+      align: action.payload.textAlign,
+      bold: action.payload.fontWeight === 'bold',
+      italic: action.payload.fontStyle === 'italic',
+      vertical: action.payload.vertical,
+    }
   }),
 
   UPDATE_LAYERS: (state, action) => Object.assign({}, state, {

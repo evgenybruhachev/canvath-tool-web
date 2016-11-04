@@ -40,7 +40,7 @@ export default store => next => (action) => {
         DrawTool.sides.selected.drawingMode(false);
       }
       break;
-    case 'ADD_TEXT':
+    case 'ADD_TEXT': {
       const options = {
         fontSize: textOptions.size,
         fontFamily: textOptions.font,
@@ -49,15 +49,66 @@ export default store => next => (action) => {
         fill: textOptions.color,
         textAlign: textOptions.align,
         editable: false,
-      }
+      };
 
       let text = action.payload;
 
       if (textOptions.vertical) {
-        text = text.split('').join('\n');
+        text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
       }
       DrawTool.sides.selected.items.addText(options, text);
+      DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
       break;
+    }
+    case 'CHANGE_TEXT': {
+      const options = {
+        fontSize: textOptions.size,
+        fontFamily: textOptions.font,
+        fontStyle: textOptions.italic ? 'italic' : 'normal',
+        fontWeight: textOptions.bold ? 'bold' : 'normal',
+        fill: textOptions.color,
+        textAlign: textOptions.align,
+        editable: false,
+      };
+
+      let text = action.payload;
+
+      if (textOptions.vertical) {
+        text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
+      }
+      DrawTool.sides.selected.items.selected.text(action.payload);
+      DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
+      break;
+    }
+    case 'SELECT_TEXT_COLOR':
+      DrawTool.sides.selected.items.selected.fill(action.payload);
+      break;
+    case 'SELECT_TEXT_FONT':
+      DrawTool.sides.selected.items.selected.fontFamily(action.payload);
+      break;
+    case 'SELECT_TEXT_SIZE':
+      DrawTool.sides.selected.items.selected.fontSize(action.payload);
+      break;
+    case 'SELECT_TEXT_ALIGN':
+      DrawTool.sides.selected.items.selected.textAlign(action.payload);
+      break;
+    case 'SELECT_TEXT_BOLD':
+      DrawTool.sides.selected.items.selected.fontWeight(action.payload ? 'bold' : 'normal');
+      break;
+    case 'SELECT_TEXT_ITALIC':
+      DrawTool.sides.selected.items.selected.fontStyle(action.payload ? 'italic' : 'normal');
+      break;
+    case 'SELECT_TEXT_VERTICAL': {
+      DrawTool.sides.selected.items.selected.item.vertical = action.payload;
+      let text = DrawTool.sides.selected.items.selected.text();
+      if (action.payload) {
+        text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
+      } else {
+        text = text.replace(/(\r\n|\n|\r)/gm, '');
+      }
+      DrawTool.sides.selected.items.selected.text(text);
+      break;
+    }
     case 'UNDO':
       DrawTool.history.undo(DrawTool.sides.selected.id);
       break;
