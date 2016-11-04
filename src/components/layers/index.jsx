@@ -21,7 +21,7 @@ const SortableItem = SortableElement(
     }
 
     onClickCallback(event) {
-      return this.props.onClickCallback(this.props.index, event);
+      return this.props.onClickCallback(this.props.index, this.props.uuid, event);
     }
 
     render() {
@@ -69,8 +69,9 @@ export default class Layers extends Component {
 
   static propTypes = {
     items: React.PropTypes.array,
-    multipleSelectionLabel: React.PropTypes.string,
     callbackNewOrder: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -98,13 +99,15 @@ export default class Layers extends Component {
       items: nextProps.items,
     });
   }
-  onClickCallback(index, event) {
+  onClickCallback(index, uuid, event) {
     const newSelection = this.state.selection;
     const testIndex = newSelection.indexOf(index);
     // if (!this.state.selection.length) {
     if (testIndex === -1) {
       newSelection.push(index);
+      this.props.onFocus(uuid);
     } else {
+      this.props.onBlur(uuid);
       newSelection.splice(testIndex, 1);
     }
     // } else {
@@ -144,13 +147,6 @@ export default class Layers extends Component {
           items[j].height = items[j].defaultHeight * selection.length;
         }
       }
-
-      // if (selection.length > 1) {
-      //   const helpers = document.getElementsByClassName('helper');
-      //   const hl = helpers.length - 1;
-
-        // helpers[hl].innerHTML = `${selection.length} ${this.props.multipleSelectionLabel}`;
-      // }
 
       this.setState({
         items,
