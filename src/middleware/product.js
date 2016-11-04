@@ -8,12 +8,12 @@ export default store => next => (action) => {
     case 'UPDATE_FONTS':
       action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
       break;
-    case 'SELECT_COLOR':
+    case 'SELECT_COLOR': {
       DrawTool.sides.empty();
       colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
-        let sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
-        let fSide = DrawTool.sides.addSide(sideProps.id);
-        fSide.setImage(sideProps.imageUrl, sideProps.size)
+        const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
+        const fSide = DrawTool.sides.addSide(sideProps.id);
+        return fSide.setImage(`${sideProps.imageUrl}?_`, sideProps.size)
           .then(() => {
             fSide.setBorder(sideProps.border);
             fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
@@ -21,17 +21,19 @@ export default store => next => (action) => {
       });
       DrawTool.sides.select(sideSelected.title.toLowerCase());
       break;
-    case 'SELECT_SIDE':
-      let sideObj = colors.find(color => color.ProductColor.id === colorSelected.id).sides
+    }
+    case 'SELECT_SIDE':{
+      const sideObj = colors.find(color => color.ProductColor.id === colorSelected.id).sides
         .find(side => side.ProductColorSide.id === action.payload).ProductColorSide;
       DrawTool.sides.select(sideObj.title.toLowerCase());
       break;
-    case 'LOAD_PRODUCT':
-      if(action.payload.colors.length){
+    }
+    case 'LOAD_PRODUCT': {
+      if (action.payload.colors.length) {
         action.payload.colors[0].sides.map((side) => {
-          let sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
-          let fSide = DrawTool.sides.addSide(sideProps.id);
-          fSide.setImage(sideProps.imageUrl, sideProps.size)
+          const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
+          const fSide = DrawTool.sides.addSide(sideProps.id);
+          return fSide.setImage(`${sideProps.imageUrl}?_`, sideProps.size)
             .then(() => {
               fSide.setBorder(sideProps.border);
               fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
@@ -40,6 +42,7 @@ export default store => next => (action) => {
         DrawTool.sides.select(action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase())
       }
       break;
+    }
     default:
       break;
   }
