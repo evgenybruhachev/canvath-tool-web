@@ -30,6 +30,7 @@ export const selectTextBold = createAction('SELECT_TEXT_BOLD');
 export const selectTextItalic = createAction('SELECT_TEXT_ITALIC');
 export const selectTextVertical = createAction('SELECT_TEXT_VERTICAL');
 export const selectText = createAction('SELECT_TEXT');
+export const selectTextOff = createAction('SELECT_TEXT_OFF');
 export const changeText = createAction('CHANGE_TEXT');
 
 export const updateLayers = createAction('UPDATE_LAYERS');

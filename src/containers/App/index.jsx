@@ -107,8 +107,10 @@ class App extends Component {
       if (item.type === 'textbox') {
         dispatch(DrawToolActions.selectText(item));
       }
+    });
 
-
+    DrawTool.on('selection:cleared', () => {
+      dispatch(DrawToolActions.selectTextOff());
     });
   }
 
