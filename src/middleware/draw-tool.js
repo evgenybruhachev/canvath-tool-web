@@ -7,7 +7,8 @@ export default store => next => (action) => {
     activeBrush,
     brushOptions,
     textOptions,
-    layersSelected
+    layersSelected,
+    shapeColor
   } = store.getState().drawTool;
 
   if (!isSelectedSide()) {
@@ -83,6 +84,12 @@ export default store => next => (action) => {
       break;
     case 'INSERT_IMAGE':
       DrawTool.sides.selected.items.addImage(action.payload);
+      break;
+    case 'INSERT_SHAPE':
+      DrawTool.sides.selected.items.addSVG(action.payload, shapeColor);
+      break;
+    case 'SELECT_SHAPE_COLOR':
+      DrawTool.sides.selected.items.selected.fill(action.payload);
       break;
     default:
 

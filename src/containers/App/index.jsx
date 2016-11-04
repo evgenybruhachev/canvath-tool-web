@@ -25,6 +25,7 @@ import * as DrawToolActions from '../../actions/draw-tool';
 
 import { getCategories, getProductsByCategory, getProduct } from '../../api/products';
 import { getBrushes, getFonts } from '../../api/options';
+import { getShapes } from '../../api/extras';
 
 class App extends Component {
 
@@ -55,6 +56,7 @@ class App extends Component {
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
     getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
+    getShapes().then(data => dispatch(DrawToolActions.updateShapes(data)));
   }
 
   goToCategory(id) {

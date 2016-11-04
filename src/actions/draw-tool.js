@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 
 export const updateBrushes = createAction('UPDATE_BRUSHES');
 export const updateFonts = createAction('UPDATE_FONTS');
+export const updateShapes = createAction('UPDATE_SHAPES');
 export const upload = createAction('UPLOAD');
 
 export const insertImage = createAction('INSERT_IMAGE');
@@ -35,3 +36,6 @@ export const focusLayer = createAction('FOCUS_LAYER');
 export const blurLayer = createAction('BLUR_LAYER');
 export const alignLayer = createAction('ALIGN_LAYER');
 export const alignItem = createAction('ALIGN_ITEM');
+
+export const selectShapeColor = createAction('SELECT_SHAPE_COLOR');
+export const insertShape = createAction('INSERT_SHAPE');
