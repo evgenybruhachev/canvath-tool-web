@@ -25,6 +25,19 @@
     border-top: 1px solid #bdbdbd;
   }
 
+  .shapes{
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    height: 40px;
+    padding: 10px 0;
+    .shape{
+      width: 45px;
+      height: 45px;
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+
   .button{
     color: #9e9e9e;
     padding: 10px 0 0 0;

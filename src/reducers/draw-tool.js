@@ -19,6 +19,7 @@ const initialState = {
   },
   layers: {},
   layersSelected: [],
+  shapeColor: '#ffaaff'
 };
 
 export default handleActions({
@@ -27,6 +28,9 @@ export default handleActions({
   }),
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
     availableFonts: action.payload.map(font => font.DrawerFont.title),
+  }),
+  UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
+    availableShapes: action.payload.map(shape => shape.DrawerShape.url),
   }),
   SET_ACTIVE_TOOL: (state, action) => Object.assign({}, state, {
     activeTool: action.payload,
@@ -81,6 +85,10 @@ export default handleActions({
   }),
   BLUR_LAYER: (state, action) => Object.assign({}, state, {
     layersSelected: state.layersSelected.filter(el => el !== action.payload),
+  }),
+
+  SELECT_SHAPE_COLOR: (state, action) => Object.assign({}, state, {
+    shapeColor: action.payload,
   }),
 
 

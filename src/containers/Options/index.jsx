@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import Button from '../../components/button';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
@@ -16,6 +18,7 @@ class Options extends Component {
     activeTool: React.PropTypes.string,
     availableBrushes: React.PropTypes.array,
     availableFonts: React.PropTypes.array,
+    availableShapes: React.PropTypes.array,
     drawMode: React.PropTypes.bool,
     activeBrush: React.PropTypes.string,
     brushOptions: React.PropTypes.object,
@@ -23,6 +26,7 @@ class Options extends Component {
     dispatch: React.PropTypes.func,
     layers: React.PropTypes.object,
     side: React.PropTypes.object,
+    shapeColor: React.PropTypes.string,
   }
 
   // constructor(props) {
@@ -35,6 +39,7 @@ class Options extends Component {
       activeTool,
       availableBrushes,
       availableFonts,
+      availableShapes,
       activeBrush,
       drawMode,
       textOptions,
@@ -42,11 +47,10 @@ class Options extends Component {
       layers,
       side,
       dispatch,
+      shapeColor,
     } = this.props;
 
     let content;
-
-    const shape = 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Linecons_heart-shape.svg/2000px-Linecons_heart-shape.svg.png';
 
     switch (activeTool) {
       case 'pointer':
@@ -204,11 +208,21 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <ColorPicker color="#ffaaff" />
-              <img src={shape} style={{ width: '45px', height: '45px', display: 'block', margin: '0 10px' }} alt="" />
-              <img src={shape} style={{ width: '45px', height: '45px', display: 'block', margin: '0 10px' }} alt="" />
-              <img src={shape} style={{ width: '45px', height: '45px', display: 'block', margin: '0 10px' }} alt="" />
-              <img src={shape} style={{ width: '45px', height: '45px', display: 'block', margin: '0 10px' }} alt="" />
+              <ColorPicker
+                color={shapeColor}
+                onChange={color => dispatch(actions.selectShapeColor(color))}
+              />
+              <Scrollbars
+                style={{ width: '100%' }}
+                autoHide
+                hideTracksWhenNotNeeded
+              >
+                <div className="shapes">
+                  {availableShapes.map((shape, index) => <img src={shape} className="shape" key={index} alt=""
+                    onClick={() => dispatch(actions.insertShape(shape))}
+                  />)}
+                </div>
+              </Scrollbars>
             </div>
           </div>
         );
@@ -267,8 +281,10 @@ function mapStateToProps(state) {
     textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,
     availableFonts: state.drawTool.availableFonts,
+    availableShapes: state.drawTool.availableShapes,
     layers: state.drawTool.layers,
     side: state.product.sideSelected,
+    shapeColor: state.drawTool.shapeColor,
   };
 }
 

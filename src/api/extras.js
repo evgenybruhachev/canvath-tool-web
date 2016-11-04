@@ -14,3 +14,14 @@ export const upload = (image) => {
     .catch(err => reject(err));
   });
 };
+
+export const getShapes = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/shapes?session=${session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+    .then(response => response.json().then(data => resolve(data.shapes)))
+    .catch(err => reject(err));
+  });
+};
