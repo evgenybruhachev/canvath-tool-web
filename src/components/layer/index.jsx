@@ -29,7 +29,7 @@ class Layer extends Component {
       } else {
         onFocus(uuid);
       }
-      return Object.assign(state, { active: !this.state.active })
+      return Object.assign(state, { active: !this.state.active });
     });
   }
 

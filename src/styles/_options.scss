@@ -28,14 +28,23 @@
   .shapes{
     width: calc(100% - 100px);
     white-space: nowrap;
-    height: 40px;
+    height: 60px;
     padding: 10px 0;
     .shape{
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       display: inline-block;
       margin: 0 10px;
+      cursor: pointer;
     }
+  }
+
+  .layers{
+    width: 100%;
+    white-space: nowrap;
+    height: 60px;
+    padding: 10px 0;
+    text-align: center;
   }
 
   .button{
