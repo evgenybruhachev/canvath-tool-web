@@ -114,5 +114,9 @@ export default handleActions({
     shapeColor: action.payload,
   }),
 
+  SELECT_SHAPE: (state, action) => Object.assign({}, state, {
+    shapeColor: action.payload.fill,
+  }),
+
 
 }, initialState);

@@ -107,6 +107,10 @@ class App extends Component {
       if (item.type === 'textbox') {
         dispatch(DrawToolActions.selectText(item));
       }
+
+      if (item.type.includes('path')) {
+        dispatch(DrawToolActions.selectShape(item));
+      }
     });
 
     DrawTool.on('selection:cleared', () => {

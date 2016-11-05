@@ -21,6 +21,9 @@ class ColorPicker extends Component {
     this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({ color: props.color });
+  }
   handleClick() {
     this.setState({ displayColorPicker: !this.state.displayColorPicker });
   }
