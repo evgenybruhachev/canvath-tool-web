@@ -25,3 +25,25 @@ export const getShapes = () => {
     .catch(err => reject(err));
   });
 };
+
+export const getStickersCategories = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/stickers/categories?session=${session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+    .then(response => response.json().then(data => resolve(data.categories)))
+    .catch(err => reject(err));
+  });
+};
+
+export const getStickers = (id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/stickers?session=${session}&category_id=${id}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+    .then(response => response.json().then(data => resolve(data.stickers)))
+    .catch(err => reject(err));
+  });
+};

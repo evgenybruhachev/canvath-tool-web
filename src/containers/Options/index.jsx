@@ -5,14 +5,17 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import Layers from '../../components/layers';
 
+import Sticker from '../../components/sticker';
+
 import Button from '../../components/button';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
-import Layer from '../../components/layer';
 import Icon from '../../components/icon';
 import AddTextForm from '../../components/add-text-form';
 
 import * as actions from '../../actions/draw-tool';
+
+import { getStickers } from '../../api/extras';
 
 class Options extends Component {
 
@@ -30,12 +33,20 @@ class Options extends Component {
     shapeColor: React.PropTypes.string,
     text: React.PropTypes.string,
     textEl: React.PropTypes.object,
+    stickersCat: React.PropTypes.array,
+    stickers: React.PropTypes.array,
   }
 
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
 
+    this.getStickers = this.getStickers.bind(this);
+  }
+
+  getStickers(id) {
+    const { dispatch } = this.props;
+    getStickers(id).then(data => dispatch(actions.updateStickers(data)));
+  }
 
   render() {
     const {
@@ -52,6 +63,8 @@ class Options extends Component {
       shapeColor,
       text,
       textEl,
+      stickersCat,
+      stickers,
     } = this.props;
 
     let content;
@@ -185,16 +198,27 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <Button image={'https://vk.com/images/stickers/3375/512.png'} label={'persik'} />
-              <Button image={'https://vk.com/images/stickers/3375/512.png'} label={'persik'} />
-              <Button image={'https://vk.com/images/stickers/3375/512.png'} label={'persik'} />
+              {stickersCat.map((cat, index) => <Button
+                image={cat.image_url}
+                label={cat.title}
+                onClick={() => this.getStickers(cat.id)}
+                key={index}
+              />)}
             </div>
-            <div className="bottom">
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-              <Layer path="https://vk.com/images/stickers/3375/512.png" />
-            </div>
+            {stickers.length ? <div className="bottom">
+              <Scrollbars
+                style={{ width: '100%' }}
+                autoHide
+                hideTracksWhenNotNeeded
+              >
+                <div className="stickers">
+                  {stickers.map((sticker, index) => <Sticker
+                    path={sticker} key={index} onClick={url => dispatch(actions.insertImage(url))}
+                  />)}
+                </div>
+              </Scrollbars>
+            </div> : null
+            }
           </div>
         );
         break;
@@ -280,6 +304,8 @@ function mapStateToProps(state) {
     shapeColor: state.drawTool.shapeColor,
     text: state.drawTool.text,
     textEl: state.drawTool.textEl,
+    stickersCat: state.drawTool.stickersCat,
+    stickers: state.drawTool.stickers,
   };
 }
 

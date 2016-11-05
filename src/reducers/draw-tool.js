@@ -22,6 +22,8 @@ const initialState = {
   layersSelected: [],
   color: 'rgba(0, 162, 255, 1)',
   shapeColor: 'rgba(0, 162, 255, 1)',
+  stickersCat: [],
+  stickers: [],
 };
 
 export default handleActions({
@@ -35,6 +37,12 @@ export default handleActions({
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
     availableShapes: action.payload.map(shape => shape.DrawerShape.url),
+  }),
+  UPDATE_STICKERS_CATEGORIES: (state, action) => Object.assign({}, state, {
+    stickersCat: action.payload.map(cat => cat.DrawerStickerCategory),
+  }),
+  UPDATE_STICKERS: (state, action) => Object.assign({}, state, {
+    stickers: action.payload.map(cat => cat.DrawerSticker.image_url),
   }),
   SET_ACTIVE_TOOL: (state, action) => Object.assign({}, state, {
     activeTool: action.payload,

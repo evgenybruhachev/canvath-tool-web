@@ -132,7 +132,7 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected[action.payload]();
       break;
     case 'INSERT_IMAGE':
-      DrawTool.sides.selected.items.addImage(action.payload);
+      DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     case 'INSERT_SHAPE':
       console.log(shapeColor);

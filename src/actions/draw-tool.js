@@ -3,6 +3,7 @@ import { createAction } from 'redux-actions';
 export const updateBrushes = createAction('UPDATE_BRUSHES');
 export const updateFonts = createAction('UPDATE_FONTS');
 export const updateShapes = createAction('UPDATE_SHAPES');
+export const updateStickersCategories = createAction('UPDATE_STICKERS_CATEGORIES');
 export const upload = createAction('UPLOAD');
 
 export const insertImage = createAction('INSERT_IMAGE');
@@ -43,3 +44,5 @@ export const alignItem = createAction('ALIGN_ITEM');
 export const selectShapeColor = createAction('SELECT_SHAPE_COLOR');
 export const insertShape = createAction('INSERT_SHAPE');
 export const selectShape = createAction('SELECT_SHAPE');
+
+export const updateStickers = createAction('UPDATE_STICKERS');
