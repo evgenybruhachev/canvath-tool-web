@@ -42,3 +42,4 @@ export const alignItem = createAction('ALIGN_ITEM');
 
 export const selectShapeColor = createAction('SELECT_SHAPE_COLOR');
 export const insertShape = createAction('INSERT_SHAPE');
+export const selectShape = createAction('SELECT_SHAPE');
