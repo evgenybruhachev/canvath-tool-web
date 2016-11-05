@@ -21,7 +21,6 @@ class Options extends Component {
     availableBrushes: React.PropTypes.array,
     availableFonts: React.PropTypes.array,
     availableShapes: React.PropTypes.array,
-    drawMode: React.PropTypes.bool,
     activeBrush: React.PropTypes.string,
     brushOptions: React.PropTypes.object,
     textOptions: React.PropTypes.object,
@@ -45,7 +44,6 @@ class Options extends Component {
       availableFonts,
       availableShapes,
       activeBrush,
-      drawMode,
       textOptions,
       brushOptions,
       layers,
@@ -92,24 +90,10 @@ class Options extends Component {
               <DropDownM
                 label="Size"
                 value={brushOptions.width.toString()}
-                elements={Array(100).fill(null)
-                  .map((i, index) => ({ val: String(index + 1), node: <span>{index + 1}px</span> })
+                elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
+                  .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
                 )}
                 onChange={size => dispatch(actions.selectBrushSize(size))}
-              />
-              <DropDownM
-                label="Opacity"
-                value={brushOptions.opacity.toString()}
-                elements={Array(10).fill(null).map(
-                  (i, index) => ({ val: String((index + 1) / 10),
-                    node: <span>{(index + 1) * 10}%</span> })
-                )}
-                onChange={value => dispatch(actions.selectBrushOpacity(value))}
-              />
-              <Button
-                className="add-text"
-                label={drawMode ? 'Exit draw mode' : 'Enter draw mode'}
-                onClick={() => dispatch(actions.toggleDrawMode(!drawMode))}
               />
             </div>
           </div>
@@ -286,7 +270,6 @@ function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
     activeBrush: state.drawTool.activeBrush,
-    drawMode: state.drawTool.drawMode,
     brushOptions: state.drawTool.brushOptions,
     textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,

@@ -18,7 +18,7 @@ class ColorPicker extends Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
   handleClick() {
@@ -29,7 +29,7 @@ class ColorPicker extends Component {
     this.setState({ displayColorPicker: false });
   }
 
-  handleChange(color) {
+  handleChangeComplete(color) {
     const rgb = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a || 1})`;
     this.setState({ color: rgb });
     if (this.props.onChange) {
@@ -45,7 +45,7 @@ class ColorPicker extends Component {
         </div>
         { this.state.displayColorPicker ? <div className="popover">
           <div className="cover" onClick={this.handleClose} />
-          <SketchPicker presetColors={[]} color={this.state.color} onChange={this.handleChange} />
+          <SketchPicker presetColors={[]} color={this.state.color} onChangeComplete={this.handleChangeComplete} />
         </div> : null }
 
       </div>

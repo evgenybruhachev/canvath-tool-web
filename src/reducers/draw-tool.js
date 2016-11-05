@@ -2,13 +2,11 @@ import { handleActions } from 'redux-actions';
 
 const initialState = {
   activeTool: 'pointer',
-  activeBrush: 'pencilBrush',
+  activeBrush: '',
   brushOptions: {
     color: 'rgba(0, 162, 255, 1)',
-    width: 2,
-    opacity: 1,
+    width: 20,
   },
-  drawMode: false,
   textEl: null,
   text: '',
   textOptions: {
@@ -29,9 +27,11 @@ const initialState = {
 export default handleActions({
   UPDATE_BRUSHES: (state, action) => Object.assign({}, state, {
     availableBrushes: action.payload.map(brush => brush.DrawerBrush.value),
+    activeBrush: action.payload[0].DrawerBrush.value,
   }),
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
     availableFonts: action.payload.map(font => font.DrawerFont.title),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
     availableShapes: action.payload.map(shape => shape.DrawerShape.url),
@@ -50,10 +50,6 @@ export default handleActions({
   }),
   SELECT_BRUSH_OPACITY: (state, action) => Object.assign({}, state, {
     brushOptions: Object.assign({}, state.brushOptions, { opacity: action.payload }),
-  }),
-
-  TOGGLE_DRAW_MODE: (state, action) => Object.assign({}, state, {
-    drawMode: action.payload,
   }),
 
   SELECT_TEXT_COLOR: (state, action) => Object.assign({}, state, {

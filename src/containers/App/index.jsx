@@ -37,8 +37,8 @@ class App extends Component {
     products: React.PropTypes.array,
     colors: React.PropTypes.array,
     sides: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
     dispatch: React.PropTypes.func,
-    drawMode: React.PropTypes.bool,
   }
 
   constructor(props) {
@@ -123,7 +123,7 @@ class App extends Component {
       products,
       dispatch,
       colors,
-      drawMode,
+      activeTool,
     } = this.props;
 
     const items = [];
@@ -143,7 +143,7 @@ class App extends Component {
           <Toolbar />
 
           <MediaQuery query="(min-width: 769px)">
-            <Button disabled={drawMode} icon="trash" label={'全削除'} className={'trash'} onClick={() => dispatch(DrawToolActions.empty()) } />
+            <Button disabled={activeTool === 'brush'} icon="trash" label={'全削除'} className={'trash'} onClick={() => dispatch(DrawToolActions.empty()) } />
           </MediaQuery>
 
           <div className="app-container-inner">
@@ -270,7 +270,7 @@ function mapStateToProps(state) {
     product: state.product.product,
     colors: state.product.colors,
     sideSelected: state.product.sideSelected,
-    drawMode: state.drawTool.drawMode,
+    activeTool: state.drawTool.activeTool,
   };
 }
 
