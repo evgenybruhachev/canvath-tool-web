@@ -94,6 +94,7 @@ class App extends Component {
     getProduct(id).then((data) => dispatch(ProductActions.loadProduct(data)));
 
     DrawTool.on('history:update', (e) => {
+
       let data = {
         layers: DrawTool.sides.selected.layers.update(),
         side: JSON.parse(e).side.id,
@@ -116,6 +117,10 @@ class App extends Component {
 
     DrawTool.on('selection:cleared', () => {
       dispatch(DrawToolActions.selectTextOff());
+    });
+
+    DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
     });
   }
 

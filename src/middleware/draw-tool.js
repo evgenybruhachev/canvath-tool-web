@@ -9,6 +9,7 @@ export default store => next => (action) => {
     textOptions,
     layersSelected,
     shapeColor,
+    colorPickerColor,
   } = store.getState().drawTool;
 
   if (!isSelectedSide()) {
@@ -157,6 +158,12 @@ export default store => next => (action) => {
       }
       break;
     }
+    case 'TOGGLE_COLOR_PICKER':
+      DrawTool.sides.selected.colorPicker.active = action.payload;
+      break;
+    case 'REMOVE_COLOR':
+      DrawTool.sides.selected.items.selected.removeColor(colorPickerColor, 25);
+      break;
     default:
 
   }

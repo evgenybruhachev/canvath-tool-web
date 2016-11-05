@@ -24,6 +24,8 @@ const initialState = {
   shapeColor: 'rgba(0, 162, 255, 1)',
   stickersCat: [],
   stickers: [],
+  colorPickerColor: 'rgba(0, 162, 255, 1)',
+  colorPicker: false,
 };
 
 export default handleActions({
@@ -126,5 +128,12 @@ export default handleActions({
     shapeColor: action.payload.fill,
   }),
 
+  TOGGLE_COLOR_PICKER: (state, action) => Object.assign({}, state, {
+    colorPicker: action.payload,
+  }),
+
+  UPDATE_COLOR_PICKER: (state, action) => Object.assign({}, state, {
+    colorPickerColor: action.payload,
+  }),
 
 }, initialState);
