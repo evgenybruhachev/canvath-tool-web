@@ -4,7 +4,7 @@ const initialState = {
   activeTool: 'pointer',
   activeBrush: 'pencilBrush',
   brushOptions: {
-    color: '#ffaaff',
+    color: 'rgba(0, 162, 255, 1)',
     width: 2,
     opacity: 1,
   },
@@ -12,7 +12,7 @@ const initialState = {
   textEl: null,
   text: '',
   textOptions: {
-    color: '#ffaaff',
+    color: 'rgba(0, 162, 255, 1)',
     font: 'Verdana',
     size: 14,
     align: 'center',
@@ -22,7 +22,8 @@ const initialState = {
   },
   layers: {},
   layersSelected: [],
-  shapeColor: '#ffaaff',
+  color: 'rgba(0, 162, 255, 1)',
+  shapeColor: 'rgba(0, 162, 255, 1)',
 };
 
 export default handleActions({
