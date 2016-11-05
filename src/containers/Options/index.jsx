@@ -35,6 +35,8 @@ class Options extends Component {
     textEl: React.PropTypes.object,
     stickersCat: React.PropTypes.array,
     stickers: React.PropTypes.array,
+    colorPicker: React.PropTypes.bool,
+    colorPickerColor: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -65,6 +67,8 @@ class Options extends Component {
       textEl,
       stickersCat,
       stickers,
+      colorPicker,
+      colorPickerColor,
     } = this.props;
 
     let content;
@@ -251,9 +255,9 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <ColorPicker color="#ffaaff" />
-              <Button icon={'pipette'} label={'Pipette'} />
-              <Button icon={'close'} label={'Delete color'} />
+              <ColorPicker color={colorPickerColor} onChange={color => dispatch(actions.updateColorPicker(color))} />
+              <Button icon={'pipette'} label={'Pipette'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
+              <Button icon={'close'} label={'Delete color'} onClick={() => dispatch(actions.removeColor())} />
             </div>
           </div>
         );
@@ -306,6 +310,8 @@ function mapStateToProps(state) {
     textEl: state.drawTool.textEl,
     stickersCat: state.drawTool.stickersCat,
     stickers: state.drawTool.stickers,
+    colorPicker: state.drawTool.colorPicker,
+    colorPickerColor: state.drawTool.colorPickerColor,
   };
 }
 

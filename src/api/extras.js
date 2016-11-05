@@ -1,11 +1,11 @@
 import { HOST, session } from '../constants';
 
 export const upload = (image) => {
-  const formData = new FormData()
-  formData.append('image', image[0]);
-  formData.append('session', session);
-
   return new Promise((resolve, reject) => {
+    const formData = new FormData()
+    formData.append('image', image[0]);
+    formData.append('session', session);
+
     fetch(`${HOST}/designs/design/image/upload`, {
       method: 'POST',
       body: formData,

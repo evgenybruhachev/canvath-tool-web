@@ -46,3 +46,6 @@ export const insertShape = createAction('INSERT_SHAPE');
 export const selectShape = createAction('SELECT_SHAPE');
 
 export const updateStickers = createAction('UPDATE_STICKERS');
+export const toggleColorPicker = createAction('TOGGLE_COLOR_PICKER');
+export const updateColorPicker = createAction('UPDATE_COLOR_PICKER');
+export const removeColor = createAction('REMOVE_COLOR');
