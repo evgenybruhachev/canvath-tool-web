@@ -31,6 +31,7 @@ export const selectTextVertical = createAction('SELECT_TEXT_VERTICAL');
 export const selectText = createAction('SELECT_TEXT');
 export const selectTextOff = createAction('SELECT_TEXT_OFF');
 export const changeText = createAction('CHANGE_TEXT');
+export const changeTextVal = createAction('CHANGE_TEXT_VAL');
 
 export const updateLayers = createAction('UPDATE_LAYERS');
 

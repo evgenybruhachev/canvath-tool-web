@@ -193,6 +193,7 @@ class Options extends Component {
                 value={text}
                 selected={!!textEl}
                 onSubmit={val => dispatch(textEl ? actions.changeText(val) : actions.addText(val))}
+                onChange={val => dispatch(actions.changeTextVal(val))}
               />
             </div>
           </div>

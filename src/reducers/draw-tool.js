@@ -90,6 +90,9 @@ export default handleActions({
   CHANGE_TEXT: (state, action) => Object.assign({}, state, {
     text: action.payload,
   }),
+  CHANGE_TEXT_VAL: (state, action) => Object.assign({}, state, {
+    text: action.payload,
+  }),
   SELECT_TEXT: (state, action) => { console.log(action.payload.vertical); return Object.assign({}, state, {
     textEl: action.payload,
     text: action.payload.text,
