@@ -49,15 +49,15 @@ export default store => next => (action) => {
         fill: textOptions.color,
         textAlign: textOptions.align,
         editable: false,
+        vertical: textOptions.vertical,
       };
 
       let text = action.payload;
 
-      if (textOptions.vertical) {
+      if (options.vertical) {
         text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
       }
       DrawTool.sides.selected.items.addText(options, text);
-      DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
       break;
     }
     case 'CHANGE_TEXT': {
@@ -67,7 +67,7 @@ export default store => next => (action) => {
         if (textOptions.vertical) {
           text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
         }
-        DrawTool.sides.selected.items.selected.text(action.payload);
+        DrawTool.sides.selected.items.selected.text(text);
         DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
       }
       break;
@@ -91,14 +91,17 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected.fontStyle(action.payload ? 'italic' : 'normal');
       break;
     case 'SELECT_TEXT_VERTICAL': {
-      DrawTool.sides.selected.items.selected.item.vertical = action.payload;
-      let text = DrawTool.sides.selected.items.selected.text();
-      if (action.payload) {
-        text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
-      } else {
-        text = text.replace(/(\r\n|\n|\r)/gm, '');
+      if (DrawTool.sides.selected.items.selected.item) {
+        DrawTool.sides.selected.items.selected.item.vertical = action.payload;
+
+        let text = DrawTool.sides.selected.items.selected.text();
+        if (action.payload) {
+          text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
+        } else {
+          text = text.replace(/(\r\n|\n|\r)/gm, '');
+        }
+        DrawTool.sides.selected.items.selected.text(text);
       }
-      DrawTool.sides.selected.items.selected.text(text);
       break;
     }
     case 'UNDO':
@@ -129,6 +132,7 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.addImage(action.payload);
       break;
     case 'INSERT_SHAPE':
+      console.log(shapeColor);
       DrawTool.sides.selected.items.addSVG(`${action.payload}?_`, shapeColor);
       break;
     case 'SELECT_SHAPE_COLOR':

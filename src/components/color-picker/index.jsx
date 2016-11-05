@@ -13,6 +13,7 @@ class ColorPicker extends Component {
 
     this.state = {
       displayColorPicker: false,
+      color: props.color || 'rgba(0,162,255,1)',
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -29,24 +30,22 @@ class ColorPicker extends Component {
   }
 
   handleChange(color) {
-    this.setState({ color: color.hex });
-    if(this.props.onChange) {
-      this.props.onChange(color.hex);
-      this.setState({ color: null });
+    const rgb = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a || 1})`;
+    this.setState({ color: rgb });
+    if (this.props.onChange) {
+      this.props.onChange(rgb);
     }
   }
 
   render() {
-    const { color } = this.props;
-
     return (
       <div className="color-picker">
         <div className="swatch" onClick={this.handleClick}>
-          <div className="color" style={{ backgroundColor: (this.state.color || color) }} />
+          <div className="color" style={{ backgroundColor: this.state.color }} />
         </div>
         { this.state.displayColorPicker ? <div className="popover">
           <div className="cover" onClick={this.handleClose} />
-          <SketchPicker color={color || this.state.color} onChange={this.handleChange} />
+          <SketchPicker presetColors={[]} color={this.state.color} onChange={this.handleChange} />
         </div> : null }
 
       </div>

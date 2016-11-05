@@ -4,7 +4,7 @@ const initialState = {
   activeTool: 'pointer',
   activeBrush: 'pencilBrush',
   brushOptions: {
-    color: '#ffaaff',
+    color: 'rgba(0, 162, 255, 1)',
     width: 2,
     opacity: 1,
   },
@@ -12,7 +12,7 @@ const initialState = {
   textEl: null,
   text: '',
   textOptions: {
-    color: '#ffaaff',
+    color: 'rgba(0, 162, 255, 1)',
     font: 'Verdana',
     size: 14,
     align: 'center',
@@ -22,7 +22,8 @@ const initialState = {
   },
   layers: {},
   layersSelected: [],
-  shapeColor: '#ffaaff',
+  color: 'rgba(0, 162, 255, 1)',
+  shapeColor: 'rgba(0, 162, 255, 1)',
 };
 
 export default handleActions({
@@ -78,12 +79,12 @@ export default handleActions({
     textOptions: Object.assign({}, state.textOptions, { vertical: action.payload }),
   }),
   ADD_TEXT: (state, action) => Object.assign({}, state, {
-    text: '',
+    text: action.payload,
   }),
   CHANGE_TEXT: (state, action) => Object.assign({}, state, {
     text: action.payload,
   }),
-  SELECT_TEXT: (state, action) => Object.assign({}, state, {
+  SELECT_TEXT: (state, action) => { console.log(action.payload.vertical); return Object.assign({}, state, {
     textEl: action.payload,
     text: action.payload.text,
     textOptions: {
@@ -93,9 +94,9 @@ export default handleActions({
       align: action.payload.textAlign,
       bold: action.payload.fontWeight === 'bold',
       italic: action.payload.fontStyle === 'italic',
-      vertical: action.payload.vertical,
+      vertical: !!action.payload.vertical,
     },
-  }),
+  }); },
   SELECT_TEXT_OFF: (state, action) => Object.assign({}, state, {
     textEl: null,
     text: '',
