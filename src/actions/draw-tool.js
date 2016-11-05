@@ -38,6 +38,8 @@ export const updateLayers = createAction('UPDATE_LAYERS');
 export const focusLayer = createAction('FOCUS_LAYER');
 export const blurLayer = createAction('BLUR_LAYER');
 export const alignLayer = createAction('ALIGN_LAYER');
+export const sortLayers = createAction('SORT_LAYERS');
+
 export const alignItem = createAction('ALIGN_ITEM');
 
 export const selectShapeColor = createAction('SELECT_SHAPE_COLOR');

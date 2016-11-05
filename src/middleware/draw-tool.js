@@ -8,7 +8,7 @@ export default store => next => (action) => {
     brushOptions,
     textOptions,
     layersSelected,
-    shapeColor
+    shapeColor,
   } = store.getState().drawTool;
 
   if (!isSelectedSide()) {
@@ -61,23 +61,15 @@ export default store => next => (action) => {
       break;
     }
     case 'CHANGE_TEXT': {
-      const options = {
-        fontSize: textOptions.size,
-        fontFamily: textOptions.font,
-        fontStyle: textOptions.italic ? 'italic' : 'normal',
-        fontWeight: textOptions.bold ? 'bold' : 'normal',
-        fill: textOptions.color,
-        textAlign: textOptions.align,
-        editable: false,
-      };
-
       let text = action.payload;
 
-      if (textOptions.vertical) {
-        text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
+      if (text.length) {
+        if (textOptions.vertical) {
+          text = text.replace(/(\r\n|\n|\r)/gm, '').split('').join('\n');
+        }
+        DrawTool.sides.selected.items.selected.text(action.payload);
+        DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
       }
-      DrawTool.sides.selected.items.selected.text(action.payload);
-      DrawTool.sides.selected.items.selected.item.vertical = textOptions.vertical;
       break;
     }
     case 'SELECT_TEXT_COLOR':
@@ -137,11 +129,27 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.addImage(action.payload);
       break;
     case 'INSERT_SHAPE':
-      DrawTool.sides.selected.items.addSVG(action.payload, shapeColor);
+      DrawTool.sides.selected.items.addSVG(`${action.payload}?_`, shapeColor);
       break;
     case 'SELECT_SHAPE_COLOR':
       DrawTool.sides.selected.items.selected.fill(action.payload);
       break;
+    case 'SORT_LAYERS': {
+      let times;
+
+      if (action.payload.newIndex > action.payload.oldIndex) {
+        times = action.payload.newIndex - action.payload.oldIndex;
+        Array(times).fill(0).map(() => {
+          DrawTool.sides.selected.layers.bringForward.apply(DrawTool.sides.selected.layers, action.payload.items);
+        });
+      } else if (action.payload.newIndex < action.payload.oldIndex) {
+        times = action.payload.oldIndex - action.payload.newIndex;
+        Array(times).fill(0).map(() => {
+          DrawTool.sides.selected.layers.sendBackwards.apply(DrawTool.sides.selected.layers, action.payload.items);
+        });
+      }
+      break;
+    }
     default:
 
   }

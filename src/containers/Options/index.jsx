@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 
+import Layers from '../../components/layers';
+
 import Button from '../../components/button';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
@@ -104,11 +106,11 @@ class Options extends Component {
                 )}
                 onChange={value => dispatch(actions.selectBrushOpacity(value))}
               />
-            <Button
-              className="add-text"
-              label={drawMode ? 'Exit draw mode' : 'Enter draw mode'}
-              onClick={() => dispatch(actions.toggleDrawMode(!drawMode))}
-            />
+              <Button
+                className="add-text"
+                label={drawMode ? 'Exit draw mode' : 'Enter draw mode'}
+                onClick={() => dispatch(actions.toggleDrawMode(!drawMode))}
+              />
             </div>
           </div>
         );
@@ -225,8 +227,10 @@ class Options extends Component {
                 autoHide
                 hideTracksWhenNotNeeded
               >
+
                 <div className="shapes">
-                  {availableShapes.map((shape, index) => <img src={shape} className="shape" key={index} alt=""
+                  {availableShapes.map((shape, index) => <img
+                    src={shape} className="shape" key={index} alt=""
                     onClick={() => dispatch(actions.insertShape(shape))}
                   />)}
                 </div>
@@ -258,14 +262,12 @@ class Options extends Component {
               <Button icon={'align-right'} label={'Right'} onClick={() => dispatch(actions.alignLayer('toRight'))} />
             </div>
             <div className="bottom">
-              {
-                layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]
-                .map((layer, index) => <Layer
-                  path={layer.preview} uuid={layer.index} key={index}
-                  onBlur={id => dispatch(actions.blurLayer(id))}
-                  onFocus={id => dispatch(actions.focusLayer(id))}
-                />)
-              }
+              <Layers
+                items={side && layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]}
+                callbackNewOrder={(items, oldIndex, newIndex) => dispatch(actions.sortLayers({ items, oldIndex, newIndex }))}
+                onBlur={id => dispatch(actions.blurLayer(id))}
+                onFocus={id => dispatch(actions.focusLayer(id))}
+              />
             </div>
           </div>
         );
