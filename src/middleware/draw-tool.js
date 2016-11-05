@@ -134,6 +134,22 @@ export default store => next => (action) => {
     case 'SELECT_SHAPE_COLOR':
       DrawTool.sides.selected.items.selected.fill(action.payload);
       break;
+    case 'SORT_LAYERS': {
+      let times;
+
+      if (action.payload.newIndex > action.payload.oldIndex) {
+        times = action.payload.newIndex - action.payload.oldIndex;
+        Array(times).fill(0).map(() => {
+          DrawTool.sides.selected.layers.bringForward.apply(DrawTool.sides.selected.layers, action.payload.items);
+        });
+      } else if (action.payload.newIndex < action.payload.oldIndex) {
+        times = action.payload.oldIndex - action.payload.newIndex;
+        Array(times).fill(0).map(() => {
+          DrawTool.sides.selected.layers.sendBackwards.apply(DrawTool.sides.selected.layers, action.payload.items);
+        });
+      }
+      break;
+    }
     default:
 
   }

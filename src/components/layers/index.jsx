@@ -102,7 +102,6 @@ export default class Layers extends Component {
   onClickCallback(index, uuid, event) {
     const newSelection = this.state.selection;
     const testIndex = newSelection.indexOf(index);
-    // if (!this.state.selection.length) {
     if (testIndex === -1) {
       newSelection.push(index);
       this.props.onFocus(uuid);
@@ -110,9 +109,6 @@ export default class Layers extends Component {
       this.props.onBlur(uuid);
       newSelection.splice(testIndex, 1);
     }
-    // } else {
-    //   newSelection = [index];
-    // }
     this.setState({
       selected: index,
       selection: newSelection.sort((a, b) => a - b),
@@ -162,20 +158,24 @@ export default class Layers extends Component {
         let newOrder = [];
         const toPushInNewOrderLater = [];
         for (let idx = 0; idx < this.state.items.length; idx += 1) {
+          const item = `${idx}-${this.state.items[idx].index}`;
           if (this.state.selection.indexOf(idx) === -1) {
             if (_newIndex > oldIndex) {
               if (idx <= _newIndex) {
-                newOrder.push(idx);
+                newOrder.push(item);
               } else if (idx > _newIndex) {
-                toPushInNewOrderLater.push(idx);
+                toPushInNewOrderLater.push(item);
               }
             } else if (idx < _newIndex) {
-              newOrder.push(idx);
+              newOrder.push(item);
             } else if (idx >= _newIndex) {
-              toPushInNewOrderLater.push(idx);
+              toPushInNewOrderLater.push(item);
             }
           }
         }
+
+        const selectedItems = this.state.selection.map(idx => this.state.items[idx].index);
+
         newOrder = newOrder.concat(this.state.selection).concat(toPushInNewOrderLater);
 
         const newitems = this.state.items;
@@ -213,7 +213,7 @@ export default class Layers extends Component {
           movingstarted: false,
         });
 
-        this.props.callbackNewOrder(newOrder);
+        this.props.callbackNewOrder(selectedItems, oldIndex, newIndex);
       }
     }
   }

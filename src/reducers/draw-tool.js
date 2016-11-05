@@ -94,7 +94,7 @@ export default handleActions({
       bold: action.payload.fontWeight === 'bold',
       italic: action.payload.fontStyle === 'italic',
       vertical: action.payload.vertical,
-    }
+    },
   }),
   SELECT_TEXT_OFF: (state, action) => Object.assign({}, state, {
     textEl: null,

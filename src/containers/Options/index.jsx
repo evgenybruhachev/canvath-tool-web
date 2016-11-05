@@ -264,7 +264,7 @@ class Options extends Component {
             <div className="bottom">
               <Layers
                 items={side && layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]}
-                callbackNewOrder={oldIndexesWithNewOrder => console.log(oldIndexesWithNewOrder)}
+                callbackNewOrder={(items, oldIndex, newIndex) => dispatch(actions.sortLayers({ items, oldIndex, newIndex }))}
                 onBlur={id => dispatch(actions.blurLayer(id))}
                 onFocus={id => dispatch(actions.focusLayer(id))}
               />
