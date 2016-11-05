@@ -12,10 +12,20 @@ class AddTextForm extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      value: props.value || '',
+      selected: props.selected || false,
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.value,
+      selected: nextProps.selected,
+    });
   }
 
   handleChange(event) {
@@ -25,22 +35,19 @@ class AddTextForm extends Component {
   handleSubmit() {
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.value);
-      this.setState({ value: '' });
     }
   }
 
   render() {
-    const { selected, value } = this.props;
-
     return (
       <div>
         <input
-          value={this.state.value || value}
+          value={this.state.value}
           onChange={this.handleChange}
           className="add-text-input"
         />
         <Button
-          label={selected ? 'Edit Text' : 'Add Text'}
+          label={this.state.selected ? 'Edit Text' : 'Add Text'}
           onClick={this.handleSubmit}
           className="add-text"
         />

@@ -79,12 +79,12 @@ export default handleActions({
     textOptions: Object.assign({}, state.textOptions, { vertical: action.payload }),
   }),
   ADD_TEXT: (state, action) => Object.assign({}, state, {
-    text: '',
+    text: action.payload,
   }),
   CHANGE_TEXT: (state, action) => Object.assign({}, state, {
     text: action.payload,
   }),
-  SELECT_TEXT: (state, action) => Object.assign({}, state, {
+  SELECT_TEXT: (state, action) => { console.log(action.payload.vertical); return Object.assign({}, state, {
     textEl: action.payload,
     text: action.payload.text,
     textOptions: {
@@ -94,9 +94,9 @@ export default handleActions({
       align: action.payload.textAlign,
       bold: action.payload.fontWeight === 'bold',
       italic: action.payload.fontStyle === 'italic',
-      vertical: action.payload.vertical,
+      vertical: !!action.payload.vertical,
     },
-  }),
+  }); },
   SELECT_TEXT_OFF: (state, action) => Object.assign({}, state, {
     textEl: null,
     text: '',
