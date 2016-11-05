@@ -219,29 +219,29 @@ export default class Layers extends Component {
   }
   render() {
     return (
-      <SortableList
-        uniqueIdToken={'layers'}
-        items={this.state.items}
-        selection={this.state.selection}
-        selected={this.state.selected}
-        helperClass="helper"
-        onClickCallback={this.onClickCallback}
-        onSortEnd={this.onSortEnd}
-        onSortStart={this.onSortStart}
-        onSortMove={this.onSortMove}
-        useDragHandle={false}
-        distance={10}
-        axis="x"
-      />
+      <Scrollbars
+        style={{ width: '100%' }}
+        autoHide
+        hideTracksWhenNotNeeded
+      >
+        <SortableList
+          uniqueIdToken={'layers'}
+          items={this.state.items}
+          selection={this.state.selection}
+          selected={this.state.selected}
+          helperClass="helper"
+          onClickCallback={this.onClickCallback}
+          onSortEnd={this.onSortEnd}
+          onSortStart={this.onSortStart}
+          onSortMove={this.onSortMove}
+          useDragHandle={false}
+          distance={10}
+          axis="x"
+        />
+      </Scrollbars>
     );
   }
 }
 
 
-      // <Scrollbars
-      //   style={{ width: '100%' }}
-      //   autoHide
-      //   hideTracksWhenNotNeeded
-      // >
-      //   <SortableList axis="x" items={this.state.items} onSortEnd={this.onSortEnd} />
-      // </Scrollbars>
+      //
