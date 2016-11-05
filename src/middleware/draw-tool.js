@@ -15,8 +15,19 @@ export default store => next => (action) => {
     return next(action);
   }
 
+  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'SELECT_TEXT_OFF')) {
+    DrawTool.sides.selected.items.finalizeBrush();
+  }
+
   switch (action.type) {
     case 'SET_ACTIVE_TOOL':
+      if (action.payload === 'brush' && isSelectedSide()) {
+        DrawTool.sides.selected.drawingMode(true);
+        DrawTool.sides.selected.items[activeBrush](brushOptions);
+      } else if (action.payload !== 'brush' && isSelectedSide()) {
+        DrawTool.sides.selected.drawingMode(false);
+      }
+
       if (action.payload === 'panning' && isSelectedSide()) {
         DrawTool.sides.selected.panning = true;
       } else if (action.payload !== 'panning' && isSelectedSide()) {
@@ -27,18 +38,10 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items[action.payload](brushOptions);
       break;
     case 'SELECT_BRUSH_SIZE':
-    case 'SELECT_BRUSH_OPACITY':
-    case 'SELECT_BRUSH_COLOR':
-      DrawTool.sides.selected.items[activeBrush](brushOptions);
+      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, {width: action.payload}));
       break;
-    case 'TOGGLE_DRAW_MODE':
-      if (action.payload) {
-        DrawTool.sides.selected.drawingMode(true);
-        DrawTool.sides.selected.items[activeBrush](brushOptions);
-      } else {
-        DrawTool.sides.selected.items.finalizeBrush();
-        DrawTool.sides.selected.drawingMode(false);
-      }
+    case 'SELECT_BRUSH_COLOR':
+      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, {color: action.payload}));
       break;
     case 'ADD_TEXT': {
       const options = {
