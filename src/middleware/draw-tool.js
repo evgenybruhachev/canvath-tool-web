@@ -18,7 +18,7 @@ export default store => next => (action) => {
     return next(action);
   }
 
-  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'SELECT_TEXT_OFF')) {
+  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'UNSELECT_ITEM')) {
     DrawTool.sides.selected.items.finalizeBrush();
   }
 

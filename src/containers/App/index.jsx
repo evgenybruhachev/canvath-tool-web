@@ -106,8 +106,6 @@ class App extends Component {
     });
 
     DrawTool.on('selection:cleared', () => {
-      console.log(activeTool);
-      if (activeTool === 'brush') return false;
       dispatch(DrawToolActions.unselectItem());
     });
 

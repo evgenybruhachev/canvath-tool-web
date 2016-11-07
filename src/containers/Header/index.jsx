@@ -7,6 +7,7 @@ import DropDown from '../../components/drop-down';
 import { getTemplates } from '../../api/products';
 
 import * as ProductActions from '../../actions/product';
+import * as DrawToolAction from '../../actions/draw-tool';
 
 class Header extends Component {
 
@@ -25,6 +26,7 @@ class Header extends Component {
     this.openCategorySelect = this.openCategorySelect.bind(this);
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
+    this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
   }
 
   openProductLoad() {
@@ -47,6 +49,14 @@ class Header extends Component {
     const { dispatch } = this.props;
     dispatch(ProductActions.selectSide(id));
   }
+
+  handleSaveTemplate() {
+    const { dispatch } = this.props;
+    dispatch(DrawToolAction.setActiveTool('pointer'));
+
+    setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+  }
+
   render() {
     const { colors, colorSelected, sideSelected, product, dispatch } = this.props;
 
@@ -54,7 +64,7 @@ class Header extends Component {
       <div className="app-header">
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
         <Button icon="poster" label="開く" onClick={this.openProductLoad} />
-        <Button icon="save" label="開く" onClick={() => dispatch(ProductActions.saveTemplate())} />
+        <Button icon="save" label="開く" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'Type'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown
           label={colorSelected ? <div className="list-item">
