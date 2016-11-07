@@ -1,5 +1,7 @@
 import DrawTool from '../draw-tool/drawtool';
 
+window.DrawTool = DrawTool;
+
 const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
 
 export default store => next => (action) => {
@@ -22,17 +24,21 @@ export default store => next => (action) => {
 
   switch (action.type) {
     case 'SET_ACTIVE_TOOL':
-      if (action.payload === 'brush' && isSelectedSide()) {
-        DrawTool.sides.selected.drawingMode(true);
-        DrawTool.sides.selected.items[activeBrush](brushOptions);
-      } else if (action.payload !== 'brush' && isSelectedSide()) {
+
+      console.log(action.payload === 'panning');
+
+      if (action.payload === 'panning') {
         DrawTool.sides.selected.drawingMode(false);
+        DrawTool.sides.selected.panning = true;
+      } else {
+        DrawTool.sides.selected.panning = false;
       }
 
-      if (action.payload === 'panning' && isSelectedSide()) {
-        DrawTool.sides.selected.panning = true;
-      } else if (action.payload !== 'panning' && isSelectedSide()) {
-        DrawTool.sides.selected.panning = false;
+      if (action.payload === 'brush') {
+        DrawTool.sides.selected.drawingMode(true);
+        DrawTool.sides.selected.items[activeBrush](brushOptions);
+      } else {
+        DrawTool.sides.selected.drawingMode(false);
       }
       break;
     case 'SELECT_BRUSH':
