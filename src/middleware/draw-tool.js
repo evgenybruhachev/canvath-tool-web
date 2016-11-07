@@ -39,10 +39,10 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items[action.payload](brushOptions);
       break;
     case 'SELECT_BRUSH_SIZE':
-      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, {width: action.payload}));
+      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, { width: action.payload }));
       break;
     case 'SELECT_BRUSH_COLOR':
-      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, {color: action.payload}));
+      DrawTool.sides.selected.items[activeBrush](Object.assign(brushOptions, { color: action.payload }));
       break;
     case 'ADD_TEXT': {
       const options = {
