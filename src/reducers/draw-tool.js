@@ -121,7 +121,7 @@ export default handleActions({
     let text = {};
     let shape = {};
 
-    if (action.payload.type === 'textbox') {
+    if (action.payload.type.includes('text')) {
       text = {
         textEl: action.payload,
         text: action.payload.text,

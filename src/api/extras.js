@@ -3,7 +3,7 @@ import { HOST, session } from '../constants';
 export const upload = (image) => {
   return new Promise((resolve, reject) => {
     const formData = new FormData()
-    formData.append('image', image[0]);
+    formData.append('image', image);
     formData.append('session', session);
 
     fetch(`${HOST}/designs/design/image/upload`, {
@@ -11,6 +11,22 @@ export const upload = (image) => {
       body: formData,
     })
     .then(response => response.json().then(data => resolve(data.image_url)))
+    .catch(err => reject(err));
+  });
+};
+
+export const uploadByString = (mime_type, content, extension) => {
+  const data = {
+    session,
+    File: { mime_type, content, extension },
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/designs/design/file/upload`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json().then(data => resolve(data.file_url)))
     .catch(err => reject(err));
   });
 };

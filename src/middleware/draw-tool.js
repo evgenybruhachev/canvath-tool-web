@@ -142,7 +142,6 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     case 'INSERT_SHAPE':
-      console.log(shapeColor);
       DrawTool.sides.selected.items.addSVG(`${action.payload}?_`, shapeColor);
       break;
     case 'SELECT_SHAPE_COLOR':
@@ -169,6 +168,7 @@ export default store => next => (action) => {
       break;
     case 'REMOVE_COLOR':
       DrawTool.sides.selected.items.selected.removeColor(colorPickerColor, 25);
+      DrawTool.sides.selected.colorPicker.active = false;
       break;
     default:
 

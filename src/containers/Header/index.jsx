@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Button from '../../components/button';
 import DropDown from '../../components/drop-down';
 
+import { getTemplates } from '../../api/products';
+
 import * as ProductActions from '../../actions/product';
 
 class Header extends Component {
@@ -27,6 +29,7 @@ class Header extends Component {
 
   openProductLoad() {
     const { dispatch } = this.props;
+    getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
     dispatch(ProductActions.toggleLoadProductContainer(true));
   }
 
@@ -45,13 +48,13 @@ class Header extends Component {
     dispatch(ProductActions.selectSide(id));
   }
   render() {
-    const { colors, colorSelected, sideSelected, product } = this.props;
+    const { colors, colorSelected, sideSelected, product, dispatch } = this.props;
 
     return (
       <div className="app-header">
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
         <Button icon="poster" label="開く" onClick={this.openProductLoad} />
-        <Button icon="save" label="開く" />
+        <Button icon="save" label="開く" onClick={() => dispatch(ProductActions.saveTemplate())} />
         <DropDown label={product ? product.title : 'Type'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown
           label={colorSelected ? <div className="list-item">

@@ -1,5 +1,7 @@
 import DrawTool from '../draw-tool/drawtool';
 import escapeJSON from '../utils/escapeJSON';
+import { uploadByString } from '../api/extras';
+import { saveTemplate } from '../api/products';
 
 export default store => next => (action) => {
   const { colors, colorSelected, sideSelected } = store.getState().product;
@@ -38,9 +40,27 @@ export default store => next => (action) => {
               fSide.setBorder(sideProps.border);
               fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
             });
-        })
-        DrawTool.sides.select(action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase())
+        });
+
+        DrawTool.sides.select(
+          action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase()
+        );
       }
+      break;
+    }
+    case 'SAVE_TEMPLATE': {
+      DrawTool.sides.selected.items.finalizeBrush();
+      const imgB64 = DrawTool.sides.selected.getImagePreview();
+      DrawTool.sides.selected.toSVG((svg) => {
+        Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg, 'svg')]).then((values) => {
+          saveTemplate(values[0], values[1]);
+        });
+      });
+      break;
+    }
+
+    case 'APPLY_TEMPLATE': {
+      DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     }
     default:

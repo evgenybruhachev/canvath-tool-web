@@ -36,6 +36,7 @@ class App extends Component {
     sides: React.PropTypes.object,
     activeTool: React.PropTypes.string,
     dispatch: React.PropTypes.func,
+    templates: React.PropTypes.array,
   }
 
   constructor(props) {
@@ -86,7 +87,7 @@ class App extends Component {
   }
 
   loadProduct(id) {
-    const { dispatch } = this.props;
+    const { dispatch, activeTool } = this.props;
 
     getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
 
@@ -105,7 +106,8 @@ class App extends Component {
     });
 
     DrawTool.on('selection:cleared', () => {
-      dispatch(DrawToolActions.selectTextOff());
+      console.log(activeTool);
+      if (activeTool === 'brush') return false;
       dispatch(DrawToolActions.unselectItem());
     });
 
@@ -124,6 +126,7 @@ class App extends Component {
       dispatch,
       colors,
       activeTool,
+      templates,
     } = this.props;
 
     const items = [];
@@ -155,10 +158,10 @@ class App extends Component {
             title={'テンプレート'}
             close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
           >
-            { items.map((item, index) => <ProductCard
+            { templates && templates.map((item, index) => <ProductCard
               key={index}
-              image={item.img}
-              images={item.previews}
+              image={item.image_url}
+              onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
             />) }
           </ProductLoad> : null }
 
@@ -171,10 +174,10 @@ class App extends Component {
             close={this.mobileClose}
             back={this.mobileBack}
           >
-            {items.map((item, index) => <ProductCard
+            { templates && templates.map((item, index) => <ProductCard
               key={index}
-              image={item.img}
-              images={item.previews}
+              image={item.image_url}
+              onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
             />)}
           </ProductLoad> : null }
 
@@ -267,6 +270,7 @@ function mapStateToProps(state) {
     colors: state.product.colors,
     sideSelected: state.product.sideSelected,
     activeTool: state.drawTool.activeTool,
+    templates: state.product.templates,
   };
 }
 
