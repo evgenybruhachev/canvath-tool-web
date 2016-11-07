@@ -93,6 +93,7 @@ class Toolbar extends Component {
             <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
             <Button icon="opacity" label={'カラー削除'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
             <Button icon="layers" label={'レイヤ'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
+            <Button icon="delete" label={'全削除'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.empty())} />
           </div>
         </Scrollbars>
       );

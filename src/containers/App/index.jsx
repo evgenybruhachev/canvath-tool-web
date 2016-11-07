@@ -142,10 +142,6 @@ class App extends Component {
         <div className="app-container">
           <Toolbar />
 
-          <MediaQuery query="(min-width: 769px)">
-            <Button disabled={activeTool === 'brush'} icon="trash" label={'全削除'} className={'trash'} onClick={() => dispatch(DrawToolActions.empty()) } />
-          </MediaQuery>
-
           <div className="app-container-inner">
             <Options />
             <DrawToolComponent colors={colors} />
