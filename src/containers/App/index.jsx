@@ -47,6 +47,10 @@ class App extends Component {
     this.mobileClose = this.mobileClose.bind(this);
     this.mobileBack = this.mobileBack.bind(this);
     this.loadProduct = this.loadProduct.bind(this);
+
+    this.state = {
+      category: '',
+    }
   }
 
   componentWillMount() {
@@ -58,9 +62,12 @@ class App extends Component {
     getStickersCategories().then(data => dispatch(DrawToolActions.updateStickersCategories(data)));
   }
 
-  goToCategory(id) {
+  goToCategory(id, title) {
     const { dispatch } = this.props;
-    getProductsByCategory(id).then(data => dispatch(ProductActions.loadProducts(data)));
+    getProductsByCategory(id).then(data => {
+      this.setState((state) => Object.assign({}, state, { category: title }));
+      dispatch(ProductActions.loadProducts(data))
+    });
     dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
     dispatch(ProductActions.toggleLoadProductTypeContainer(true));
   }
@@ -193,13 +200,13 @@ class App extends Component {
               title={item.Category.title}
               image={item.Category.image_url}
               actionTitle={'選択'}
-              onClick={() => this.goToCategory(item.Category.id)}
+              onClick={() => this.goToCategory(item.Category.id, item.Category.title)}
             />)}
           </ProductLoad> : null }
 
 
           { loadProductTypeContainer ? <ProductLoad
-            title={'Select type'}
+            title={this.state.category}
             close={() => dispatch(ProductActions.toggleLoadProductTypeContainer(false))}
             back={this.typeSelectorBack}
           >
@@ -226,13 +233,13 @@ class App extends Component {
               title={item.Category.title}
               image={item.Category.image_url}
               actionTitle={'選択'}
-              onClick={() => this.goToCategory(item.Category.id)}
+              onClick={() => this.goToCategory(item.Category.id, item.Category.title)}
             />)}
           </ProductLoad> : null }
 
 
           { loadProductTypeContainer ? <ProductLoad
-            title={'Select type'}
+            title={this.state.category}
             close={this.mobileClose}
             back={this.typeSelectorBack}
           >

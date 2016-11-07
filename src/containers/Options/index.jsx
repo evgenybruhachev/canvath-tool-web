@@ -80,12 +80,12 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <Button icon={'align-top'} label={'Top'} onClick={() => dispatch(actions.alignItem('toTop'))} />
-              <Button icon={'align-ver-center'} label={'Vertical Center'} onClick={() => dispatch(actions.alignItem('toVCenter'))} />
-              <Button icon={'align-bottom'} label={'Bottom'} onClick={() => dispatch(actions.alignItem('toBottom'))} />
-              <Button icon={'align-left'} label={'Left'} onClick={() => dispatch(actions.alignItem('toLeft'))} />
-              <Button icon={'align-hor-center'} label={'Horizontal Center'} onClick={() => dispatch(actions.alignItem('toHCenter'))} />
-              <Button icon={'align-right'} label={'Right'} onClick={() => dispatch(actions.alignItem('toRight'))} />
+              <Button icon={'align-top'} label={'上'} onClick={() => dispatch(actions.alignItem('toTop'))} />
+              <Button icon={'align-ver-center'} label={'横真ん中'} onClick={() => dispatch(actions.alignItem('toVCenter'))} />
+              <Button icon={'align-bottom'} label={'下'} onClick={() => dispatch(actions.alignItem('toBottom'))} />
+              <Button icon={'align-left'} label={'左'} onClick={() => dispatch(actions.alignItem('toLeft'))} />
+              <Button icon={'align-hor-center'} label={'縦真ん中'} onClick={() => dispatch(actions.alignItem('toHCenter'))} />
+              <Button icon={'align-right'} label={'右'} onClick={() => dispatch(actions.alignItem('toRight'))} />
             </div>
           </div>
         );
@@ -107,7 +107,7 @@ class Options extends Component {
                 onChange={color => dispatch(actions.selectBrushColor(color))}
               />
               <DropDownM
-                label="Size"
+                label="サイズ"
                 value={brushOptions.width.toString()}
                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
                   .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
@@ -129,7 +129,7 @@ class Options extends Component {
               />
 
               <DropDownM
-                label="Font"
+                label="フォント"
                 value={textOptions.font}
                 elements={availableFonts.map(font => ({ val: font,
                   node: <span style={{ fontFamily: font }}>{font}</span> }))}
@@ -137,7 +137,7 @@ class Options extends Component {
               />
 
               <DropDownM
-                label="Size"
+                label="サイズ"
                 value={textOptions.size.toString()}
                 elements={[6, 8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72]
                   .map(size => ({ val: size.toString(), node: <span>{size}</span> }))}
@@ -152,39 +152,39 @@ class Options extends Component {
               /> */}
               <Button
                 icon={'text-align-left'}
-                label={'Left'}
+                label={'左'}
                 onClick={() => dispatch(actions.selectTextAlign('left'))}
                 active={textOptions.align === 'left'}
               />
               <Button
                 icon={'text-align-center'}
-                label={'Center'}
+                label={'真ん中'}
                 onClick={() => dispatch(actions.selectTextAlign('center'))}
                 active={textOptions.align === 'center'}
               />
               <Button
                 icon={'text-align-right'}
-                label={'Right'}
+                label={'右'}
                 onClick={() => dispatch(actions.selectTextAlign('right'))}
                 active={textOptions.align === 'right'}
               />
 
               <Button
                 icon={'text-bold'}
-                label={'Bold'}
+                label={'ボールド'}
                 onClick={() => dispatch(actions.selectTextBold(!textOptions.bold))}
                 active={textOptions.bold}
               />
               <Button
                 icon={'text-italic'}
-                label={'Italic'}
+                label={'イタリック'}
                 onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
                 active={textOptions.italic}
               />
 
               <Button
                 icon={'text-vertical'}
-                label={'Vertical text'}
+                label={'縦書'}
                 onClick={() => dispatch(actions.selectTextVertical(!textOptions.vertical))}
                 active={textOptions.vertical}
               />
@@ -255,7 +255,7 @@ class Options extends Component {
         );
         break;
       case 'removeColor':
-        if(!selected){
+        if (!selected) {
           content = (
             <div className="options">
               <div className="top">
@@ -268,8 +268,8 @@ class Options extends Component {
             <div className="options">
               <div className="top">
                 <ColorPicker color={colorPickerColor} onChange={color => dispatch(actions.updateColorPicker(color))} />
-                <Button icon={'pipette'} label={'Pipette'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
-                <Button icon={'close'} label={'Delete color'} onClick={() => dispatch(actions.removeColor())} />
+                <Button icon={'pipette'} label={'色選択'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
+                <Button icon={'close'} label={'カラー透明化'} onClick={() => dispatch(actions.removeColor())} />
               </div>
             </div>
           );
@@ -279,12 +279,12 @@ class Options extends Component {
         content = (
           <div className="options">
             <div className="top">
-              <Button icon={'align-top'} label={'Top'} onClick={() => dispatch(actions.alignLayer('toTop'))} />
-              <Button icon={'align-ver-center'} label={'Vertical Center'} onClick={() => dispatch(actions.alignLayer('toVCenter'))} />
-              <Button icon={'align-bottom'} label={'Bottom'} onClick={() => dispatch(actions.alignLayer('toBottom'))} />
-              <Button icon={'align-left'} label={'Left'} onClick={() => dispatch(actions.alignLayer('toLeft'))} />
-              <Button icon={'align-hor-center'} label={'Horizontal Center'} onClick={() => dispatch(actions.alignLayer('toHCenter'))} />
-              <Button icon={'align-right'} label={'Right'} onClick={() => dispatch(actions.alignLayer('toRight'))} />
+              <Button icon={'align-top'} label={'上'} onClick={() => dispatch(actions.alignLayer('toTop'))} />
+              <Button icon={'align-ver-center'} label={'横真ん中'} onClick={() => dispatch(actions.alignLayer('toVCenter'))} />
+              <Button icon={'align-bottom'} label={'下'} onClick={() => dispatch(actions.alignLayer('toBottom'))} />
+              <Button icon={'align-left'} label={'左'} onClick={() => dispatch(actions.alignLayer('toLeft'))} />
+              <Button icon={'align-hor-center'} label={'縦真ん中'} onClick={() => dispatch(actions.alignLayer('toHCenter'))} />
+              <Button icon={'align-right'} label={'右'} onClick={() => dispatch(actions.alignLayer('toRight'))} />
             </div>
             <div className="bottom">
               <Layers
