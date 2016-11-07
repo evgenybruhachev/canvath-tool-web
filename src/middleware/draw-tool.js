@@ -119,7 +119,9 @@ export default store => next => (action) => {
       DrawTool.history.redo(DrawTool.sides.selected.id);
       break;
     case 'EMPTY':
-      DrawTool.sides.selected.items.empty();
+      if(window.confirm('全てを削除しますか？')){
+        DrawTool.sides.selected.items.empty();
+      }
       break;
     case 'ZOOM_IN':
       DrawTool.sides.selected.zoomIn();

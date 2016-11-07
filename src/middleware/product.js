@@ -22,7 +22,7 @@ export default store => next => (action) => {
       DrawTool.sides.select(sideSelected.title.toLowerCase());
       break;
     }
-    case 'SELECT_SIDE':{
+    case 'SELECT_SIDE': {
       const sideObj = colors.find(color => color.ProductColor.id === colorSelected.id).sides
         .find(side => side.ProductColorSide.id === action.payload).ProductColorSide;
       DrawTool.sides.select(sideObj.title.toLowerCase());
