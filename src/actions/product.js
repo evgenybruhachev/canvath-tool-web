@@ -9,3 +9,4 @@ export const loadProducts = createAction('LOAD_PRODUCTS');
 export const selectColor = createAction('SELECT_COLOR');
 export const selectSide = createAction('SELECT_SIDE');
 export const loadProduct = createAction('LOAD_PRODUCT');
+export const saveTemplate = createAction('SAVE_TEMPLATE');
