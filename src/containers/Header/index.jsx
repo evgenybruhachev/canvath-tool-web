@@ -63,9 +63,9 @@ class Header extends Component {
     return (
       <div className="app-header">
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
-        <Button icon="poster" label="開く" onClick={this.openProductLoad} />
-        <Button icon="save" label="開く" onClick={this.handleSaveTemplate} />
-        <DropDown label={product ? product.title : 'Type'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
+        <Button icon="poster" label="保存画像を開く" onClick={this.openProductLoad} />
+        <Button icon="save" label="画像を保存する" onClick={this.handleSaveTemplate} />
+        <DropDown label={product ? product.title : '商品未選択'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown
           label={colorSelected ? <div className="list-item">
             <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
@@ -90,7 +90,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button icon="cart" label="5000" className="cart-button" />
+        <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" />
       </div>
     );
   }

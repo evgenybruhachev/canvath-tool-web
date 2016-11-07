@@ -21,7 +21,10 @@ function IconButton({ label, icon, image, onClick, disabled, active = false, typ
 }
 
 IconButton.propTypes = {
-  label: React.PropTypes.string,
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element,
+  ]),
   icon: React.PropTypes.string,
   image: React.PropTypes.string,
   onClick: React.PropTypes.func,
