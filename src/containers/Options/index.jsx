@@ -37,6 +37,7 @@ class Options extends Component {
     stickers: React.PropTypes.array,
     colorPicker: React.PropTypes.bool,
     colorPickerColor: React.PropTypes.string,
+    selected: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -69,6 +70,7 @@ class Options extends Component {
       stickers,
       colorPicker,
       colorPickerColor,
+      selected,
     } = this.props;
 
     let content;
@@ -253,15 +255,25 @@ class Options extends Component {
         );
         break;
       case 'removeColor':
-        content = (
-          <div className="options">
-            <div className="top">
-              <ColorPicker color={colorPickerColor} onChange={color => dispatch(actions.updateColorPicker(color))} />
-              <Button icon={'pipette'} label={'Pipette'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
-              <Button icon={'close'} label={'Delete color'} onClick={() => dispatch(actions.removeColor())} />
+        if(!selected){
+          content = (
+            <div className="options">
+              <div className="top">
+                画像を選びください
+              </div>
             </div>
-          </div>
-        );
+          );
+        } else {
+          content = (
+            <div className="options">
+              <div className="top">
+                <ColorPicker color={colorPickerColor} onChange={color => dispatch(actions.updateColorPicker(color))} />
+                <Button icon={'pipette'} label={'Pipette'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
+                <Button icon={'close'} label={'Delete color'} onClick={() => dispatch(actions.removeColor())} />
+              </div>
+            </div>
+          );
+        }
         break;
       case 'layers':
         content = (
@@ -313,6 +325,7 @@ function mapStateToProps(state) {
     stickers: state.drawTool.stickers,
     colorPicker: state.drawTool.colorPicker,
     colorPickerColor: state.drawTool.colorPickerColor,
+    selected: state.drawTool.selected,
   };
 }
 

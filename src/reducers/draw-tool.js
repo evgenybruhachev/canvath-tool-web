@@ -93,24 +93,6 @@ export default handleActions({
   CHANGE_TEXT_VAL: (state, action) => Object.assign({}, state, {
     text: action.payload,
   }),
-  SELECT_TEXT: (state, action) => { console.log(action.payload.vertical); return Object.assign({}, state, {
-    textEl: action.payload,
-    text: action.payload.text,
-    textOptions: {
-      color: action.payload.fill,
-      font: action.payload.fontFamily,
-      size: action.payload.fontSize,
-      align: action.payload.textAlign,
-      bold: action.payload.fontWeight === 'bold',
-      italic: action.payload.fontStyle === 'italic',
-      vertical: !!action.payload.vertical,
-    },
-  }); },
-  SELECT_TEXT_OFF: (state, action) => Object.assign({}, state, {
-    textEl: null,
-    text: '',
-  }),
-
   UPDATE_LAYERS: (state, action) => Object.assign({}, state, {
     layers: Object.assign({}, state.layers, { [action.payload.side]: action.payload.layers }),
     layersSelected: [],
@@ -127,16 +109,49 @@ export default handleActions({
     shapeColor: action.payload,
   }),
 
-  SELECT_SHAPE: (state, action) => Object.assign({}, state, {
-    shapeColor: action.payload.fill,
-  }),
-
   TOGGLE_COLOR_PICKER: (state, action) => Object.assign({}, state, {
     colorPicker: action.payload,
   }),
 
   UPDATE_COLOR_PICKER: (state, action) => Object.assign({}, state, {
     colorPickerColor: action.payload,
+  }),
+
+  SELECT_ITEM: (state, action) => {
+    let text = {};
+    let shape = {};
+
+    if (action.payload.type === 'textbox') {
+      text = {
+        textEl: action.payload,
+        text: action.payload.text,
+        textOptions: {
+          color: action.payload.fill,
+          font: action.payload.fontFamily,
+          size: action.payload.fontSize,
+          align: action.payload.textAlign,
+          bold: action.payload.fontWeight === 'bold',
+          italic: action.payload.fontStyle === 'italic',
+          vertical: !!action.payload.vertical,
+        },
+      };
+    }
+
+    if (action.payload.type.includes('path')) {
+      shape = {
+        shapeColor: action.payload.fill,
+      };
+    }
+
+    return Object.assign({}, state, {
+      selected: action.payload,
+    }, text, shape);
+  },
+
+  UNSELECT_ITEM: (state, action) => Object.assign({}, state, {
+    textEl: null,
+    text: '',
+    selected: null,
   }),
 
 }, initialState);
