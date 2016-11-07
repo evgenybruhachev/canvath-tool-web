@@ -1,6 +1,6 @@
 import DrawTool from '../draw-tool/drawtool';
 import escapeJSON from '../utils/escapeJSON';
-import { upload } from '../api/extras';
+import { uploadByString } from '../api/extras';
 import { saveTemplate } from '../api/products';
 
 export default store => next => (action) => {
@@ -40,20 +40,27 @@ export default store => next => (action) => {
               fSide.setBorder(sideProps.border);
               fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
             });
-        })
-        DrawTool.sides.select(action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase())
+        });
+
+        DrawTool.sides.select(
+          action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase()
+        );
       }
       break;
     }
     case 'SAVE_TEMPLATE': {
-      const imgB64 = DrawTool.sides.selected.getPreview();
-      const imgPng = imgB64.split(',')[1];
-      const imgFile = new Blob([window.atob(imgPng)], { type: 'image/png', encoding: 'utf-8' });
-      DrawTool.sides.selected.toSVG(svg => {
-        Promise.all(upload(imgFile), upload(svg)).then(values => {
+      DrawTool.sides.selected.items.finalizeBrush();
+      const imgB64 = DrawTool.sides.selected.getImagePreview();
+      DrawTool.sides.selected.toSVG((svg) => {
+        Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg, 'svg')]).then((values) => {
           saveTemplate(values[0], values[1]);
         });
       });
+      break;
+    }
+
+    case 'APPLY_TEMPLATE': {
+      DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     }
     default:

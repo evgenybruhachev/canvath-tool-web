@@ -35,20 +35,30 @@ export const getProduct = (productId) => {
 
 export const saveTemplate = (image, svg) => {
   const payload = {
-    image_url: image,
-    content_url: svg,
+    session,
+    DesignTemplate: {
+      image_url: image,
+      content_url: svg,
+    },
   };
 
-  const formData = new FormData()
-  formData.append('session', session);
-  formData.append('DesignTemplate', JSON.stringify(payload));
-
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/designs/design/image/upload`, {
+    fetch(`${HOST}/designs/templates/template`, {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(payload),
     })
-    .then(response => response.json().then(data => resolve(data)))
+    .then(response => resolve(response))
+    .catch(err => reject(err));
+  });
+};
+
+export const getTemplates = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/designs/templates?session=${session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+    .then(response => response.json().then(data => resolve(data.templates)))
     .catch(err => reject(err));
   });
 };

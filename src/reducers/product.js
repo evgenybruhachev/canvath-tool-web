@@ -57,4 +57,12 @@ export default handleActions({
     .find(side => side.ProductColorSide.id === action.payload).ProductColorSide,
   }),
 
+  UPDATE_TEMPLATES: (state, action) => Object.assign({}, state, {
+    templates: action.payload.map(template => template.DesignTemplate)
+  }),
+
+  APPLY_TEMPLATE: (state, action) => Object.assign({}, state, {
+    loadProductContainer: false,
+  }),
+
 }, initialState);

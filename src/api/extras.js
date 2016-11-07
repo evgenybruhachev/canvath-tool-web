@@ -15,6 +15,22 @@ export const upload = (image) => {
   });
 };
 
+export const uploadByString = (mime_type, content, extension) => {
+  const data = {
+    session,
+    File: { mime_type, content, extension },
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/designs/design/file/upload`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json().then(data => resolve(data.file_url)))
+    .catch(err => reject(err));
+  });
+};
+
 export const getShapes = () => {
   return new Promise((resolve, reject) => {
     fetch(`${HOST}/drawer/shapes?session=${session}`, {

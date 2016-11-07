@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Button from '../../components/button';
 import DropDown from '../../components/drop-down';
 
+import { getTemplates } from '../../api/products';
+
 import * as ProductActions from '../../actions/product';
 
 class Header extends Component {
@@ -27,6 +29,7 @@ class Header extends Component {
 
   openProductLoad() {
     const { dispatch } = this.props;
+    getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
     dispatch(ProductActions.toggleLoadProductContainer(true));
   }
 
