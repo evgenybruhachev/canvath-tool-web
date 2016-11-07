@@ -101,18 +101,12 @@ class App extends Component {
 
     DrawTool.on('object:selected', () => {
       const item = DrawTool.sides.selected.items.selected.item;
-
-      if (item.type === 'textbox') {
-        dispatch(DrawToolActions.selectText(item));
-      }
-
-      if (item.type.includes('path')) {
-        dispatch(DrawToolActions.selectShape(item));
-      }
+      dispatch(DrawToolActions.selectItem(item));
     });
 
     DrawTool.on('selection:cleared', () => {
       dispatch(DrawToolActions.selectTextOff());
+      dispatch(DrawToolActions.unselectItem());
     });
 
     DrawTool.on('colorpicker:update', (color) => {

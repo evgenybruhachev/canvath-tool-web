@@ -50,3 +50,6 @@ export const updateStickers = createAction('UPDATE_STICKERS');
 export const toggleColorPicker = createAction('TOGGLE_COLOR_PICKER');
 export const updateColorPicker = createAction('UPDATE_COLOR_PICKER');
 export const removeColor = createAction('REMOVE_COLOR');
+
+export const selectItem = createAction('SELECT_ITEM');
+export const unselectItem = createAction('UNSELECT_ITEM');
