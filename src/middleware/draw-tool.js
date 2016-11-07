@@ -25,8 +25,6 @@ export default store => next => (action) => {
   switch (action.type) {
     case 'SET_ACTIVE_TOOL':
 
-      console.log(action.payload === 'panning');
-
       if (action.payload === 'panning') {
         DrawTool.sides.selected.drawingMode(false);
         DrawTool.sides.selected.panning = true;

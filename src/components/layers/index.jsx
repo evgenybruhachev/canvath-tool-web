@@ -124,6 +124,7 @@ export default class Layers extends Component {
     this.onSortMove = this.onSortMove.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
     this.getIsMobile = this.getIsMobile.bind(this);
+    this.shouldCancelStart = this.shouldCancelStart.bind(this);
   }
   componentDidMount() {
     window.addEventListener('resize', this.getIsMobile, false);
@@ -161,6 +162,11 @@ export default class Layers extends Component {
     });
     event.preventDefault();
     // return false;
+  }
+  shouldCancelStart(e) {
+    if (!e.target.className.includes('active')) {
+      return true;
+    }
   }
   onSortStart({ node, index, collection }, event) {
     if (this.state.selection.length) {
@@ -286,6 +292,7 @@ export default class Layers extends Component {
             useDragHandle={false}
             distance={10}
             axis="x"
+            shouldCancelStart={this.shouldCancelStart}
           />
         </Scrollbars>
       )
