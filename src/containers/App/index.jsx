@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import MediaQuery from 'react-responsive';
@@ -17,8 +16,6 @@ import Button from '../../components/button';
 import DrawTool from '../../draw-tool/drawtool';
 
 import DrawToolComponent from '../../components/draw-tool';
-
-import escapeJSON from '../../utils/escapeJSON';
 
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
@@ -89,13 +86,12 @@ class App extends Component {
   }
 
   loadProduct(id) {
-    const { dispatch, colors } = this.props;
+    const { dispatch } = this.props;
 
-    getProduct(id).then((data) => dispatch(ProductActions.loadProduct(data)));
+    getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
 
     DrawTool.on('history:update', (e) => {
-
-      let data = {
+      const data = {
         layers: DrawTool.sides.selected.layers.update(),
         side: JSON.parse(e).side.id,
       };
@@ -254,7 +250,7 @@ class App extends Component {
               title={item.Product.title}
               image={item.Product.image_url}
               images={item.Product.sides}
-              onClick={() => this.loadProduct(item.id)}
+              onClick={() => this.loadProduct(item.Product.id)}
             />)}
           </ProductLoad> : null }
 

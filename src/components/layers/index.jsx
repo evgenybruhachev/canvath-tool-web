@@ -83,12 +83,18 @@ export default class Layers extends Component {
       moving: false,
       movingstarted: false,
       items: props.items,
+      mobile: false,
     };
 
     this.onClickCallback = this.onClickCallback.bind(this);
     this.onSortStart = this.onSortStart.bind(this);
     this.onSortMove = this.onSortMove.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
+    this.getIsMobile = this.getIsMobile.bind(this);
+  }
+  componentDidMount() {
+    window.addEventListener('resize', this.getIsMobile, false);
+    this.getIsMobile();
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -98,6 +104,13 @@ export default class Layers extends Component {
       movingstarted: false,
       items: nextProps.items,
     });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.getIsMobile, false);
+  }
+  getIsMobile() {
+    this.setState(state => Object.assign(state,
+      { mobile: window.matchMedia('(max-width: 768px)').matches }));
   }
   onClickCallback(index, uuid, event) {
     const newSelection = this.state.selection;
@@ -218,12 +231,33 @@ export default class Layers extends Component {
     }
   }
   render() {
-    return (
-      <Scrollbars
-        style={{ width: '100%' }}
-        autoHide
-        hideTracksWhenNotNeeded
-      >
+    let view;
+
+    if (!this.state.mobile) {
+      view = (
+        <Scrollbars
+          style={{ width: '100%' }}
+          autoHide
+          hideTracksWhenNotNeeded
+        >
+          <SortableList
+            uniqueIdToken={'layers'}
+            items={this.state.items}
+            selection={this.state.selection}
+            selected={this.state.selected}
+            helperClass="helper"
+            onClickCallback={this.onClickCallback}
+            onSortEnd={this.onSortEnd}
+            onSortStart={this.onSortStart}
+            onSortMove={this.onSortMove}
+            useDragHandle={false}
+            distance={10}
+            axis="x"
+          />
+        </Scrollbars>
+      )
+    } else {
+      view = (
         <SortableList
           uniqueIdToken={'layers'}
           items={this.state.items}
@@ -238,10 +272,8 @@ export default class Layers extends Component {
           distance={10}
           axis="x"
         />
-      </Scrollbars>
-    );
+      )
+    }
+    return view;
   }
 }
-
-
-      //

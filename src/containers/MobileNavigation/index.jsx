@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import * as ProductActions from '../../actions/product';
+import * as DrawToolActions from '../../actions/draw-tool';
 
 import Button from '../../components/button';
 import Icon from '../../components/icon';
@@ -12,8 +12,13 @@ import DropDown from '../../components/drop-down';
 class MobileNavigation extends Component {
 
   static propTypes = {
-    actions: React.PropTypes.object,
     mobileNavigation: React.PropTypes.bool,
+    product: React.PropTypes.object,
+    colors: React.PropTypes.array,
+    colorSelected: React.PropTypes.object,
+    sideSelected: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
+    dispatch: React.PropTypes.func,
   }
 
   constructor(props) {
@@ -22,23 +27,38 @@ class MobileNavigation extends Component {
     this.hideMobileNav = this.hideMobileNav.bind(this);
     this.openProductLoad = this.openProductLoad.bind(this);
     this.openCategorySelect = this.openCategorySelect.bind(this);
+    this.selectColor = this.selectColor.bind(this);
+    this.selectSide = this.selectSide.bind(this);
   }
 
   hideMobileNav() {
-    this.props.actions.toggleMobileNavigation(false);
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleMobileNavigation(false));
     document.body.classList.remove('fixed');
   }
 
   openProductLoad() {
-    this.props.actions.toggleLoadProductContainer(true);
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleLoadProductContainer(true));
   }
 
   openCategorySelect() {
-    this.props.actions.toggleLoadProductCategoryContainer(true);
+    const { dispatch } = this.props;
+    dispatch(ProductActions.toggleLoadProductCategoryContainer(true));
+  }
+
+  selectColor(id) {
+    const { dispatch } = this.props;
+    dispatch(ProductActions.selectColor(id));
+  }
+
+  selectSide(id) {
+    const { dispatch } = this.props;
+    dispatch(ProductActions.selectSide(id));
   }
 
   render() {
-    const { mobileNavigation } = this.props;
+    const { mobileNavigation, colors, colorSelected, sideSelected, product, activeTool, dispatch } = this.props;
 
     return (
       <div className={classNames('mobile-navigation', { active: mobileNavigation })}>
@@ -60,22 +80,35 @@ class MobileNavigation extends Component {
           </button>
 
           <div>
-            <DropDown label="Type" onClick={this.openCategorySelect} />
+            <DropDown onClick={this.openCategorySelect} label={product ? product.title : 'Type'} />
 
-            <DropDown label="Color">
-              <div className="list-item"><span className="color" style={{ backgroundColor: 'red' }} />Red</div>
-              <div className="list-item"><span className="color" style={{ backgroundColor: 'blue' }} />Blue</div>
-              <div className="list-item"><span className="color" style={{ backgroundColor: 'green' }} />Green</div>
+            <DropDown
+              label={colorSelected ? <div className="list-item">
+                <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
+              </div> : 'Color'
+              }
+              onChange={this.selectColor}
+            >
+              {
+                colors && colors.map((color, index) => <div className="list-item" key={index} data-meta={color.ProductColor.id}>
+                  <span className="color" style={{ backgroundColor: color.ProductColor.value }} />
+                  {color.ProductColor.title}
+                </div>
+                )
+              }
             </DropDown>
 
-            <DropDown label="Side">
-              <div className="list-item">Side 1</div>
-              <div className="list-item">Side 2</div>
-              <div className="list-item">Side 3</div>
+            <DropDown
+              label={
+                sideSelected ? <div className="list-item">{sideSelected.title}</div> : 'Side'
+              }
+              onChange={this.selectSide}
+            >
+              {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
             </DropDown>
           </div>
 
-          <button className="btn">
+          <button className="btn" disabled={activeTool === 'brush'} onClick={() => dispatch(DrawToolActions.empty())}>
             <span className="label">全削除</span>
           </button>
         </div>
@@ -87,16 +120,14 @@ class MobileNavigation extends Component {
 function mapStateToProps(state) {
   return {
     mobileNavigation: state.product.mobileNavigation,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(ProductActions, dispatch),
+    product: state.product.product,
+    colors: state.product.colors,
+    colorSelected: state.product.colorSelected,
+    sideSelected: state.product.sideSelected,
+    activeTool: state.drawTool.activeTool,
   };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(MobileNavigation);

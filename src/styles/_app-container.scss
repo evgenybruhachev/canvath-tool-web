@@ -26,5 +26,8 @@
     display: -webkit-flex;
     flex-direction: column-reverse;
     justify-content: space-between;
+    .app-container-inner{
+      height: calc(100% - 65px);
+    }
   }
 }
