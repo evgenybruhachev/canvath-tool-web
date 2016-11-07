@@ -142,12 +142,12 @@ class Options extends Component {
                 onChange={size => dispatch(actions.selectTextSize(size))}
               />
 
-              <Button
+              {/* <Button
                 icon={'text-align-justify'}
                 label={'Justify'}
                 onClick={() => dispatch(actions.selectTextAlign('justify'))}
                 active={textOptions.align === 'justify'}
-              />
+              /> */}
               <Button
                 icon={'text-align-left'}
                 label={'Left'}
