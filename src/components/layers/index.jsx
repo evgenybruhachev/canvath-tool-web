@@ -18,6 +18,22 @@ const SortableItem = SortableElement(
     constructor(props) {
       super(props);
       this.onClickCallback = this.onClickCallback.bind(this);
+      this.getIsMobile = this.getIsMobile.bind(this);
+
+      this.state = {
+        mobile: false,
+      }
+    }
+    componentDidMount() {
+      window.addEventListener('resize', this.getIsMobile, false);
+      this.getIsMobile();
+    }
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.getIsMobile, false);
+    }
+    getIsMobile() {
+      this.setState(state => Object.assign(state,
+        { mobile: window.matchMedia('(max-width: 768px)').matches }));
     }
 
     onClickCallback(event) {
@@ -27,23 +43,40 @@ const SortableItem = SortableElement(
     render() {
       const id = `${this.props.uniqueIdToken}SortableItem${this.props.index}`;
       const className = this.props.checked ? 'active' : '';
-      return (
-        <div
-          key={`li-sortable-item-${id}`}
-          data-sortableId={id}
-          onClick={this.onClickCallback}
-          className={classNames('layer', className)}
-          data-uuid={this.props.uuid}
-          style={{ backgroundImage: `url(${this.props.preview})` }}
-        />
-      );
+
+      let view;
+
+      if (this.state.mobile) {
+        view = (
+          <li
+            key={`li-sortable-item-${id}`}
+            data-sortableId={id}
+            onMouseDown={this.onClickCallback}
+            className={classNames('layer', className)}
+            data-uuid={this.props.uuid}
+            style={{ backgroundImage: `url(${this.props.preview})` }}
+          />
+        );
+      } else {
+        view = (
+          <li
+            key={`li-sortable-item-${id}`}
+            data-sortableId={id}
+            onClick={this.onClickCallback}
+            className={classNames('layer', className)}
+            data-uuid={this.props.uuid}
+            style={{ backgroundImage: `url(${this.props.preview})` }}
+          />
+        );
+      }
+      return view;
     }
   }
 );
 
 const SortableList = SortableContainer(
   ({ items = [], selection, uniqueIdToken, onClickCallback }) => (
-    <div className="layers">
+    <ul className="layers">
       {items.map((value, index) => {
         const checked = selection ? selection.includes(index) : 0;
         const uuid = value.index;
@@ -61,7 +94,7 @@ const SortableList = SortableContainer(
         );
       })
     }
-    </div>
+    </ul>
   )
 );
 
@@ -127,7 +160,7 @@ export default class Layers extends Component {
       selection: newSelection.sort((a, b) => a - b),
     });
     event.preventDefault();
-    return false;
+    // return false;
   }
   onSortStart({ node, index, collection }, event) {
     if (this.state.selection.length) {
@@ -269,7 +302,6 @@ export default class Layers extends Component {
           onSortStart={this.onSortStart}
           onSortMove={this.onSortMove}
           useDragHandle={false}
-          distance={10}
           axis="x"
         />
       )
