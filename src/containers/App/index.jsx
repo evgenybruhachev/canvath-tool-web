@@ -163,11 +163,11 @@ class App extends Component {
             title={'テンプレート'}
             close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
           >
-            { templates && templates.map((item, index) => <ProductCard
+            { templates ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-            />) }
+            />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>
@@ -179,11 +179,11 @@ class App extends Component {
             close={this.mobileClose}
             back={this.mobileBack}
           >
-            { templates && templates.map((item, index) => <ProductCard
+            { templates ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-            />)}
+            />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>

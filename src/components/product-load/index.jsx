@@ -5,7 +5,10 @@ import Button from '../button';
 class ProductLoad extends Component {
 
   static propTypes = {
-    children: React.PropTypes.array,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.element,
+    ]),
     close: React.PropTypes.func,
     title: React.PropTypes.string,
     back: React.PropTypes.func,
@@ -48,7 +51,7 @@ class ProductLoad extends Component {
           </div>
           <div className="title">{title}</div>
           <div className="aside">
-            <Button className="flat-button" icon={'close'} label={'esc'} onClick={close} />
+            <Button className="flat-button" icon={'close'} label={'戻る'} onClick={close} />
           </div>
         </div>
 

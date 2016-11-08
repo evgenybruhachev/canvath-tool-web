@@ -72,11 +72,11 @@ class MobileNavigation extends Component {
         <div className="content">
           <button className="btn" onClick={this.openProductLoad}>
             <Icon icon={'poster'} />
-            <span className="label">保存画像を開く</span>
+            <span className="label">画像開く</span>
           </button>
           <button className="btn">
             <Icon icon={'save'} />
-            <span className="label">画像を保存する</span>
+            <span className="label">画像保存</span>
           </button>
 
           <div>

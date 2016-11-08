@@ -57,7 +57,7 @@ class Toolbar extends Component {
     if (this.state.mobile) {
       view = (
         <div className="toolbar">
-          <Button icon="hand" label={'Panning'} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
+          <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{ padding: '2px 0' }} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
           <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
           <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
           <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
@@ -65,7 +65,7 @@ class Toolbar extends Component {
           <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />
           <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
           <Button icon="opacity" label={'カラー削除'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
-          <Button icon="layers" label={'レイヤ'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
+          <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
         </div>
       );
     } else {
@@ -84,7 +84,7 @@ class Toolbar extends Component {
             <Button icon="redo" label={'進む'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.redo())} />
             <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())} />
             <div className="separator" />
-            <Button icon="hand" label={'アイテム位置移動'} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
+            <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{ padding: '2px 0' }} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
             <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
             <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
             <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))} active={activeTool === 'text'} />
@@ -92,7 +92,7 @@ class Toolbar extends Component {
             <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))} active={activeTool === 'sticker'} />
             <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
             <Button icon="opacity" label={'カラー透明化'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
-            <Button icon="layers" label={'レイヤ'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
+            <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
             <Button icon="delete" label={'全削除'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.empty())} />
           </div>
         </Scrollbars>
