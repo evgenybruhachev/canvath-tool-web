@@ -22,6 +22,7 @@
 
 @media screen and (max-width: $mobileBreakPoint){
   .app-container{
+    width: 100%;
     padding-top: $headerHeightMobile;
     display: -webkit-flex;
     flex-direction: column-reverse;

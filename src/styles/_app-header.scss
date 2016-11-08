@@ -1,13 +1,12 @@
 .app-header{
   height: $headerHeight;
   background-color: #fafafa;
-  max-width: 1900px;
+  width: 1080px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   position: fixed;
   top: 0;
-  width: 100%;
   z-index: 100;
   box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.08);
 
