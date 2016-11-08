@@ -50,6 +50,12 @@ export default store => next => (action) => {
     }
     case 'SAVE_TEMPLATE': {
       DrawTool.sides.selected.items.finalizeBrush();
+
+      if (!DrawTool.sides.selected.layers.list.length) {
+        alert('保存可能なデータはありません');
+        break;
+      }
+
       const imgB64 = DrawTool.sides.selected.getImagePreview();
       DrawTool.sides.selected.toSVG((svg) => {
         Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg, 'svg')]).then((values) => {
