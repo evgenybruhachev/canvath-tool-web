@@ -117,6 +117,7 @@ class App extends Component {
     });
 
     DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.toggleColorPicker(false));
       dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
     });
   }
