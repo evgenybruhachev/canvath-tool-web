@@ -58,7 +58,7 @@ export default store => next => (action) => {
 
       const imgB64 = DrawTool.sides.selected.getImagePreview();
       DrawTool.sides.selected.toSVG((svg) => {
-        Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg, 'svg')]).then((values) => {
+        Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg.split('\n').join(''), 'svg')]).then((values) => {
           saveTemplate(values[0], values[1]);
         });
       });
@@ -66,6 +66,7 @@ export default store => next => (action) => {
     }
 
     case 'APPLY_TEMPLATE': {
+      console.log(action.payload);
       DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     }

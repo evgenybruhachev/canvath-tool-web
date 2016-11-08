@@ -57,7 +57,7 @@ class AddTextForm extends Component {
           className="add-text-input"
         />
         <Button
-          label={this.state.selected ? 'Edit Text' : 'Add Text'}
+          label={this.state.selected ? 'テキストを編集' : 'テキストを追加'}
           onClick={this.handleSubmit}
           className="add-text"
         />
