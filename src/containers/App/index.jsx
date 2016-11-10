@@ -168,7 +168,7 @@ class App extends Component {
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-                                                         />) : <span>保存された画像はありません</span> }
+                                                                />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>
@@ -180,7 +180,7 @@ class App extends Component {
             close={this.mobileClose}
             back={this.mobileBack}
                                    >
-            { templates ? templates.map((item, index) => <ProductCard
+            { templates.length ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}

@@ -252,13 +252,13 @@ class Options extends Component {
                 autoHide
                 hideTracksWhenNotNeeded
               >
-
-                <div className="shapes">
-                  {availableShapesCategories.map((shape, index) => <img
-                    src={shape.image_url} className="shape" key={index} alt=""
+                {availableShapesCategories.map((shape, index) => (
+                  <img
+                    src={shape.image_url}
+                    className="shape"
+                    key={index} alt=""
                     onClick={() => this.getShapes(shape.id)}
-                                                                   />)}
-                </div>
+                  />))}
               </Scrollbars>
             </div>
             {availableShapes.length ? <div className="bottom">

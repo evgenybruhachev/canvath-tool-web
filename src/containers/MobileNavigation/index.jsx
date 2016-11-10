@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import { getTemplates } from '../../api/products';
+
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
@@ -29,6 +31,7 @@ class MobileNavigation extends Component {
     this.openCategorySelect = this.openCategorySelect.bind(this);
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
+    this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
   }
 
   hideMobileNav() {
@@ -39,6 +42,7 @@ class MobileNavigation extends Component {
 
   openProductLoad() {
     const { dispatch } = this.props;
+    getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
     dispatch(ProductActions.toggleLoadProductContainer(true));
   }
 
@@ -55,6 +59,13 @@ class MobileNavigation extends Component {
   selectSide(id) {
     const { dispatch } = this.props;
     dispatch(ProductActions.selectSide(id));
+  }
+
+  handleSaveTemplate() {
+    const { dispatch } = this.props;
+    dispatch(DrawToolActions.setActiveTool('pointer'));
+
+    setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
   }
 
   render() {
@@ -74,7 +85,7 @@ class MobileNavigation extends Component {
             <Icon icon={'poster'} />
             <span className="label">画像開く</span>
           </button>
-          <button className="btn">
+          <button className="btn" onClick={this.handleSaveTemplate}>
             <Icon icon={'save'} />
             <span className="label">画像保存</span>
           </button>
