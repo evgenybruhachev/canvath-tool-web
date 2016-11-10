@@ -140,11 +140,11 @@ class App extends Component {
     return (
       <div className="app">
 
-        <MediaQuery query="(min-width: 769px)">
+        <MediaQuery query="(min-width: 1080px)">
           <Header />
         </MediaQuery>
 
-        <MediaQuery query="(max-width: 768px)">
+        <MediaQuery query="(max-width: 1079px)">
           <HeaderMobile />
         </MediaQuery>
 
@@ -158,39 +158,39 @@ class App extends Component {
 
         </div>
 
-        <MediaQuery query="(min-width: 769px)">
+        <MediaQuery query="(min-width: 1080px)">
 
           { loadProductContainer ? <ProductLoad
             title={'テンプレート'}
             close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
-          >
+                                   >
             { templates ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-            />) : <span>保存された画像はありません</span> }
+                                                         />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>
 
-        <MediaQuery query="(max-width: 768px)">
+        <MediaQuery query="(max-width: 1079px)">
 
           { loadProductContainer ? <ProductLoad
             title={'テンプレート'}
             close={this.mobileClose}
             back={this.mobileBack}
-          >
+                                   >
             { templates ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-            />) : <span>保存された画像はありません</span> }
+                                                         />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>
 
 
-        <MediaQuery query="(min-width: 769px)">
+        <MediaQuery query="(min-width: 1080px)">
 
           { loadProductCatContainer ? <ProductLoad
             title={'カテゴリ'}
@@ -222,7 +222,7 @@ class App extends Component {
 
         </MediaQuery>
 
-        <MediaQuery query="(max-width: 768px)">
+        <MediaQuery query="(max-width: 1079px)">
 
           { loadProductCatContainer ? <ProductLoad
             title={'カテゴリ'}

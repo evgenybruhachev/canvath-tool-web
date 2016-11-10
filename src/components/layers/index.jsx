@@ -33,7 +33,7 @@ const SortableItem = SortableElement(
     }
     getIsMobile() {
       this.setState(state => Object.assign(state,
-        { mobile: window.matchMedia('(max-width: 768px)').matches }));
+        { mobile: window.matchMedia('(max-width: 1080px)').matches }));
     }
 
     onClickCallback(event) {
@@ -144,7 +144,7 @@ export default class Layers extends Component {
   }
   getIsMobile() {
     this.setState(state => Object.assign(state,
-      { mobile: window.matchMedia('(max-width: 768px)').matches }));
+      { mobile: window.matchMedia('(max-width: 1080px)').matches }));
   }
   onClickCallback(index, uuid, event) {
     const newSelection = this.state.selection;
