@@ -45,25 +45,33 @@ export default handleActions({
     product: action.payload.Product,
     colors: action.payload.colors,
     loadProductTypeContainer: false,
+    mobileNavigation: false,
   }),
 
   SELECT_COLOR: (state, action) => Object.assign({}, state, {
     colorSelected: state.colors
     .find(color => color.ProductColor.id === action.payload).ProductColor,
+    mobileNavigation: false,
   }),
 
   SELECT_SIDE: (state, action) => Object.assign({}, state, {
     sideSelected: state.colors
     .find(color => color.ProductColor.id === state.colorSelected.id).sides
     .find(side => side.ProductColorSide.id === action.payload).ProductColorSide,
+    mobileNavigation: false,
   }),
 
   UPDATE_TEMPLATES: (state, action) => Object.assign({}, state, {
-    templates: action.payload.map(template => template.DesignTemplate)
+    templates: action.payload.map(template => template.DesignTemplate),
   }),
 
   APPLY_TEMPLATE: (state, action) => Object.assign({}, state, {
     loadProductContainer: false,
+    mobileNavigation: false,
+  }),
+
+  SAVE_TEMPLATE: (state, action) => Object.assign({}, state, {
+    mobileNavigation: false,
   }),
 
 }, initialState);
