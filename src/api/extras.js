@@ -31,9 +31,20 @@ export const uploadByString = (mime_type, content, extension) => {
   });
 };
 
-export const getShapes = () => {
+export const getShapesCategories = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/shapes?session=${session}`, {
+    fetch(`${HOST}/drawer/shapes/categories?session=${session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+    .then(response => response.json().then(data => resolve(data.categories)))
+    .catch(err => reject(err));
+  });
+};
+
+export const getShapes = (id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/shapes?session=${session}&category_id=${id}`, {
       method: 'GET',
       mode: 'cors',
     })

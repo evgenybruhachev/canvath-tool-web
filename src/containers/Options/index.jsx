@@ -15,7 +15,7 @@ import AddTextForm from '../../components/add-text-form';
 
 import * as actions from '../../actions/draw-tool';
 
-import { getStickers } from '../../api/extras';
+import { getStickers, getShapes } from '../../api/extras';
 
 class Options extends Component {
 
@@ -23,6 +23,7 @@ class Options extends Component {
     activeTool: React.PropTypes.string,
     availableBrushes: React.PropTypes.array,
     availableFonts: React.PropTypes.array,
+    availableShapesCategories: React.PropTypes.array,
     availableShapes: React.PropTypes.array,
     activeBrush: React.PropTypes.string,
     brushOptions: React.PropTypes.object,
@@ -44,11 +45,16 @@ class Options extends Component {
     super(props);
 
     this.getStickers = this.getStickers.bind(this);
+    this.getShapes = this.getShapes.bind(this);
   }
 
   getStickers(id) {
     const { dispatch } = this.props;
     getStickers(id).then(data => dispatch(actions.updateStickers(data)));
+  }
+  getShapes(id) {
+    const { dispatch } = this.props;
+    getShapes(id).then(data => dispatch(actions.updateShapes(data)));
   }
 
   render() {
@@ -56,6 +62,7 @@ class Options extends Component {
       activeTool,
       availableBrushes,
       availableFonts,
+      availableShapesCategories,
       availableShapes,
       activeBrush,
       textOptions,
@@ -212,7 +219,7 @@ class Options extends Component {
                 label={cat.title}
                 onClick={() => this.getStickers(cat.id)}
                 key={index}
-              />)}
+                                               />)}
             </div>
             {stickers.length ? <div className="bottom">
               <Scrollbars
@@ -223,7 +230,7 @@ class Options extends Component {
                 <div className="stickers">
                   {stickers.map((sticker, index) => <Sticker
                     path={sticker} key={index} onClick={url => dispatch(actions.insertImage(url))}
-                  />)}
+                                                    />)}
                 </div>
               </Scrollbars>
             </div> : null
@@ -247,13 +254,27 @@ class Options extends Component {
               >
 
                 <div className="shapes">
-                  {availableShapes.map((shape, index) => <img
-                    src={shape} className="shape" key={index} alt=""
-                    onClick={() => dispatch(actions.insertShape(shape))}
-                  />)}
+                  {availableShapesCategories.map((shape, index) => <img
+                    src={shape.image_url} className="shape" key={index} alt=""
+                    onClick={() => this.getShapes(shape.id)}
+                                                                   />)}
                 </div>
               </Scrollbars>
             </div>
+            {availableShapes.length ? <div className="bottom">
+              <Scrollbars
+                style={{ width: '100%' }}
+                autoHide
+                hideTracksWhenNotNeeded
+              >
+                <div className="stickers">
+                  {availableShapes.map((shape, index) => <Sticker
+                    path={shape} key={index} onClick={url => dispatch(actions.insertShape(shape))}
+                                                         />)}
+                </div>
+              </Scrollbars>
+            </div> : null
+            }
           </div>
         );
         break;
@@ -322,6 +343,7 @@ function mapStateToProps(state) {
     textOptions: state.drawTool.textOptions,
     availableBrushes: state.drawTool.availableBrushes,
     availableFonts: state.drawTool.availableFonts,
+    availableShapesCategories: state.drawTool.availableShapesCategories,
     availableShapes: state.drawTool.availableShapes,
     layers: state.drawTool.layers,
     side: state.product.sideSelected,
