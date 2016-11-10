@@ -38,7 +38,7 @@ class Toolbar extends Component {
 
   getIsMobile() {
     this.setState(state => Object.assign(state,
-      { mobile: window.matchMedia('(max-width: 768px)').matches,
+      { mobile: window.matchMedia('(max-width: 1079px)').matches,
         height: window.innerHeight,
       }));
   }

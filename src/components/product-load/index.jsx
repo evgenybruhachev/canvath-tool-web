@@ -42,10 +42,10 @@ class ProductLoad extends Component {
       <div className="product-load">
         <div className="head">
           <div className="aside">
-            <MediaQuery query="(min-width: 769px)">
+            <MediaQuery query="(min-width: 1080px)">
               {back && <Button className="flat-button" icon={'back'} label={'back'} onClick={back} />}
             </MediaQuery>
-            <MediaQuery query="(max-width: 768px)">
+            <MediaQuery query="(max-width: 1079px)">
               {back && <Button className="flat-button" icon={'back-m'} label={'back'} onClick={back} />}
             </MediaQuery>
           </div>

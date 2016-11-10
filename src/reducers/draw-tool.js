@@ -26,6 +26,8 @@ const initialState = {
   stickers: [],
   colorPickerColor: 'rgba(0, 162, 255, 1)',
   colorPicker: false,
+  availableShapesCategories: [],
+  availableShapes: [],
 };
 
 export default handleActions({
@@ -36,6 +38,10 @@ export default handleActions({
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
     availableFonts: action.payload.map(font => font.DrawerFont.title),
     textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+  }),
+
+  UPDATE_SHAPES_CATEGORIES: (state, action) => Object.assign({}, state, {
+    availableShapesCategories: action.payload.map(shape => shape.DrawerShapeCategory),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
     availableShapes: action.payload.map(shape => shape.DrawerShape.url),

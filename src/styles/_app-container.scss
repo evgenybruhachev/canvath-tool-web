@@ -1,3 +1,10 @@
+.app {
+  width: 1080px;
+  height: 100%;
+  position: relative;
+  margin: 0 auto;
+}
+
 .app-container{
   padding-top: $headerHeight;
   width: 100%;
@@ -21,6 +28,12 @@
 }
 
 @media screen and (max-width: $mobileBreakPoint){
+  .app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+  }
   .app-container{
     width: 100%;
     padding-top: $headerHeightMobile;

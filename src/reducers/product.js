@@ -10,6 +10,7 @@ const initialState = {
   product: null,
   colorSelected: null,
   sideSelected: null,
+  templates: [],
 };
 
 export default handleActions({

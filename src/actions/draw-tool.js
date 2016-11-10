@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 
 export const updateBrushes = createAction('UPDATE_BRUSHES');
 export const updateFonts = createAction('UPDATE_FONTS');
+export const updateShapesCategories = createAction('UPDATE_SHAPES_CATEGORIES');
 export const updateShapes = createAction('UPDATE_SHAPES');
 export const updateStickersCategories = createAction('UPDATE_STICKERS_CATEGORIES');
 export const upload = createAction('UPLOAD');
