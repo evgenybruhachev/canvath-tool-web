@@ -41,7 +41,7 @@ class IconButton extends Component {
     } = this.props;
 
     return (
-      <button
+      <div
         className={classNames('button', { disabled }, className)}
         label={label}
         type={type}
@@ -58,7 +58,7 @@ class IconButton extends Component {
           {icon && <Icon icon={icon} />}
           {label && <span className="label">{label}</span>}
         </Dropzone>
-      </button>
+      </div>
     );
   }
 }
