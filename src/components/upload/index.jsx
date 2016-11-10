@@ -52,7 +52,7 @@ class IconButton extends Component {
           multiple={false}
           onDrop={this.onDrop}
           ref={(node) => { this.dropzone = node; return node; }}
-          style={{ borderWidth: 0 }}
+          style={{ borderWidth: 0, textAlign: 'center' }}
         >
           {image && <img className="image" src={image} alt="" />}
           {icon && <Icon icon={icon} />}
