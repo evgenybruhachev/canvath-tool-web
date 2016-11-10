@@ -57,7 +57,7 @@ class DropDownMaterial extends Component {
     const valueNode = elements.find(el => el.val === value);
 
     return (
-      <button
+      <div
         className={classNames('drop-down-material', { active: this.state.active }, className)}
         ref={(node) => { this.node = node; return node; }}
       >
@@ -77,12 +77,12 @@ class DropDownMaterial extends Component {
           >
             {
               elements.map((el, key) => React.cloneElement(el.node,
-                { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
+              { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
               ))
             }
           </Scrollbars>
         </div>
-      </button>
+      </div>
     );
   }
 }

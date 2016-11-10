@@ -57,28 +57,28 @@ class DropDown extends Component {
     const { label, style, onClick, children, className } = this.props;
 
     return (
-      <button
+      <div
         className={classNames('drop-down', { active: this.state.active }, className)} label={label}
         style={style}
         onClick={onClick || this.openList}
         ref={(node) => { this.node = node; return node; }}
       >
-        <span className="drop-down_head">
-          <span className="label">{this.state.label || label}</span>
+        <div className="drop-down_head">
+          <div className="label">{this.state.label || label}</div>
           <svg className="icon">
             <use xlinkHref={'#icon-list'} />
           </svg>
-        </span>
+        </div>
         <div className="list">
           {
             React.Children.map(
-              children, child => React.cloneElement(child,
-                { onClick: () => this.select(child.props.children, child.props['data-meta']) }
-              )
+            children, child => React.cloneElement(child,
+            { onClick: () => this.select(child.props.children, child.props['data-meta']) }
+            )
             )
           }
         </div>
-      </button>
+      </div>
     );
   }
 }
