@@ -5,6 +5,7 @@ class ColorPicker extends Component {
 
   static propTypes = {
     color: React.PropTypes.string,
+    label: React.PropTypes.string,
     onChange: React.PropTypes.func,
   }
 
@@ -45,6 +46,7 @@ class ColorPicker extends Component {
       <div className="color-picker">
         <div className="swatch" onClick={this.handleClick}>
           <div className="color" style={{ backgroundColor: this.state.color }} />
+          <div className="label">{this.props.label}</div>
         </div>
         { this.state.displayColorPicker ? <div className="popover">
           <div className="cover" onClick={this.handleClose} />

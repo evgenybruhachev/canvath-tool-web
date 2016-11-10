@@ -81,10 +81,10 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               <Button icon={'align-top'} label={'上'} onClick={() => dispatch(actions.alignItem('toTop'))} />
-              <Button icon={'align-ver-center'} label={'横真ん中'} onClick={() => dispatch(actions.alignItem('toVCenter'))} />
+              <Button icon={'align-ver-center'} label={'垂直揃え'} onClick={() => dispatch(actions.alignItem('toVCenter'))} />
               <Button icon={'align-bottom'} label={'下'} onClick={() => dispatch(actions.alignItem('toBottom'))} />
               <Button icon={'align-left'} label={'左'} onClick={() => dispatch(actions.alignItem('toLeft'))} />
-              <Button icon={'align-hor-center'} label={'縦真ん中'} onClick={() => dispatch(actions.alignItem('toHCenter'))} />
+              <Button icon={'align-hor-center'} label={'水平揃え'} onClick={() => dispatch(actions.alignItem('toHCenter'))} />
               <Button icon={'align-right'} label={'右'} onClick={() => dispatch(actions.alignItem('toRight'))} />
             </div>
           </div>
@@ -103,6 +103,7 @@ class Options extends Component {
                 }
               />
               <ColorPicker
+                label="カラー選択"
                 color={brushOptions.color}
                 onChange={color => dispatch(actions.selectBrushColor(color))}
               />
@@ -124,6 +125,7 @@ class Options extends Component {
             <div className="top">
 
               <ColorPicker
+                label="カラー選択"
                 color={textOptions.color}
                 onChange={color => dispatch(actions.selectTextColor(color))}
               />
@@ -234,6 +236,7 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               <ColorPicker
+                label="カラー選択"
                 color={shapeColor}
                 onChange={color => dispatch(actions.selectShapeColor(color))}
               />
@@ -267,7 +270,11 @@ class Options extends Component {
           content = (
             <div className="options">
               <div className="top">
-                <ColorPicker color={colorPickerColor} onChange={color => dispatch(actions.updateColorPicker(color))} />
+                <ColorPicker
+                  label="カラー選択"
+                  color={colorPickerColor}
+                  onChange={color => dispatch(actions.updateColorPicker(color))}
+                />
                 <Button icon={'pipette'} label={'色選択'} onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))} />
                 <Button icon={'close'} label={'カラー透明化'} onClick={() => dispatch(actions.removeColor())} />
               </div>
@@ -280,10 +287,10 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               <Button icon={'align-top'} label={'上'} onClick={() => dispatch(actions.alignLayer('toTop'))} />
-              <Button icon={'align-ver-center'} label={'横真ん中'} onClick={() => dispatch(actions.alignLayer('toVCenter'))} />
+              <Button icon={'align-ver-center'} label={'垂直揃え'} onClick={() => dispatch(actions.alignLayer('toVCenter'))} />
               <Button icon={'align-bottom'} label={'下'} onClick={() => dispatch(actions.alignLayer('toBottom'))} />
               <Button icon={'align-left'} label={'左'} onClick={() => dispatch(actions.alignLayer('toLeft'))} />
-              <Button icon={'align-hor-center'} label={'縦真ん中'} onClick={() => dispatch(actions.alignLayer('toHCenter'))} />
+              <Button icon={'align-hor-center'} label={'水平揃え'} onClick={() => dispatch(actions.alignLayer('toHCenter'))} />
               <Button icon={'align-right'} label={'右'} onClick={() => dispatch(actions.alignLayer('toRight'))} />
             </div>
             <div className="bottom">
