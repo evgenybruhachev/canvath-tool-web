@@ -36,6 +36,7 @@
 
 @media screen and (max-width: $mobileBreakPoint){
   .flat-button {
+    height: 30px;
     .label{
       display: none;
     }
