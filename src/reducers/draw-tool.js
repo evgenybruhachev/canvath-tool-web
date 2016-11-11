@@ -50,7 +50,7 @@ export default handleActions({
     stickersCat: action.payload.map(cat => cat.DrawerStickerCategory),
   }),
   UPDATE_STICKERS: (state, action) => Object.assign({}, state, {
-    stickers: action.payload.map(cat => cat.DrawerSticker.image_url),
+    stickers: action.payload.map(cat => cat.DrawerSticker.content_url),
   }),
   SET_ACTIVE_TOOL: (state, action) => Object.assign({}, state, {
     activeTool: action.payload,
@@ -160,6 +160,6 @@ export default handleActions({
     selected: null,
   }),
 
-  
+
 
 }, initialState);

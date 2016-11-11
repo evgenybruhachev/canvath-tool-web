@@ -215,7 +215,7 @@ class Options extends Component {
           <div className="options">
             <div className="top">
               {stickersCat.map((cat, index) => <Button
-                image={cat.image_url}
+                image={cat.content_url}
                 label={cat.title}
                 onClick={() => this.getStickers(cat.id)}
                 key={index}
@@ -229,7 +229,7 @@ class Options extends Component {
               >
                 <div className="stickers">
                   {stickers.map((sticker, index) => <Sticker
-                    path={sticker} key={index} onClick={url => dispatch(actions.insertImage(url))}
+                    path={sticker} key={index} onClick={url => dispatch(actions.insertSticker(url))}
                                                     />)}
                 </div>
               </Scrollbars>

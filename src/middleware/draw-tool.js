@@ -144,6 +144,9 @@ export default store => next => (action) => {
     case 'INSERT_SHAPE':
       DrawTool.sides.selected.items.addSVG(`${action.payload}?_`, shapeColor);
       break;
+    case 'INSERT_STICKER':
+      DrawTool.sides.selected.items.addSVG(`${action.payload}?_`);
+      break;
     case 'SELECT_SHAPE_COLOR':
       DrawTool.sides.selected.items.selected.fill(action.payload);
       break;
