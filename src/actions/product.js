@@ -12,3 +12,4 @@ export const loadProduct = createAction('LOAD_PRODUCT');
 export const saveTemplate = createAction('SAVE_TEMPLATE');
 export const updateTemplates = createAction('UPDATE_TEMPLATES');
 export const applyTemplate = createAction('APPLY_TEMPLATE');
+export const removeTemplate = createAction('REMOVE_TEMPLATE');

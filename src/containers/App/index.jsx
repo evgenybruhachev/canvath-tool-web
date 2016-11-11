@@ -20,7 +20,7 @@ import DrawToolComponent from '../../components/draw-tool';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import { getCategories, getProductsByCategory, getProduct } from '../../api/products';
+import { getCategories, getProductsByCategory, getProduct, removeTemplate } from '../../api/products';
 import { getBrushes, getFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
@@ -47,6 +47,7 @@ class App extends Component {
     this.mobileClose = this.mobileClose.bind(this);
     this.mobileBack = this.mobileBack.bind(this);
     this.loadProduct = this.loadProduct.bind(this);
+    this.removeTemplate = this.removeTemplate.bind(this);
 
     this.state = {
       category: '',
@@ -122,6 +123,11 @@ class App extends Component {
     });
   }
 
+  removeTemplate(id) {
+    const { dispatch } = this.props;
+    removeTemplate(id).then(() => dispatch(ProductActions.removeTemplate(id)));
+  }
+
   render() {
     const {
       loadProductContainer,
@@ -162,12 +168,13 @@ class App extends Component {
 
           { loadProductContainer ? <ProductLoad
             title={'テンプレート'}
-            close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
-                                   >
+            close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}>
             { templates.length ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
+              removeBtn={true}
+              onRemove={() => this.removeTemplate(item.id)}
                                                                 />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
@@ -184,6 +191,8 @@ class App extends Component {
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
+              removeBtn={true}
+              onRemove={() => this.removeTemplate(item.id)}
                                                          />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
