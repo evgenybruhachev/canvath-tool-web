@@ -74,4 +74,8 @@ export default handleActions({
     mobileNavigation: false,
   }),
 
+  REMOVE_TEMPLATE: (state, action) => Object.assign({}, state, {
+    templates: state.templates.filter(template => template.id !== action.payload),
+  }),
+
 }, initialState);

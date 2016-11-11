@@ -62,3 +62,22 @@ export const getTemplates = () => {
     .catch(err => reject(err));
   });
 };
+
+export const removeTemplate = (id) => {
+  const payload = {
+    session,
+    DesignTemplate: {
+      id,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/designs/templates/template`, {
+      method: 'DELETE',
+      mode: 'cors',
+      body: JSON.stringify(payload),
+    })
+    .then(response => resolve(response))
+    .catch(err => reject(err));
+  });
+};
