@@ -1,0 +1,25 @@
+.add-text-form{
+  // width: 300px;
+  margin: 0 auto;
+  .add-text-input{
+    display: inline-block;
+    vertical-align: middle;
+    height: 26px;
+    border: 1px solid #BDBDBD;
+    min-width: 200px;
+    width: 50%;
+    background-color: #ffffff;
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+
+@media screen and (max-width: $mobileBreakPoint){
+  .add-text-form{
+    width: 100%;
+    .add-text-input{
+      width: calc(100% - 116px);
+    }
+  }
+}

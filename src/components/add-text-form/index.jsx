@@ -49,7 +49,7 @@ class AddTextForm extends Component {
 
   render() {
     return (
-      <div style={{ width: '100%' }}>
+      <div className="add-text-form">
         <input
           value={this.state.value}
           onChange={this.handleChange}

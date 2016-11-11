@@ -64,18 +64,6 @@
     }
 
   }
-
-  .add-text-input{
-    display: inline-block;
-    vertical-align: middle;
-    height: 26px;
-    border: 1px solid #BDBDBD;
-    min-width: 200px;
-    width: 50%;
-    background-color: #ffffff;
-    font-size: 12px;
-    padding: 5px 10px;
-  }
 }
 
 @media screen and (max-width: $mobileBreakPoint){
@@ -93,10 +81,6 @@
       min-width: 60px;
       margin-right: 10px;
       position: relative;
-    }
-
-    .add-text-input{
-      width: calc(100% - 116px);
     }
   }
 }

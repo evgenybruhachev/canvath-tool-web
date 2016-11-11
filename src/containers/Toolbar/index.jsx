@@ -46,7 +46,10 @@ class Toolbar extends Component {
   fileUpload(files) {
     const { dispatch } = this.props;
 
-    upload(files).then(data => dispatch(actions.insertImage(data)));
+    upload(files).then(
+      data => dispatch(actions.insertImage(data)),
+      err => window.alert(err)
+    );
   }
 
   render() {
@@ -93,7 +96,7 @@ class Toolbar extends Component {
             <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))} active={activeTool === 'shapes'} />
             <Button icon="opacity" label={'カラー透明化'} onClick={() => dispatch(actions.setActiveTool('removeColor'))} active={activeTool === 'removeColor'} />
             <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))} active={activeTool === 'layers'} />
-            <Button icon="delete" label={'全削除'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.empty())} />
+            <Button icon="delete" ink={false} label={'全削除'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.empty())} />
           </div>
         </Scrollbars>
       );

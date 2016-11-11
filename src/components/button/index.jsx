@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Ink from 'react-ink';
 import Icon from '../icon';
 
-function IconButton({ label, icon, image, onClick, disabled, active = false, type = 'button', className, style }) {
+function IconButton({ label, icon, image, onClick, disabled, active = false, type = 'button', className, style, ink = true }) {
   return (
     <button
       className={classNames('button', { active, disabled }, className)}
@@ -15,7 +15,7 @@ function IconButton({ label, icon, image, onClick, disabled, active = false, typ
       {image && <img className="image" src={image} alt="" />}
       {icon && <Icon icon={icon} />}
       {label && <span className="label">{label}</span>}
-      <Ink hasTouch={false} />
+      {ink && <Ink hasTouch={false} />}
     </button>
   );
 }
