@@ -10,8 +10,13 @@ export const upload = (image) => {
       method: 'POST',
       body: formData,
     })
-    .then(response => response.json().then(data => resolve(data.image_url)))
-    .catch(err => reject(err));
+    .then(response => response.json().then((data) => {
+      if (!response.ok) {
+        reject(data.message);
+      } else {
+        resolve(data.image_url);
+      }
+    }));
   });
 };
 
