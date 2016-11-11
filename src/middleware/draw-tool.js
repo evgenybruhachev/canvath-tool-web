@@ -139,7 +139,7 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected[action.payload]();
       break;
     case 'INSERT_IMAGE':
-      DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
+      DrawTool.sides.selected.items.addImage(action.payload);
       break;
     case 'INSERT_SHAPE':
       DrawTool.sides.selected.items.addSVG(`${action.payload}?_`, shapeColor);
