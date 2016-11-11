@@ -44,7 +44,7 @@ export default handleActions({
     availableShapesCategories: action.payload.map(shape => shape.DrawerShapeCategory),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
-    availableShapes: action.payload.map(shape => shape.DrawerShape.url),
+    availableShapes: action.payload.map(shape => shape.DrawerShape.content_url),
   }),
   UPDATE_STICKERS_CATEGORIES: (state, action) => Object.assign({}, state, {
     stickersCat: action.payload.map(cat => cat.DrawerStickerCategory),

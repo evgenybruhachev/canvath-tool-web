@@ -249,7 +249,7 @@ class Options extends Component {
               />
               {availableShapesCategories.map((shape, index) => (
                 <Button
-                  image={shape.image_url}
+                  image={shape.content_url}
                   label={shape.title}
                   key={index}
                   onClick={() => this.getShapes(shape.id)}
