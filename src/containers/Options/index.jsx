@@ -247,19 +247,14 @@ class Options extends Component {
                 color={shapeColor}
                 onChange={color => dispatch(actions.selectShapeColor(color))}
               />
-              <Scrollbars
-                style={{ width: '100%' }}
-                autoHide
-                hideTracksWhenNotNeeded
-              >
-                {availableShapesCategories.map((shape, index) => (
-                  <img
-                    src={shape.image_url}
-                    className="shape"
-                    key={index} alt=""
-                    onClick={() => this.getShapes(shape.id)}
-                  />))}
-              </Scrollbars>
+              {availableShapesCategories.map((shape, index) => (
+                <Button
+                  image={shape.image_url}
+                  label={shape.title}
+                  key={index}
+                  onClick={() => this.getShapes(shape.id)}
+                />)
+              )}
             </div>
             {availableShapes.length ? <div className="bottom">
               <Scrollbars
@@ -269,8 +264,8 @@ class Options extends Component {
               >
                 <div className="stickers">
                   {availableShapes.map((shape, index) => <Sticker
-                    path={shape} key={index} onClick={url => dispatch(actions.insertShape(shape))}
-                                                         />)}
+                    path={shape} key={index} onClick={() => dispatch(actions.insertShape(shape))}
+                  />)}
                 </div>
               </Scrollbars>
             </div> : null
