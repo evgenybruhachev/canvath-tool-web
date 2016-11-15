@@ -53,7 +53,7 @@ class Toolbar extends Component {
   }
 
   render() {
-    const { activeTool, dispatch } = this.props;
+    const { activeTool, dispatch, selected } = this.props;
 
     let view;
 
@@ -85,7 +85,7 @@ class Toolbar extends Component {
             <Button icon="zoom-out" label={'縮小'} onClick={() => dispatch(actions.zoomOut())} />
             <Button icon="undo" label={'戻る'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.undo())} />
             <Button icon="redo" label={'進む'} disabled={activeTool === 'brush'} onClick={() => dispatch(actions.redo())} />
-            <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())} />
+            <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())} disabled={!selected} />
             <div className="separator" />
             <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{ padding: '2px 0' }} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
             <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
@@ -111,7 +111,7 @@ class Toolbar extends Component {
 function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
-    activeTool: state.drawTool.activeTool,
+    selected: state.drawTool.selected,
     activeSide: state.product.sideSelected,
   };
 }

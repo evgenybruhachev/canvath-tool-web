@@ -33,7 +33,7 @@ class HeaderMobile extends Component {
   }
 
   render() {
-    const { activeTool, dispatch } = this.props;
+    const { activeTool, dispatch, selected } = this.props;
 
     return (
       <div className="app-header">
@@ -48,6 +48,7 @@ class HeaderMobile extends Component {
           className="blue"
           active={activeTool === 'eraser'}
           onClick={() => dispatch(DrawToolActions.remove())}
+          disabled={!selected}
         />
         <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" />
       </div>
@@ -59,6 +60,7 @@ class HeaderMobile extends Component {
 function mapStateToProps(state) {
   return {
     activeTool: state.drawTool.activeTool,
+    selected: state.drawTool.selected,
   };
 }
 
