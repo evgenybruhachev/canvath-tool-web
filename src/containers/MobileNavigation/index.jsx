@@ -119,7 +119,7 @@ class MobileNavigation extends Component {
             </DropDown>
           </div>
 
-          <button className="btn" disabled={activeTool === 'brush'} onClick={() => dispatch(DrawToolActions.empty())}>
+          <button className="btn" onClick={() => dispatch(DrawToolActions.empty())}>
             <span className="label">全削除</span>
           </button>
         </div>
