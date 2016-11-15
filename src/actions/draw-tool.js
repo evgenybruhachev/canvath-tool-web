@@ -21,6 +21,8 @@ export const selectBrushColor = createAction('SELECT_BRUSH_COLOR');
 export const selectBrushSize = createAction('SELECT_BRUSH_SIZE');
 export const selectBrushOpacity = createAction('SELECT_BRUSH_OPACITY');
 
+export const updateHistory = createAction('UPDATE_HISTORY');
+
 export const addText = createAction('ADD_TEXT');
 export const selectTextColor = createAction('SELECT_TEXT_COLOR');
 export const selectTextFont = createAction('SELECT_TEXT_FONT');
