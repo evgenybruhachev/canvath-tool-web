@@ -11,7 +11,6 @@ import MobileNavigation from '../MobileNavigation';
 
 import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
-import Button from '../../components/button';
 
 import DrawTool from '../../draw-tool/drawtool';
 
@@ -51,7 +50,7 @@ class App extends Component {
 
     this.state = {
       category: '',
-    }
+    };
   }
 
   componentWillMount() {
@@ -65,9 +64,9 @@ class App extends Component {
 
   goToCategory(id, title) {
     const { dispatch } = this.props;
-    getProductsByCategory(id).then(data => {
-      this.setState((state) => Object.assign({}, state, { category: title }));
-      dispatch(ProductActions.loadProducts(data))
+    getProductsByCategory(id).then((data) => {
+      this.setState(state => Object.assign({}, state, { category: title }));
+      dispatch(ProductActions.loadProducts(data));
     });
     dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
     dispatch(ProductActions.toggleLoadProductTypeContainer(true));
@@ -95,7 +94,7 @@ class App extends Component {
   }
 
   loadProduct(id) {
-    const { dispatch, activeTool } = this.props;
+    const { dispatch } = this.props;
 
     getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
 
@@ -106,6 +105,7 @@ class App extends Component {
       };
 
       dispatch(DrawToolActions.updateLayers(data));
+      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
     });
 
     DrawTool.on('object:selected', () => {
@@ -168,14 +168,15 @@ class App extends Component {
 
           { loadProductContainer ? <ProductLoad
             title={'テンプレート'}
-            close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}>
+            close={() => dispatch(ProductActions.toggleLoadProductContainer(false))}
+          >
             { templates.length ? templates.map((item, index) => <ProductCard
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-              removeBtn={true}
+              removeBtn
               onRemove={() => this.removeTemplate(item.id)}
-                                                                />) : <span>保存された画像はありません</span> }
+            />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
 
         </MediaQuery>
@@ -191,7 +192,7 @@ class App extends Component {
               key={index}
               image={item.image_url}
               onClick={() => dispatch(ProductActions.applyTemplate(item.content_url))}
-              removeBtn={true}
+              removeBtn
               onRemove={() => this.removeTemplate(item.id)}
                                                          />) : <span>保存された画像はありません</span> }
           </ProductLoad> : null }
@@ -283,7 +284,6 @@ function mapStateToProps(state) {
     products: state.product.products,
     product: state.product.product,
     colors: state.product.colors,
-    sideSelected: state.product.sideSelected,
     activeTool: state.drawTool.activeTool,
     templates: state.product.templates,
   };

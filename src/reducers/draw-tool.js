@@ -28,6 +28,7 @@ const initialState = {
   colorPicker: false,
   availableShapesCategories: [],
   availableShapes: [],
+  history: { currentIndex: 0, collection: [{}] },
 };
 
 export default handleActions({
@@ -160,6 +161,16 @@ export default handleActions({
     selected: null,
   }),
 
+  UPDATE_HISTORY: (state, action) => Object.assign({}, state, {
+    history: action.payload,
+  }),
 
+  UNDO: (state, action) => Object.assign({}, state, {
+    history: action.payload,
+  }),
+
+  REDO: (state, action) => Object.assign({}, state, {
+    history: action.payload,
+  }),
 
 }, initialState);
