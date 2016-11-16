@@ -2,7 +2,7 @@ import { HOST, session } from '../constants';
 
 export const upload = (image) => {
   return new Promise((resolve, reject) => {
-    const formData = new FormData()
+    const formData = new FormData();
     formData.append('image', image);
     formData.append('session', session);
 

@@ -1,4 +1,6 @@
 export default store => next => action => {
-  console.log(action);
+  if (NODE_ENV === 'development') {
+    console.log(action);
+  }
   return next(action);
-}
+};

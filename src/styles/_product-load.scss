@@ -8,18 +8,26 @@
   z-index: 9999;
   overflow-y: scroll;
   overflow-x: hidden;
+  text-align: center;
   &.active{
     display: block;
   }
   .head{
-    padding: 0 35px;
+    padding: 15px 35px;
     height: 65px;
     display: -webkit-flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #f4f4f5;
+    text-align: justify;
+    .title{
+      display: inline-block;
+      width: calc(100% - 200px);
+      text-align: center;
+    }
     .aside{
       width: 100px;
+      display: inline-block;
       &:last-child{
         text-align: right;
       }
