@@ -18,7 +18,7 @@ export default store => next => (action) => {
     return next(action);
   }
 
-  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'UNSELECT_ITEM')) {
+  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'UNSELECT_ITEM' || action.type === 'EMPTY')) {
     DrawTool.sides.selected.items.finalizeBrush();
   }
 
@@ -119,7 +119,7 @@ export default store => next => (action) => {
       DrawTool.history.redo(DrawTool.sides.selected.id);
       break;
     case 'EMPTY':
-      if(window.confirm('全てを削除しますか？')){
+      if (window.confirm('全てを削除しますか？')) {
         DrawTool.sides.selected.items.empty();
       }
       break;
@@ -155,14 +155,10 @@ export default store => next => (action) => {
 
       if (action.payload.newIndex > action.payload.oldIndex) {
         times = action.payload.newIndex - action.payload.oldIndex;
-        Array(times).fill(0).map(() => {
-          DrawTool.sides.selected.layers.bringForward.apply(DrawTool.sides.selected.layers, action.payload.items);
-        });
+        Array(times).fill(0).map(() => DrawTool.sides.selected.layers.bringForward(...action.payload.items));
       } else if (action.payload.newIndex < action.payload.oldIndex) {
         times = action.payload.oldIndex - action.payload.newIndex;
-        Array(times).fill(0).map(() => {
-          DrawTool.sides.selected.layers.sendBackwards.apply(DrawTool.sides.selected.layers, action.payload.items);
-        });
+        Array(times).fill(0).map(() => DrawTool.sides.selected.layers.sendBackwards(...action.payload.items));
       }
       break;
     }
