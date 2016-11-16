@@ -15,6 +15,7 @@ config.context = path.join(__dirname, '/src');
 config.entry = {
   app: './index.jsx',
   vendor: [
+    'babel-polyfill',
     'react',
     'react-dom',
     'react-redux',
