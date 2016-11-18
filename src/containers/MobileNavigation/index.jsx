@@ -90,6 +90,8 @@ class MobileNavigation extends Component {
             <span className="label">画像保存</span>
           </button>
 
+          <div className="aside-title">アイテム変更</div>
+
           <div>
             <DropDown onClick={this.openCategorySelect} label={product ? product.title : 'Type'} />
 
