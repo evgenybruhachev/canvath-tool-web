@@ -143,6 +143,7 @@ class Options extends Component {
                 elements={availableFonts.map(font => ({ val: font,
                   node: <span style={{ fontFamily: font }}>{font}</span> }))}
                 onChange={font => dispatch(actions.selectTextFont(font))}
+                className="fonts"
               />
 
               <DropDownM

@@ -98,14 +98,18 @@ class App extends Component {
 
     getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
 
-    DrawTool.on('history:update', (e) => {
-      const data = {
-        layers: DrawTool.sides.selected.layers.update(),
-        side: JSON.parse(e).side.id,
-      };
+    DrawTool.on('history:update', () => {
+      DrawTool.sides.selected.layers.update().then((layers) => {
 
-      dispatch(DrawToolActions.updateLayers(data));
-      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+        const data = {
+          layers,
+          side: DrawTool.sides.selected.id,
+        };
+
+        dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+        dispatch(DrawToolActions.updateLayers(data));
+
+      });
     });
 
     DrawTool.on('object:selected', () => {

@@ -65,7 +65,7 @@ class Header extends Component {
         <img src="assets/img/logo.png" alt="Nobori" className="logo" />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
-        <DropDown label={product ? product.title : '商品未選択'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
+        <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         <DropDown
           label={colorSelected ? <div className="list-item">
             <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}

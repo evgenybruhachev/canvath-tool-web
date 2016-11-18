@@ -39,6 +39,8 @@ export default store => next => (action) => {
             .then(() => {
               fSide.setBorder(sideProps.border);
               fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
+              fSide.backdrop.opacity = 1;
+              fSide.FabricCanvas.renderAll();
             });
         });
 

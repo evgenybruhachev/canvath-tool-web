@@ -6,8 +6,8 @@ export const upload = (image) => {
     formData.append('image', image);
     formData.append('session', session);
 
-    // fetch(`${HOST}/designs/design/image/upload`, {
-    fetch(`${HOST}/designs/design/image/base64`, {
+    fetch(`${HOST}/designs/design/image/upload`, {
+    // fetch(`${HOST}/designs/design/image/base64`, {
       method: 'POST',
       body: formData,
     })
@@ -15,7 +15,8 @@ export const upload = (image) => {
       if (!response.ok) {
         reject(data.message);
       } else {
-        resolve(data.image_content);
+        resolve(data.image_url);
+        // resolve(data.image_content);
       }
     }));
   });
