@@ -21,3 +21,13 @@
     }
   }
 }
+
+@media screen and (max-width: 320px){
+  .add-text-form{
+    width: 100%;
+    .add-text-input{
+      min-width: 50px;
+      width: calc(100% - 120px);
+    }
+  }
+}

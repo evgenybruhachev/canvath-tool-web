@@ -10,6 +10,7 @@ class DropDownMaterial extends Component {
     className: React.PropTypes.string,
     elements: React.PropTypes.array,
     onChange: React.PropTypes.func,
+    style: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -52,7 +53,7 @@ class DropDownMaterial extends Component {
   }
 
   render() {
-    const { label, value, elements, className } = this.props;
+    const { label, value, elements, className, style } = this.props;
 
     const valueNode = elements.find(el => el.val === value);
 
@@ -60,6 +61,7 @@ class DropDownMaterial extends Component {
       <div
         className={classNames('drop-down-material', { active: this.state.active }, className)}
         ref={(node) => { this.node = node; return node; }}
+        style={style}
       >
         <div className="drop-down_head" onClick={this.openList}>
           {label && <div className="label">{label}</div>}
