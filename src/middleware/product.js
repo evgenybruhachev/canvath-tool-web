@@ -19,15 +19,17 @@ export default store => next => (action) => {
           .then(() => {
             fSide.setBorder(sideProps.border);
             fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
+            fSide.backdrop.opacity = 1;
+            fSide.FabricCanvas.renderAll();
           });
       });
-      DrawTool.sides.select(sideSelected.title.toLowerCase());
+      DrawTool.sides.select(JSON.parse(JSON.parse(escapeJSON(sideSelected.content))).id);
       break;
     }
     case 'SELECT_SIDE': {
       const sideObj = colors.find(color => color.ProductColor.id === colorSelected.id).sides
         .find(side => side.ProductColorSide.id === action.payload).ProductColorSide;
-      DrawTool.sides.select(sideObj.title.toLowerCase());
+      DrawTool.sides.select(JSON.parse(JSON.parse(escapeJSON(sideObj.content))).id);
       break;
     }
     case 'LOAD_PRODUCT': {
@@ -45,7 +47,7 @@ export default store => next => (action) => {
         });
 
         DrawTool.sides.select(
-          action.payload.colors[0].sides[0].ProductColorSide.title.toLowerCase()
+          JSON.parse(JSON.parse(escapeJSON(action.payload.colors[0].sides[0].ProductColorSide.content))).id
         );
       }
       break;
@@ -68,7 +70,6 @@ export default store => next => (action) => {
     }
 
     case 'APPLY_TEMPLATE': {
-      console.log(action.payload);
       DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
       break;
     }
