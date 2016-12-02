@@ -34,7 +34,7 @@ export default store => next => (action) => {
     }
     case 'LOAD_PRODUCT': {
       if (action.payload.product.colors.length) {
-        console.log(action);
+        DrawTool.sides.empty();
         action.payload.product.colors[0].sides.map((side) => {
           const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
           const fSide = DrawTool.sides.addSide(sideProps.id);
