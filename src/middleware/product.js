@@ -33,8 +33,9 @@ export default store => next => (action) => {
       break;
     }
     case 'LOAD_PRODUCT': {
-      if (action.payload.colors.length) {
-        action.payload.colors[0].sides.map((side) => {
+      if (action.payload.product.colors.length) {
+        console.log(action);
+        action.payload.product.colors[0].sides.map((side) => {
           const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
           const fSide = DrawTool.sides.addSide(sideProps.id);
           return fSide.setImage(`${sideProps.imageUrl}?_`, sideProps.size)
@@ -46,8 +47,12 @@ export default store => next => (action) => {
             });
         });
 
+        const color = action.payload.product.colors.find((color) => {
+          return color.ProductColor.id === action.payload.colorId;
+        });
+
         DrawTool.sides.select(
-          JSON.parse(JSON.parse(escapeJSON(action.payload.colors[0].sides[0].ProductColorSide.content))).id
+          JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
         );
       }
       break;
