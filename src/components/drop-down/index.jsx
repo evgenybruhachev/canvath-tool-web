@@ -65,7 +65,7 @@ class DropDown extends Component {
         ref={(node) => { this.node = node; return node; }}
       >
         <div className="drop-down_head">
-          <div className="label">{this.state.label || label}</div>
+          <div className="label">{label}</div>
           <svg className="icon">
             <use xlinkHref={'#icon-list'} />
           </svg>

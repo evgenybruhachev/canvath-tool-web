@@ -39,14 +39,19 @@ export default handleActions({
     products: action.payload,
   }),
 
-  LOAD_PRODUCT: (state, action) => Object.assign({}, state, {
-    colorSelected: action.payload.product.colors[0].ProductColor,
-    sideSelected: action.payload.product.colors[0].sides[0].ProductColorSide,
-    product: action.payload.product.Product,
-    colors: action.payload.product.colors,
-    loadProductTypeContainer: false,
-    mobileNavigation: false,
-  }),
+  LOAD_PRODUCT: (state, action) => {
+    const color = action.payload.product.colors.find((c) => {
+      return c.ProductColor.id === action.payload.colorId;
+    });
+    return Object.assign({}, state, {
+      colorSelected: color.ProductColor,
+      sideSelected: color.sides[0].ProductColorSide,
+      product: action.payload.product.Product,
+      colors: action.payload.product.colors,
+      loadProductTypeContainer: false,
+      mobileNavigation: false,
+    });
+  },
 
   SELECT_COLOR: (state, action) => Object.assign({}, state, {
     colorSelected: state.colors

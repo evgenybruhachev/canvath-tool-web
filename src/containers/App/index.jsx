@@ -144,8 +144,6 @@ class App extends Component {
       templates,
     } = this.props;
 
-    const items = [];
-
     return (
       <div className="app">
 

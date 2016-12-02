@@ -46,6 +46,7 @@ class Options extends Component {
 
     this.getStickers = this.getStickers.bind(this);
     this.getShapes = this.getShapes.bind(this);
+    this.getSideTitle = this.getSideTitle.bind(this);
   }
 
   getStickers(id) {
@@ -55,6 +56,12 @@ class Options extends Component {
   getShapes(id) {
     const { dispatch } = this.props;
     getShapes(id).then(data => dispatch(actions.updateShapes(data)));
+  }
+
+  getSideTitle() {
+    if (this.props.side) {
+      return JSON.parse(this.props.side.content).id;
+    }
   }
 
   render() {
@@ -312,7 +319,7 @@ class Options extends Component {
             </div>
             <div className="bottom">
               <Layers
-                items={side && layers[side.title.toLowerCase()] && layers[side.title.toLowerCase()]}
+                items={side && layers[this.getSideTitle()] && layers[this.getSideTitle()]}
                 callbackNewOrder={(items, oldIndex, newIndex) => dispatch(actions.sortLayers({ items, oldIndex, newIndex }))}
                 onBlur={id => dispatch(actions.blurLayer(id))}
                 onFocus={id => dispatch(actions.focusLayer(id))}

@@ -40,7 +40,12 @@ export default store => next => (action) => {
       if (action.payload.product.colors.length) {
         sidesContent.getContent(DrawTool.sides._collection);
         DrawTool.sides.empty();
-        action.payload.product.colors[0].sides.map((side) => {
+
+        const color = action.payload.product.colors.find((c) => {
+          return c.ProductColor.id === action.payload.colorId;
+        });
+
+        color.sides.map((side) => {
           const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
           const fSide = DrawTool.sides.addSide(sideProps.id);
           return fSide.setImage(`${sideProps.imageUrl}?_`, sideProps.size)
@@ -51,10 +56,6 @@ export default store => next => (action) => {
               fSide.FabricCanvas.renderAll();
               sidesContent.applyContent(fSide);
             });
-        });
-
-        const color = action.payload.product.colors.find((color) => {
-          return color.ProductColor.id === action.payload.colorId;
         });
 
         DrawTool.sides.select(
