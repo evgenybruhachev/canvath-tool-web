@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class DropDown extends Component {
 
@@ -70,13 +71,20 @@ class DropDown extends Component {
           </svg>
         </div>
         <div className="list">
-          {
-            React.Children.map(
-            children, child => React.cloneElement(child,
-            { onClick: () => this.select(child.props.children, child.props['data-meta']) }
-            )
-            )
-          }
+          <Scrollbars
+            autoHide
+            hideTracksWhenNotNeeded
+            autoHeight
+            autoHeightMax={300}
+          >
+            {
+              React.Children.map(
+              children, child => React.cloneElement(child,
+              { onClick: () => this.select(child.props.children, child.props['data-meta']) }
+              )
+              )
+            }
+          </Scrollbars>
         </div>
       </div>
     );
