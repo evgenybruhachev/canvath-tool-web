@@ -40,10 +40,10 @@ export default handleActions({
   }),
 
   LOAD_PRODUCT: (state, action) => Object.assign({}, state, {
-    colorSelected: action.payload.colors[0].ProductColor,
-    sideSelected: action.payload.colors[0].sides[0].ProductColorSide,
-    product: action.payload.Product,
-    colors: action.payload.colors,
+    colorSelected: action.payload.product.colors[0].ProductColor,
+    sideSelected: action.payload.product.colors[0].sides[0].ProductColorSide,
+    product: action.payload.product.Product,
+    colors: action.payload.product.colors,
     loadProductTypeContainer: false,
     mobileNavigation: false,
   }),

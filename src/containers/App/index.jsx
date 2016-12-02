@@ -93,14 +93,13 @@ class App extends Component {
     dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
   }
 
-  loadProduct(id) {
+  loadProduct(id, colorId) {
     const { dispatch } = this.props;
 
-    getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
+    getProduct(id).then(data => dispatch(ProductActions.loadProduct(data, colorId)));
 
     DrawTool.on('history:update', () => {
       DrawTool.sides.selected.layers.update().then((layers) => {
-
         const data = {
           layers,
           side: DrawTool.sides.selected.id,
@@ -230,7 +229,7 @@ class App extends Component {
               title={item.Product.title}
               image={item.Product.image_url}
               images={item.Product.sides}
-              onClick={() => this.loadProduct(item.Product.id)}
+              onClick={() => this.loadProduct(item.Product.id, item.Product.sides[0].ProductColorSide.id)}
             />)}
           </ProductLoad> : null }
 
@@ -263,7 +262,7 @@ class App extends Component {
               title={item.Product.title}
               image={item.Product.image_url}
               images={item.Product.sides}
-              onClick={() => this.loadProduct(item.Product.id)}
+              onClick={() => this.loadProduct(item.Product.id, item.Product.sides[0].ProductColorSide.id)}
             />)}
           </ProductLoad> : null }
 
