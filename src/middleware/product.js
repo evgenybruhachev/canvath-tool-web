@@ -2,6 +2,7 @@ import DrawTool from '../draw-tool/drawtool';
 import escapeJSON from '../utils/escapeJSON';
 import { uploadByString } from '../api/extras';
 import { saveTemplate } from '../api/products';
+import sidesContent from '../utils/sidesContent';
 
 export default store => next => (action) => {
   const { colors, colorSelected, sideSelected } = store.getState().product;
@@ -11,6 +12,7 @@ export default store => next => (action) => {
       action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
       break;
     case 'SELECT_COLOR': {
+      sidesContent.getContent(DrawTool.sides._collection);
       DrawTool.sides.empty();
       colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
         const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
@@ -21,8 +23,10 @@ export default store => next => (action) => {
             fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
             fSide.backdrop.opacity = 1;
             fSide.FabricCanvas.renderAll();
+            sidesContent.applyContent(fSide);
           });
       });
+
       DrawTool.sides.select(JSON.parse(JSON.parse(escapeJSON(sideSelected.content))).id);
       break;
     }
@@ -34,8 +38,14 @@ export default store => next => (action) => {
     }
     case 'LOAD_PRODUCT': {
       if (action.payload.product.colors.length) {
+        sidesContent.getContent(DrawTool.sides._collection);
         DrawTool.sides.empty();
-        action.payload.product.colors[0].sides.map((side) => {
+
+        const color = action.payload.product.colors.find((c) => {
+          return c.ProductColor.id === action.payload.colorId;
+        });
+
+        color.sides.map((side) => {
           const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
           const fSide = DrawTool.sides.addSide(sideProps.id);
           return fSide.setImage(`${sideProps.imageUrl}?_`, sideProps.size)
@@ -44,11 +54,8 @@ export default store => next => (action) => {
               fSide.FabricCanvas.renderAll.bind(fSide.FabricCanvas);
               fSide.backdrop.opacity = 1;
               fSide.FabricCanvas.renderAll();
+              sidesContent.applyContent(fSide);
             });
-        });
-
-        const color = action.payload.product.colors.find((color) => {
-          return color.ProductColor.id === action.payload.colorId;
         });
 
         DrawTool.sides.select(
