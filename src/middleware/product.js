@@ -14,6 +14,8 @@ export default store => next => (action) => {
     case 'SELECT_COLOR': {
       sidesContent.getContent(DrawTool.sides._collection);
       DrawTool.sides.empty();
+      DrawTool.history.history = {};
+
       colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
         const sideProps = JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
         const fSide = DrawTool.sides.addSide(sideProps.id);
@@ -24,6 +26,8 @@ export default store => next => (action) => {
             fSide.backdrop.opacity = 1;
             fSide.FabricCanvas.renderAll();
             sidesContent.applyContent(fSide);
+
+            // DrawTool.history.pushState(fSide.id);
           });
       });
 
@@ -41,6 +45,8 @@ export default store => next => (action) => {
         sidesContent.getContent(DrawTool.sides._collection);
         DrawTool.sides.empty();
 
+        DrawTool.history.history = {};
+
         const color = action.payload.product.colors.find((c) => {
           return c.ProductColor.id === action.payload.colorId;
         });
@@ -55,6 +61,7 @@ export default store => next => (action) => {
               fSide.backdrop.opacity = 1;
               fSide.FabricCanvas.renderAll();
               sidesContent.applyContent(fSide);
+              // DrawTool.history.pushState(fSide.id);
             });
         });
 
