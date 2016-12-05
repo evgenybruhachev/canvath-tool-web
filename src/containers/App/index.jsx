@@ -30,12 +30,13 @@ class App extends Component {
     loadProductCatContainer: React.PropTypes.bool,
     loadProductTypeContainer: React.PropTypes.bool,
     categories: React.PropTypes.array,
-    products: React.PropTypes.array,
+    products: React.PropTypes.object,
     colors: React.PropTypes.array,
     sides: React.PropTypes.object,
     activeTool: React.PropTypes.string,
     dispatch: React.PropTypes.func,
     templates: React.PropTypes.array,
+    currentCategory: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -66,15 +67,16 @@ class App extends Component {
     const { dispatch } = this.props;
     getProductsByCategory(id).then((data) => {
       this.setState(state => Object.assign({}, state, { category: title }));
-      dispatch(ProductActions.loadProducts(data));
+      dispatch(ProductActions.loadProducts({ id, data }));
+
+      dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
+      dispatch(ProductActions.toggleLoadProductTypeContainer({ state: true, id }));
     });
-    dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
-    dispatch(ProductActions.toggleLoadProductTypeContainer(true));
   }
 
   typeSelectorBack() {
     const { dispatch } = this.props;
-    dispatch(ProductActions.toggleLoadProductTypeContainer(false));
+    dispatch(ProductActions.toggleLoadProductTypeContainer({ state: false }));
     dispatch(ProductActions.toggleLoadProductCategoryContainer(true));
   }
 
@@ -82,7 +84,7 @@ class App extends Component {
     const { dispatch } = this.props;
     dispatch(ProductActions.toggleMobileNavigation(false));
     dispatch(ProductActions.toggleLoadProductCategoryContainer(false));
-    dispatch(ProductActions.toggleLoadProductTypeContainer(false));
+    dispatch(ProductActions.toggleLoadProductTypeContainer({ state: false }));
 
     dispatch(ProductActions.toggleLoadProductContainer(false));
   }
@@ -141,6 +143,7 @@ class App extends Component {
       dispatch,
       colors,
       activeTool,
+      currentCategory,
       templates,
     } = this.props;
 
@@ -219,10 +222,10 @@ class App extends Component {
 
           { loadProductTypeContainer ? <ProductLoad
             title={this.state.category}
-            close={() => dispatch(ProductActions.toggleLoadProductTypeContainer(false))}
+            close={() => dispatch(ProductActions.toggleLoadProductTypeContainer({ state: false }))}
             back={this.typeSelectorBack}
           >
-            {products.map((item, index) => <ProductCard
+            {products[currentCategory].map((item, index) => <ProductCard
               key={index}
               title={item.Product.title}
               image={item.Product.image_url}
@@ -255,7 +258,7 @@ class App extends Component {
             close={this.mobileClose}
             back={this.typeSelectorBack}
           >
-            {products.map((item, index) => <ProductCard
+            {products[currentCategory].map((item, index) => <ProductCard
               key={index}
               title={item.Product.title}
               image={item.Product.image_url}
@@ -287,6 +290,7 @@ function mapStateToProps(state) {
     colors: state.product.colors,
     activeTool: state.drawTool.activeTool,
     templates: state.product.templates,
+    currentCategory: state.product.currentCategory,
   };
 }
 
