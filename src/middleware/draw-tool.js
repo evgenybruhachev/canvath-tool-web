@@ -133,6 +133,7 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected.remove();
       break;
     case 'ALIGN_LAYER':
+      console.log(...layersSelected);
       DrawTool.sides.selected.layers[action.payload](...layersSelected);
       break;
     case 'ALIGN_ITEM':
