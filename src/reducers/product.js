@@ -6,11 +6,12 @@ const initialState = {
   loadProductTypeContainer: false,
   mobileNavigation: false,
   categories: [],
-  products: [],
+  products: {},
   product: null,
   colorSelected: null,
   sideSelected: null,
   templates: [],
+  currentCategory: null,
 };
 
 export default handleActions({
@@ -24,7 +25,8 @@ export default handleActions({
   }),
 
   TOGGLE_LOAD_PRODUCT_TYPE_CONTAINER: (state, action) => Object.assign({}, state, {
-    loadProductTypeContainer: action.payload,
+    loadProductTypeContainer: action.payload.state,
+    currentCategory: action.payload.id || state.currentCategory,
   }),
 
   TOGGLE_MOBILE_NAVIGATION: (state, action) => Object.assign({}, state, {
@@ -36,7 +38,7 @@ export default handleActions({
   }),
 
   LOAD_PRODUCTS: (state, action) => Object.assign({}, state, {
-    products: action.payload,
+    products: { [action.payload.id]: action.payload.data },
   }),
 
   LOAD_PRODUCT: (state, action) => {
