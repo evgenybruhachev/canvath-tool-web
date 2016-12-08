@@ -11,9 +11,10 @@ export default store => next => (action) => {
       action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
       break;
     case 'SELECT_COLOR': {
-      let data = colors.find(color => color.ProductColor.id === action.payload).sides.map((side) => {
-        return JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
-      });
+      const data = colors
+        .find(color => color.ProductColor.id === action.payload)
+        .sides
+        .map(side => JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content))));
 
       DrawTool.importJSON(JSON.stringify(data));
 
@@ -27,12 +28,12 @@ export default store => next => (action) => {
       break;
     }
     case 'LOAD_PRODUCT': {
-      if (action.payload.product.colors.length) {
-        const color = action.payload.product.colors.find((c) => {
-          return c.ProductColor.id === action.payload.colorId;
+      if (action.payload.colors.length) {
+        const color = action.payload.colors.find((c) => {
+          return !!c.ProductColor.id;
         });
 
-        let data = color.sides.map((side) => {
+        const data = color.sides.map((side) => {
           return JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
         });
 
