@@ -42,14 +42,14 @@ export default handleActions({
   }),
 
   LOAD_PRODUCT: (state, action) => {
-    const color = action.payload.product.colors.find((c) => {
-      return c.ProductColor.id === action.payload.colorId;
+    const color = action.payload.colors.find((c) => {
+      return !!c.ProductColor.isMain;
     });
     return Object.assign({}, state, {
       colorSelected: color.ProductColor,
       sideSelected: color.sides[0].ProductColorSide,
-      product: action.payload.product.Product,
-      colors: action.payload.product.colors,
+      product: action.payload.Product,
+      colors: action.payload.colors,
       loadProductTypeContainer: false,
       mobileNavigation: false,
     });
