@@ -43,7 +43,7 @@ export default handleActions({
 
   LOAD_PRODUCT: (state, action) => {
     const color = action.payload.colors.find((c) => {
-      return !!c.ProductColor.isMain;
+      return !!c.ProductColor.is_main;
     });
     return Object.assign({}, state, {
       colorSelected: color.ProductColor,
