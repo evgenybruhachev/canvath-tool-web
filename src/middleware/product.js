@@ -30,7 +30,7 @@ export default store => next => (action) => {
     case 'LOAD_PRODUCT': {
       if (action.payload.colors.length) {
         const color = action.payload.colors.find((c) => {
-          return !!c.ProductColor.id;
+          return !!c.ProductColor.is_main;
         });
 
         const data = color.sides.map((side) => {
