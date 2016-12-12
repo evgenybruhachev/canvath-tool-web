@@ -1,8 +1,9 @@
-import { HOST, session } from '../constants';
+import { HOST } from '../constants';
+import query from '../constants/query';
 
 export const getCategories = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/products/categories?session=${session}`, {
+    fetch(`${HOST}/products/categories?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -13,7 +14,7 @@ export const getCategories = () => {
 
 export const getProductsByCategory = (categoryId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/products?session=${session}&category_id=${categoryId}`, {
+    fetch(`${HOST}/products/models?session=${query.session}&category_id=${categoryId}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -24,7 +25,7 @@ export const getProductsByCategory = (categoryId) => {
 
 export const getProduct = (productId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/products/product?session=${session}&product_id=${productId}`, {
+    fetch(`${HOST}/products/models/model?session=${query.session}&product_id=${productId}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -35,7 +36,7 @@ export const getProduct = (productId) => {
 
 export const saveTemplate = (image, svg) => {
   const payload = {
-    session,
+    session: query.session,
     DesignTemplate: {
       image_url: image,
       content_url: svg,
@@ -54,7 +55,7 @@ export const saveTemplate = (image, svg) => {
 
 export const getTemplates = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/designs/templates?session=${session}`, {
+    fetch(`${HOST}/designs/templates?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -65,7 +66,7 @@ export const getTemplates = () => {
 
 export const removeTemplate = (id) => {
   const payload = {
-    session,
+    session: query.session,
     DesignTemplate: {
       id,
     },
@@ -79,5 +80,27 @@ export const removeTemplate = (id) => {
     })
     .then(response => resolve(response))
     .catch(err => reject(err));
+  });
+};
+
+export const getProductWithDesign = (item_id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/products/product/design?session=${query.session}&item_id=${item_id}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then(response => response.json().then(data => resolve(data)))
+      .catch(err => reject(err));
+  });
+};
+
+export const getDesign = (design_id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/designs/design?session=${query.session}&design_id=${design_id}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then(response => response.json().then(data => resolve(data)))
+      .catch(err => reject(err));
   });
 };

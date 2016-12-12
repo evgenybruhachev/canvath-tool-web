@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { parse } from 'querystring';
 
 import MediaQuery from 'react-responsive';
 
+import query from '../../constants/query';
 import Header from '../Header';
 import HeaderMobile from '../HeaderMobile';
 import Toolbar from '../Toolbar';
@@ -19,7 +21,7 @@ import DrawToolComponent from '../../components/draw-tool';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import { getCategories, getProductsByCategory, getProduct, removeTemplate } from '../../api/products';
+import { getCategories, getProductsByCategory, getProduct, removeTemplate, getProductWithDesign, getDesign } from '../../api/products';
 import { getBrushes, getFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
@@ -36,7 +38,7 @@ class App extends Component {
     activeTool: React.PropTypes.string,
     dispatch: React.PropTypes.func,
     templates: React.PropTypes.array,
-    currentCategory: React.PropTypes.string,
+    currentCategory: React.PropTypes.number,
   }
 
   constructor(props) {
@@ -48,6 +50,7 @@ class App extends Component {
     this.mobileBack = this.mobileBack.bind(this);
     this.loadProduct = this.loadProduct.bind(this);
     this.removeTemplate = this.removeTemplate.bind(this);
+    this.loadProductWithDesign = this.loadProductWithDesign.bind(this);
 
     this.state = {
       category: '',
@@ -56,11 +59,53 @@ class App extends Component {
 
   componentWillMount() {
     const { dispatch } = this.props;
+
+    query.setData(parse(window.location.search.substring(1)));
+
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
     getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
     getShapesCategories().then(data => dispatch(DrawToolActions.updateShapesCategories(data)));
     getStickersCategories().then(data => dispatch(DrawToolActions.updateStickersCategories(data)));
+
+    if (query.item_id) {
+      getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
+    } else if (query.design_id) {
+      getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
+    }
+  }
+
+  loadProductWithDesign(data) {
+    const { dispatch } = this.props;
+
+    console.log(data);
+
+    dispatch(ProductActions.loadProductWithDesign(data));
+
+    DrawTool.on('history:update', () => {
+      const layers = DrawTool.sides.selected.layers.update();
+      const data = {
+        layers,
+        side: DrawTool.sides.selected.id,
+      };
+
+      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+      dispatch(DrawToolActions.updateLayers(data));
+    });
+
+    DrawTool.on('object:selected', () => {
+      const item = DrawTool.sides.selected.items.selected.item;
+      dispatch(DrawToolActions.selectItem(item));
+    });
+
+    DrawTool.on('selection:cleared', () => {
+      dispatch(DrawToolActions.unselectItem());
+    });
+
+    DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.toggleColorPicker(false));
+      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
+    });
   }
 
   goToCategory(id, title) {

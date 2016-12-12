@@ -1,10 +1,11 @@
-import { HOST, session } from '../constants';
+import { HOST } from '../constants';
+import query from '../constants/query';
 
 export const upload = (image) => {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append('image', image);
-    formData.append('session', session);
+    formData.append('session', query.session);
 
     fetch(`${HOST}/designs/design/image/upload`, {
     // fetch(`${HOST}/designs/design/image/base64`, {
@@ -24,7 +25,7 @@ export const upload = (image) => {
 
 export const uploadByString = (mime_type, content, extension) => {
   const data = {
-    session,
+    session: query.session,
     File: { mime_type, content, extension },
   };
 
@@ -40,7 +41,7 @@ export const uploadByString = (mime_type, content, extension) => {
 
 export const getShapesCategories = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/shapes/categories?session=${session}`, {
+    fetch(`${HOST}/drawer/shapes/categories?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -51,7 +52,7 @@ export const getShapesCategories = () => {
 
 export const getShapes = (id) => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/shapes?session=${session}&category_id=${id}`, {
+    fetch(`${HOST}/drawer/shapes?session=${query.session}&category_id=${id}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -62,7 +63,7 @@ export const getShapes = (id) => {
 
 export const getStickersCategories = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/stickers/categories?session=${session}`, {
+    fetch(`${HOST}/drawer/stickers/categories?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -73,7 +74,7 @@ export const getStickersCategories = () => {
 
 export const getStickers = (id) => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/stickers?session=${session}&category_id=${id}`, {
+    fetch(`${HOST}/drawer/stickers?session=${query.session}&category_id=${id}`, {
       method: 'GET',
       mode: 'cors',
     })
