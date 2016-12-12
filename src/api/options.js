@@ -1,8 +1,9 @@
-import { HOST, session } from '../constants';
+import { HOST } from '../constants';
+import query from '../constants/query';
 
 export const getBrushes = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/brushes?session=${session}`, {
+    fetch(`${HOST}/drawer/brushes?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })
@@ -13,7 +14,7 @@ export const getBrushes = () => {
 
 export const getFonts = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/drawer/fonts?session=${session}`, {
+    fetch(`${HOST}/drawer/fonts?session=${query.session}`, {
       method: 'GET',
       mode: 'cors',
     })

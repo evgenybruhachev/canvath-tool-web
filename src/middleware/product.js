@@ -45,6 +45,28 @@ export default store => next => (action) => {
       }
       break;
     }
+    case 'LOAD_PRODUCT_WITH_DESIGN': {
+      if (action.payload.product.colors.length) {
+        const color = action.payload.product.colors.find((c) => {
+          return c.ProductColor.id === action.payload.selected_color_id;
+        });
+
+        const data = color.sides.map((side) => {
+          return JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
+        });
+
+        DrawTool.importJSON(JSON.stringify(data)).then(() => {
+          DrawTool.sides._collection.forEach((side) => {
+            side.fromJSON(action.payload.sides[side.id]);
+          });
+        });
+
+        DrawTool.sides.select(
+          JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
+        );
+      }
+      break;
+    }
     case 'SAVE_TEMPLATE': {
       DrawTool.sides.selected.items.finalizeBrush();
 
