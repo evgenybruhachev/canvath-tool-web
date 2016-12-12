@@ -78,8 +78,6 @@ class App extends Component {
   loadProductWithDesign(data) {
     const { dispatch } = this.props;
 
-    console.log(data);
-
     dispatch(ProductActions.loadProductWithDesign(data));
 
     DrawTool.on('history:update', () => {

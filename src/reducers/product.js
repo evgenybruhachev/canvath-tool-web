@@ -55,6 +55,20 @@ export default handleActions({
     });
   },
 
+  LOAD_PRODUCT_WITH_DESIGN: (state, action) => {
+    const color = action.payload.product.colors.find((c) => {
+      return c.ProductColor.id === action.payload.selected_color_id;
+    });
+    return Object.assign({}, state, {
+      colorSelected: color.ProductColor,
+      sideSelected: color.sides[0].ProductColorSide,
+      product: action.payload.product.Product,
+      colors: action.payload.product.colors,
+      loadProductTypeContainer: false,
+      mobileNavigation: false,
+    });
+  },
+
   SELECT_COLOR: (state, action) => Object.assign({}, state, {
     colorSelected: state.colors
     .find(color => color.ProductColor.id === action.payload).ProductColor,
