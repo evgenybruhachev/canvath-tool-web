@@ -66,7 +66,7 @@ class HeaderMobile extends Component {
       saveProduct(colorSelected.id, sides).then((data) => {
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+        form.setAttribute('action', 'http://nobori.decodeapps.io/proc.php?run=appli2web');
 
         for (const key in data) {
           const input = document.createElement('input');
