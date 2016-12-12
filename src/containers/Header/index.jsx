@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import Button from '../../components/button';
 import DropDown from '../../components/drop-down';
 
-import { getTemplates } from '../../api/products';
+import DrawTool from '../../draw-tool/drawtool';
+
+import { getTemplates, saveProduct } from '../../api/products';
 
 import * as ProductActions from '../../actions/product';
 import * as DrawToolAction from '../../actions/draw-tool';
@@ -27,6 +29,7 @@ class Header extends Component {
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
+    this.goToCart = this.goToCart.bind(this);
   }
 
   openProductLoad() {
@@ -55,6 +58,32 @@ class Header extends Component {
     dispatch(DrawToolAction.setActiveTool('pointer'));
 
     setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+  }
+
+  goToCart() {
+    const { colorSelected } = this.props;
+    const sides = {};
+    DrawTool.sides._collection.forEach((side) => {
+      sides[side.id] = { content: side.toJSON() };
+    });
+
+    saveProduct(colorSelected.id, sides).then((data) => {
+      console.log(data);
+      const form = document.createElement('form');
+      form.setAttribute('method', 'post');
+      form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+
+      for (const key in data) {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('value', data[key]);
+        input.setAttribute('name', key);
+        input.setAttribute('id', key);
+        form.appendChild(input);
+      }
+
+      form.submit();
+    });
   }
 
   render() {
@@ -90,7 +119,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" />
+        <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" onClick={this.goToCart} />
       </div>
     );
   }

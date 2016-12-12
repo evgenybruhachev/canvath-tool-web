@@ -104,3 +104,23 @@ export const getDesign = (design_id) => {
       .catch(err => reject(err));
   });
 };
+
+export const saveProduct = (colorId, sides) => {
+  const payload = {
+    session: query.session,
+    Product: {
+      color_id: colorId,
+      design_sides: sides,
+    },
+  };
+
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/products/product`, {
+      method: 'PUT',
+      mode: 'cors',
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json().then(data => resolve(data)))
+      .catch(err => reject(err));
+  });
+};
