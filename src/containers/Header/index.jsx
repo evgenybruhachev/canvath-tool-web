@@ -9,7 +9,7 @@ import DrawTool from '../../draw-tool/drawtool';
 import { getTemplates, saveProduct } from '../../api/products';
 
 import * as ProductActions from '../../actions/product';
-import * as DrawToolAction from '../../actions/draw-tool';
+import * as DrawToolActions from '../../actions/draw-tool';
 
 class Header extends Component {
 
@@ -55,35 +55,41 @@ class Header extends Component {
 
   handleSaveTemplate() {
     const { dispatch } = this.props;
-    dispatch(DrawToolAction.setActiveTool('pointer'));
+    dispatch(DrawToolActions.setActiveTool('pointer'));
 
     setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
   }
 
   goToCart() {
-    const { colorSelected } = this.props;
+    const { dispatch, colorSelected } = this.props;
     const sides = {};
-    DrawTool.sides._collection.forEach((side) => {
-      sides[side.id] = { content: side.toJSON() };
-    });
 
-    saveProduct(colorSelected.id, sides).then((data) => {
-      console.log(data);
-      const form = document.createElement('form');
-      form.setAttribute('method', 'post');
-      form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+    dispatch(DrawToolActions.setActiveTool('pointer'));
 
-      for (const key in data) {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('value', data[key]);
-        input.setAttribute('name', key);
-        input.setAttribute('id', key);
-        form.appendChild(input);
-      }
+    setTimeout(() => {
 
-      form.submit();
-    });
+      DrawTool.sides._collection.forEach((side) => {
+        sides[side.id] = { content: side.toJSON() };
+      });
+
+      saveProduct(colorSelected.id, sides).then((data) => {
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+
+        for (const key in data) {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'hidden');
+          input.setAttribute('value', data[key]);
+          input.setAttribute('name', key);
+          input.setAttribute('id', key);
+          form.appendChild(input);
+        }
+
+        form.submit();
+      });
+
+    }, 500);
   }
 
   render() {

@@ -52,29 +52,35 @@ class HeaderMobile extends Component {
   }
 
   goToCart() {
-    const { colorSelected } = this.props;
+    const { dispatch, colorSelected } = this.props;
     const sides = {};
-    DrawTool.sides._collection.forEach((side) => {
-      sides[side.id] = { content: side.toJSON() };
-    });
 
-    saveProduct(colorSelected.id, sides).then((data) => {
-      console.log(data);
-      const form = document.createElement('form');
-      form.setAttribute('method', 'post');
-      form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+    dispatch(DrawToolActions.setActiveTool('pointer'));
 
-      for (const key in data) {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('value', data[key]);
-        input.setAttribute('name', key);
-        input.setAttribute('id', key);
-        form.appendChild(input);
-      }
+    setTimeout(() => {
 
-      form.submit();
-    });
+      DrawTool.sides._collection.forEach((side) => {
+        sides[side.id] = { content: side.toJSON() };
+      });
+
+      saveProduct(colorSelected.id, sides).then((data) => {
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', 'http://52.199.118.6/proc.php?run=appli2web');
+
+        for (const key in data) {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'hidden');
+          input.setAttribute('value', data[key]);
+          input.setAttribute('name', key);
+          input.setAttribute('id', key);
+          form.appendChild(input);
+        }
+
+        form.submit();
+      });
+
+    }, 500);
   }
 
   render() {
@@ -107,6 +113,7 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     selected: state.drawTool.selected,
     history: state.drawTool.history,
+    colorSelected: state.product.colorSelected,
   };
 }
 
