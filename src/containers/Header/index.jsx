@@ -67,6 +67,8 @@ class Header extends Component {
 
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
+    dispatch(ProductActions.setLoading(true));
+
     setTimeout(() => {
 
       DrawTool.sides._collection.forEach((side) => {

@@ -10,6 +10,7 @@ import HeaderMobile from '../HeaderMobile';
 import Toolbar from '../Toolbar';
 import Options from '../Options';
 import MobileNavigation from '../MobileNavigation';
+import Loader from '../../components/loader';
 
 import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
@@ -40,6 +41,7 @@ class App extends Component {
     dispatch: React.PropTypes.func,
     templates: React.PropTypes.array,
     currentCategory: React.PropTypes.number,
+    loading: React.PropTypes.bool,
   }
 
   constructor(props) {
@@ -242,10 +244,13 @@ class App extends Component {
       activeTool,
       currentCategory,
       templates,
+      loading,
     } = this.props;
 
     return (
       <div className="app">
+
+        {loading ? <Loader /> : ''}
 
         <MediaQuery query="(min-width: 1080px)">
           <Header />
@@ -389,6 +394,7 @@ function mapStateToProps(state) {
     templates: state.product.templates,
     currentCategory: state.product.currentCategory,
     sidesPrice: state.product.sidesPrice,
+    loading: state.product.loading,
   };
 }
 

@@ -56,6 +56,8 @@ class HeaderMobile extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
+    dispatch(ProductActions.setLoading(true));
+
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
     setTimeout(() => {

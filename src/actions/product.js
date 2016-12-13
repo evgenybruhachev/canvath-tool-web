@@ -15,3 +15,4 @@ export const applyTemplate = createAction('APPLY_TEMPLATE');
 export const removeTemplate = createAction('REMOVE_TEMPLATE');
 export const loadProductWithDesign = createAction('LOAD_PRODUCT_WITH_DESIGN');
 export const updatePrice = createAction('UPDATE_PRICE');
+export const setLoading = createAction('LOADING');
