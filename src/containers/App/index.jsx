@@ -21,7 +21,8 @@ import DrawToolComponent from '../../components/draw-tool';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import { getCategories, getProductsByCategory, getProduct, removeTemplate, getProductWithDesign, getDesign } from '../../api/products';
+import { getCategories, getProductsByCategory, getProduct, removeTemplate,
+  getProductWithDesign, getDesign, getDefaultProduct } from '../../api/products';
 import { getBrushes, getFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
@@ -51,6 +52,7 @@ class App extends Component {
     this.loadProduct = this.loadProduct.bind(this);
     this.removeTemplate = this.removeTemplate.bind(this);
     this.loadProductWithDesign = this.loadProductWithDesign.bind(this);
+    this.loadDefaultProduct = this.loadDefaultProduct.bind(this);
 
     this.state = {
       category: '',
@@ -72,6 +74,8 @@ class App extends Component {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
     } else if (query.design_id) {
       getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
+    } else {
+      this.loadDefaultProduct();
     }
   }
 
@@ -142,6 +146,37 @@ class App extends Component {
     const { dispatch } = this.props;
 
     getProduct(id).then(data => dispatch(ProductActions.loadProduct(data)));
+
+    DrawTool.on('history:update', () => {
+      const layers = DrawTool.sides.selected.layers.update();
+      const data = {
+        layers,
+        side: DrawTool.sides.selected.id,
+      };
+
+      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+      dispatch(DrawToolActions.updateLayers(data));
+    });
+
+    DrawTool.on('object:selected', () => {
+      const item = DrawTool.sides.selected.items.selected.item;
+      dispatch(DrawToolActions.selectItem(item));
+    });
+
+    DrawTool.on('selection:cleared', () => {
+      dispatch(DrawToolActions.unselectItem());
+    });
+
+    DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.toggleColorPicker(false));
+      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
+    });
+  }
+
+  loadDefaultProduct() {
+    const { dispatch } = this.props;
+
+    getDefaultProduct().then(data => dispatch(ProductActions.loadProduct(data.product)));
 
     DrawTool.on('history:update', () => {
       const layers = DrawTool.sides.selected.layers.update();
