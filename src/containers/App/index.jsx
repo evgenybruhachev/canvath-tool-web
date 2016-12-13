@@ -42,6 +42,7 @@ class App extends Component {
     templates: React.PropTypes.array,
     currentCategory: React.PropTypes.number,
     loading: React.PropTypes.bool,
+    sidesPrice: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -80,53 +81,6 @@ class App extends Component {
     } else {
       this.loadDefaultProduct();
     }
-  }
-
-  calcPrice(){
-    const { dispatch, sidesPrice } = this.props;
-
-    let p = 0;
-
-    for (const side in sidesPrice) {
-      const sideObjects = DrawTool.sides.getSide(side).FabricCanvas.getObjects().filter(o => !o.excludeFromExport).length;
-      if (sideObjects) {
-        p += sidesPrice[side];
-      }
-    }
-
-
-    dispatch(ProductActions.updatePrice(p));
-  }
-
-  loadProductWithDesign(data) {
-    const { dispatch } = this.props;
-
-    dispatch(ProductActions.loadProductWithDesign(data));
-
-    DrawTool.on('history:update', () => {
-      const layers = DrawTool.sides.selected.layers.update();
-      const data = {
-        layers,
-        side: DrawTool.sides.selected.id,
-      };
-
-      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
-      dispatch(DrawToolActions.updateLayers(data));
-    });
-
-    DrawTool.on('object:selected', () => {
-      const item = DrawTool.sides.selected.items.selected.item;
-      dispatch(DrawToolActions.selectItem(item));
-    });
-
-    DrawTool.on('selection:cleared', () => {
-      dispatch(DrawToolActions.unselectItem());
-    });
-
-    DrawTool.on('colorpicker:update', (color) => {
-      dispatch(DrawToolActions.toggleColorPicker(false));
-      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
-    });
   }
 
   goToCategory(id, title) {
@@ -179,6 +133,12 @@ class App extends Component {
       this.calcPrice();
     });
 
+    DrawTool.on('mouse:move', () => {
+      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        this.calcPrice();
+      }
+    });
+
     DrawTool.on('object:selected', () => {
       const item = DrawTool.sides.selected.items.selected.item;
       dispatch(DrawToolActions.selectItem(item));
@@ -212,6 +172,12 @@ class App extends Component {
       this.calcPrice();
     });
 
+    DrawTool.on('mouse:move', () => {
+      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        this.calcPrice();
+      }
+    });
+
     DrawTool.on('object:selected', () => {
       const item = DrawTool.sides.selected.items.selected.item;
       dispatch(DrawToolActions.selectItem(item));
@@ -225,6 +191,61 @@ class App extends Component {
       dispatch(DrawToolActions.toggleColorPicker(false));
       dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
     });
+  }
+
+  loadProductWithDesign(data) {
+    const { dispatch } = this.props;
+
+    dispatch(ProductActions.loadProductWithDesign(data));
+
+    DrawTool.on('history:update', () => {
+      const layers = DrawTool.sides.selected.layers.update();
+      const data = {
+        layers,
+        side: DrawTool.sides.selected.id,
+      };
+
+      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+      dispatch(DrawToolActions.updateLayers(data));
+
+      this.calcPrice();
+    });
+
+    DrawTool.on('mouse:move', () => {
+      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        this.calcPrice();
+      }
+    });
+
+    DrawTool.on('object:selected', () => {
+      const item = DrawTool.sides.selected.items.selected.item;
+      dispatch(DrawToolActions.selectItem(item));
+    });
+
+    DrawTool.on('selection:cleared', () => {
+      dispatch(DrawToolActions.unselectItem());
+    });
+
+    DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.toggleColorPicker(false));
+      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
+    });
+  }
+
+  calcPrice(){
+    const { dispatch, sidesPrice } = this.props;
+
+    let p = 0;
+
+    for (const side in sidesPrice) {
+      const sideObjects = DrawTool.sides.getSide(side).FabricCanvas.getObjects().filter(o => !o.excludeFromExport).length;
+      const moved = DrawTool.sides.getSide(side).FabricCanvas.freeDrawingBrush.moved;
+      if (sideObjects || moved) {
+        p += sidesPrice[side];
+      }
+    }
+
+    dispatch(ProductActions.updatePrice(p));
   }
 
   removeTemplate(id) {
