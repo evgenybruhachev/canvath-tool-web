@@ -18,7 +18,7 @@ export default store => next => (action) => {
     return next(action);
   }
 
-  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'UNSELECT_ITEM' || action.type === 'EMPTY')) {
+  if (!(action.type === 'UPDATE_LAYERS' || action.type === 'UNSELECT_ITEM' || action.type === 'EMPTY' || action.type === 'UPDATE_PRICE')) {
     DrawTool.sides.selected.items.finalizeBrush();
   }
 
