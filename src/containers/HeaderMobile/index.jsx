@@ -18,6 +18,7 @@ class HeaderMobile extends Component {
     dispatch: React.PropTypes.func,
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
+    price: React.PropTypes.number,
   }
 
   constructor(props) {
@@ -55,6 +56,8 @@ class HeaderMobile extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
+    dispatch(ProductActions.setLoading(true));
+
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
     setTimeout(() => {
@@ -84,7 +87,7 @@ class HeaderMobile extends Component {
   }
 
   render() {
-    const { activeTool, dispatch, selected, history } = this.props;
+    const { activeTool, dispatch, selected, history, price } = this.props;
 
     return (
       <div className="app-header">
@@ -101,7 +104,7 @@ class HeaderMobile extends Component {
           onClick={() => dispatch(DrawToolActions.remove())}
           disabled={!selected}
         />
-        <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" onClick={this.goToCart} />
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
       </div>
     );
   }
@@ -114,6 +117,7 @@ function mapStateToProps(state) {
     selected: state.drawTool.selected,
     history: state.drawTool.history,
     colorSelected: state.product.colorSelected,
+    price: state.product.price,
   };
 }
 

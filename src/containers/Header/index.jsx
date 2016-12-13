@@ -19,6 +19,7 @@ class Header extends Component {
     colorSelected: React.PropTypes.object,
     sideSelected: React.PropTypes.object,
     dispatch: React.PropTypes.func,
+    price: React.PropTypes.number,
   }
 
   constructor(props) {
@@ -66,6 +67,8 @@ class Header extends Component {
 
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
+    dispatch(ProductActions.setLoading(true));
+
     setTimeout(() => {
 
       DrawTool.sides._collection.forEach((side) => {
@@ -93,7 +96,7 @@ class Header extends Component {
   }
 
   render() {
-    const { colors, colorSelected, sideSelected, product, dispatch } = this.props;
+    const { colors, colorSelected, sideSelected, product, price } = this.props;
 
     return (
       <div className="app-header">
@@ -125,7 +128,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />5000円</span>} className="cart-button" onClick={this.goToCart} />
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
       </div>
     );
   }
@@ -137,6 +140,7 @@ function mapStateToProps(state) {
     colors: state.product.colors,
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
+    price: state.product.price,
   };
 }
 

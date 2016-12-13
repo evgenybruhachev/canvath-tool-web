@@ -10,6 +10,7 @@ import HeaderMobile from '../HeaderMobile';
 import Toolbar from '../Toolbar';
 import Options from '../Options';
 import MobileNavigation from '../MobileNavigation';
+import Loader from '../../components/loader';
 
 import ProductLoad from '../../components/product-load';
 import ProductCard from '../../components/product-card';
@@ -21,7 +22,8 @@ import DrawToolComponent from '../../components/draw-tool';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import { getCategories, getProductsByCategory, getProduct, removeTemplate, getProductWithDesign, getDesign } from '../../api/products';
+import { getCategories, getProductsByCategory, getProduct, removeTemplate,
+  getProductWithDesign, getDesign, getDefaultProduct } from '../../api/products';
 import { getBrushes, getFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
@@ -39,6 +41,7 @@ class App extends Component {
     dispatch: React.PropTypes.func,
     templates: React.PropTypes.array,
     currentCategory: React.PropTypes.number,
+    loading: React.PropTypes.bool,
   }
 
   constructor(props) {
@@ -51,6 +54,8 @@ class App extends Component {
     this.loadProduct = this.loadProduct.bind(this);
     this.removeTemplate = this.removeTemplate.bind(this);
     this.loadProductWithDesign = this.loadProductWithDesign.bind(this);
+    this.loadDefaultProduct = this.loadDefaultProduct.bind(this);
+    this.calcPrice = this.calcPrice.bind(this);
 
     this.state = {
       category: '',
@@ -72,7 +77,25 @@ class App extends Component {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
     } else if (query.design_id) {
       getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
+    } else {
+      this.loadDefaultProduct();
     }
+  }
+
+  calcPrice(){
+    const { dispatch, sidesPrice } = this.props;
+
+    let p = 0;
+
+    for (const side in sidesPrice) {
+      const sideObjects = DrawTool.sides.getSide(side).FabricCanvas.getObjects().filter(o => !o.excludeFromExport).length;
+      if (sideObjects) {
+        p += sidesPrice[side];
+      }
+    }
+
+
+    dispatch(ProductActions.updatePrice(p));
   }
 
   loadProductWithDesign(data) {
@@ -152,6 +175,41 @@ class App extends Component {
 
       dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
       dispatch(DrawToolActions.updateLayers(data));
+
+      this.calcPrice();
+    });
+
+    DrawTool.on('object:selected', () => {
+      const item = DrawTool.sides.selected.items.selected.item;
+      dispatch(DrawToolActions.selectItem(item));
+    });
+
+    DrawTool.on('selection:cleared', () => {
+      dispatch(DrawToolActions.unselectItem());
+    });
+
+    DrawTool.on('colorpicker:update', (color) => {
+      dispatch(DrawToolActions.toggleColorPicker(false));
+      dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
+    });
+  }
+
+  loadDefaultProduct() {
+    const { dispatch } = this.props;
+
+    getDefaultProduct().then(data => dispatch(ProductActions.loadProduct(data.product)));
+
+    DrawTool.on('history:update', () => {
+      const layers = DrawTool.sides.selected.layers.update();
+      const data = {
+        layers,
+        side: DrawTool.sides.selected.id,
+      };
+
+      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+      dispatch(DrawToolActions.updateLayers(data));
+
+      this.calcPrice();
     });
 
     DrawTool.on('object:selected', () => {
@@ -186,10 +244,13 @@ class App extends Component {
       activeTool,
       currentCategory,
       templates,
+      loading,
     } = this.props;
 
     return (
       <div className="app">
+
+        {loading ? <Loader /> : ''}
 
         <MediaQuery query="(min-width: 1080px)">
           <Header />
@@ -332,6 +393,8 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     templates: state.product.templates,
     currentCategory: state.product.currentCategory,
+    sidesPrice: state.product.sidesPrice,
+    loading: state.product.loading,
   };
 }
 

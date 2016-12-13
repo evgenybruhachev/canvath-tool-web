@@ -34,6 +34,17 @@ export const getProduct = (productId) => {
   });
 };
 
+export const getDefaultProduct = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/products/models/model/default?session=${query.session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then(response => response.json().then(data => resolve(data)))
+      .catch(err => reject(err));
+  });
+};
+
 export const saveTemplate = (image, svg) => {
   const payload = {
     session: query.session,
