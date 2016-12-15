@@ -4,10 +4,12 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import DrawTool from '../../draw-tool/drawtool';
 
+import EXIF from 'exif-js';
+
 import Button from '../../components/button';
 import Upload from '../../components/upload';
 
-import { upload } from '../../api/extras';
+import { uploadByString } from '../../api/extras';
 
 import * as actions from '../../actions/draw-tool';
 
@@ -49,11 +51,88 @@ class Toolbar extends Component {
       }));
   }
 
-  fileUpload(files) {
+  fileUpload(file) {
     const { dispatch } = this.props;
 
-    upload(files).then(
-      data => dispatch(actions.insertImage(data)),
+    const vCanv = document.createElement('canvas');
+    const vCtx = vCanv.getContext('2d');
+
+    const getImage = (file) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = function () {
+          resolve(img);
+        };
+        img.src = URL.createObjectURL(file);
+      });
+    };
+
+    const getBase64 = (file, image) => {
+      return new Promise((resolve) => {
+        EXIF.getData(file, () => {
+          const orientation = EXIF.getTag(file, 'Orientation');
+
+          vCanv.width = image.width;
+          vCanv.height = image.height;
+
+          vCtx.save();
+          let width = vCanv.width;
+          let styleWidth = vCanv.style.width;
+          let height = vCanv.height;
+          let styleHeight = vCanv.style.height;
+          if (orientation) {
+            if (orientation > 4) {
+              vCanv.width = height;
+              vCanv.style.width = styleHeight;
+              vCanv.height = width;
+              vCanv.style.height = styleWidth;
+            }
+            switch (orientation) {
+              case 2:
+                vCtx.translate(width, 0);
+                vCtx.scale(-1, 1);
+                break;
+              case 3:
+                vCtx.translate(width, height);
+                vCtx.rotate(Math.PI);
+                break;
+              case 4:
+                vCtx.translate(0, height);
+                vCtx.scale(1, -1);
+                break;
+              case 5:
+                vCtx.rotate(0.5 * Math.PI);
+                vCtx.scale(1, -1);
+                break;
+              case 6:
+                vCtx.rotate(0.5 * Math.PI);
+                vCtx.translate(0, -height);
+                break;
+              case 7:
+                vCtx.rotate(0.5 * Math.PI);
+                vCtx.translate(width, -height);
+                vCtx.scale(-1, 1);
+                break;
+              case 8:
+                vCtx.rotate(-0.5 * Math.PI);
+                vCtx.translate(-width, 0);
+                break;
+              default:
+                break;
+            }
+          }
+
+          vCtx.drawImage(image, 0, 0);
+          vCtx.restore();
+          resolve(vCanv.toDataURL());
+        });
+      });
+    };
+
+    getImage(file).then(image => getBase64(file, image))
+    .then(base64 => uploadByString('image/png', base64, 'png'))
+    .then(
+      url => dispatch(actions.insertImage(url)),
       err => window.alert(err)
     );
   }

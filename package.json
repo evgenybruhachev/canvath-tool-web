@@ -42,6 +42,7 @@
   "dependencies": {
     "babel-polyfill": "^6.16.0",
     "classnames": "^2.2.5",
+    "exif-js": "^2.1.1",
     "promise-polyfill": "^6.0.2",
     "querystring": "^0.2.0",
     "react": "^15.3.2",
