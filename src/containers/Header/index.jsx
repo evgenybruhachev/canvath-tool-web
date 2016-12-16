@@ -11,6 +11,8 @@ import { getTemplates, saveProduct } from '../../api/products';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
+import WEBHOST from '../../constants/index';
+
 class Header extends Component {
 
   static propTypes = {
@@ -78,7 +80,7 @@ class Header extends Component {
       saveProduct(colorSelected.id, sides).then((data) => {
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', 'http://nobori.decodeapps.io/proc.php?run=appli2web');
+        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
         for (const key in data) {
           const input = document.createElement('input');

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import WEBHOST from '../../constants';
+
 import DrawTool from '../../draw-tool/drawtool';
 
 import * as ProductActions from '../../actions/product';
@@ -69,7 +71,7 @@ class HeaderMobile extends Component {
       saveProduct(colorSelected.id, sides).then((data) => {
         const form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', 'http://nobori.decodeapps.io/proc.php?run=appli2web');
+        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
         for (const key in data) {
           const input = document.createElement('input');
