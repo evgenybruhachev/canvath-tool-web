@@ -34,11 +34,13 @@ export const getProduct = (productId) => {
   });
 };
 
-export const getDefaultProduct = (model_id) => {
+export const getDefaultProduct = (color_id, model_id) => {
 
   let q = '';
 
-  if (model_id) {
+  if (color_id) { 
+    q = `${HOST}/products/models/model/default?session=${query.session}&color_id=${color_id}`;
+  } else if (model_id) {
     q = `${HOST}/products/models/model/default?session=${query.session}&model_id=${model_id}`;
   } else {
     q = `${HOST}/products/models/model/default?session=${query.session}`;

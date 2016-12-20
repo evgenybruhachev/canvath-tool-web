@@ -78,8 +78,10 @@ class App extends Component {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
     } else if (query.design_id) {
       getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
+    } else if (query.color_id) {
+      this.loadDefaultProduct(query.color_id, null);  
     } else if (query.model_id) {
-      this.loadDefaultProduct(query.model_id);
+      this.loadDefaultProduct(null, query.model_id);
     } else {
       this.loadDefaultProduct();
     }
