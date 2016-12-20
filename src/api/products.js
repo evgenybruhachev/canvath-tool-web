@@ -34,9 +34,18 @@ export const getProduct = (productId) => {
   });
 };
 
-export const getDefaultProduct = () => {
+export const getDefaultProduct = (model_id) => {
+
+  let q = '';
+
+  if (model_id) {
+    q = `${HOST}/products/models/model/default?session=${query.session}&model_id=${model_id}`;
+  } else {
+    q = `${HOST}/products/models/model/default?session=${query.session}`;
+  }
+
   return new Promise((resolve, reject) => {
-    fetch(`${HOST}/products/models/model/default?session=${query.session}`, {
+    fetch(q, {
       method: 'GET',
       mode: 'cors',
     })

@@ -78,6 +78,8 @@ class App extends Component {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
     } else if (query.design_id) {
       getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
+    } else if (query.model_id) {
+      this.loadDefaultProduct(query.model_id);
     } else {
       this.loadDefaultProduct();
     }
@@ -154,10 +156,10 @@ class App extends Component {
     });
   }
 
-  loadDefaultProduct() {
+  loadDefaultProduct(model_id) {
     const { dispatch } = this.props;
 
-    getDefaultProduct().then(data => dispatch(ProductActions.loadProduct(data.product)));
+    getDefaultProduct(model_id).then(data => dispatch(ProductActions.loadProduct(data.product)));
 
     DrawTool.on('history:update', () => {
       const layers = DrawTool.sides.selected.layers.update();
