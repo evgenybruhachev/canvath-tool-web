@@ -7,6 +7,8 @@ export const updateShapes = createAction('UPDATE_SHAPES');
 export const updateStickersCategories = createAction('UPDATE_STICKERS_CATEGORIES');
 export const upload = createAction('UPLOAD');
 
+export const setLoading = createAction('LOADING');
+
 export const insertImage = createAction('INSERT_IMAGE');
 
 export const setActiveTool = createAction('SET_ACTIVE_TOOL');

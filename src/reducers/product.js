@@ -15,7 +15,6 @@ const initialState = {
   initial_price: 0,
   sidesPrice: {},
   price: 0,
-  loading: false,
 };
 
 export default handleActions({
@@ -123,8 +122,5 @@ export default handleActions({
     price: state.initial_price + action.payload,
   }),
 
-  LOADING: (state, action) => Object.assign({}, state, {
-    loading: action.payload,
-  }),
 
 }, initialState);

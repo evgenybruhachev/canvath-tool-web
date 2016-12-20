@@ -14,7 +14,7 @@
     width: 41px;
     position: absolute;
     top: calc(50% - 20px);
-    left: calc(50% - 20px);
+    left: calc(50% + 40px);
 
     .loader-top {
       animation: top 5s linear infinite;
@@ -46,6 +46,16 @@
     }
   }
 }
+
+
+@media screen and (max-width: $mobileBreakPoint){
+  .loader {
+    .spinner {
+      left: calc(50% - 20px);
+    }
+  }
+}
+
 
 @keyframes loader {
   90% { transform: rotate(0deg); }

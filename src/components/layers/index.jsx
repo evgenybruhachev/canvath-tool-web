@@ -310,6 +310,7 @@ export default class Layers extends Component {
           onSortMove={this.onSortMove}
           useDragHandle={false}
           axis="x"
+          shouldCancelStart={this.shouldCancelStart}
         />
       )
     }

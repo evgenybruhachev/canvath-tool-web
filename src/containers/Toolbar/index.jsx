@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
+import EXIF from 'exif-js';
 
 import DrawTool from '../../draw-tool/drawtool';
-
-import EXIF from 'exif-js';
 
 import Button from '../../components/button';
 import Upload from '../../components/upload';
@@ -56,6 +55,8 @@ class Toolbar extends Component {
 
     const vCanv = document.createElement('canvas');
     const vCtx = vCanv.getContext('2d');
+
+    dispatch(actions.setLoading(true));
 
     const getImage = (file) => {
       return new Promise((resolve) => {
@@ -132,7 +133,11 @@ class Toolbar extends Component {
     getImage(file).then(image => getBase64(file, image))
     .then(base64 => uploadByString('image/png', base64, 'png'))
     .then(
-      url => dispatch(actions.insertImage(url)),
+      url => {
+        DrawTool.sides.selected.items.addImage(url).then(() => {
+          dispatch(actions.setLoading(false));
+        });
+      },
       err => window.alert(err)
     );
   }

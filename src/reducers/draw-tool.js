@@ -29,6 +29,7 @@ const initialState = {
   availableShapesCategories: [],
   availableShapes: [],
   history: { currentIndex: 0, collection: [{}] },
+  loading: false,
 };
 
 export default handleActions({
@@ -171,6 +172,14 @@ export default handleActions({
 
   REDO: (state, action) => Object.assign({}, state, {
     history: action.payload,
+  }),
+
+  INSERT_IMAGE: (state, action) => Object.assign({}, state, {
+    loading: false,
+  }),
+
+  LOADING: (state, action) => Object.assign({}, state, {
+    loading: action.payload,
   }),
 
 }, initialState);

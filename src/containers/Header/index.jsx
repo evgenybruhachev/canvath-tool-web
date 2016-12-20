@@ -11,7 +11,7 @@ import { getTemplates, saveProduct } from '../../api/products';
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
-import WEBHOST from '../../constants/index';
+import { WEBHOST } from '../../constants';
 
 class Header extends Component {
 
@@ -69,10 +69,9 @@ class Header extends Component {
 
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    dispatch(ProductActions.setLoading(true));
+    dispatch(DrawToolActions.setLoading(true));
 
     setTimeout(() => {
-
       DrawTool.sides._collection.forEach((side) => {
         sides[side.id] = { content: side.toJSON() };
       });

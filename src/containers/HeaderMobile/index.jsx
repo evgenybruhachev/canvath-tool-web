@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import WEBHOST from '../../constants';
+import { WEBHOST } from '../../constants';
 
 import DrawTool from '../../draw-tool/drawtool';
 
@@ -58,7 +58,7 @@ class HeaderMobile extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    dispatch(ProductActions.setLoading(true));
+    dispatch(DrawToolActions.setLoading(true));
 
     dispatch(DrawToolActions.setActiveTool('pointer'));
 

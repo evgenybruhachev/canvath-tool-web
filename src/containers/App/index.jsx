@@ -415,7 +415,7 @@ function mapStateToProps(state) {
     templates: state.product.templates,
     currentCategory: state.product.currentCategory,
     sidesPrice: state.product.sidesPrice,
-    loading: state.product.loading,
+    loading: state.drawTool.loading,
   };
 }
 
