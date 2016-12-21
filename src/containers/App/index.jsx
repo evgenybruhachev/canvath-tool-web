@@ -79,7 +79,7 @@ class App extends Component {
     } else if (query.design_id) {
       getDesign(query.design_id).then(data => this.loadProductWithDesign(data));
     } else if (query.color_id) {
-      this.loadDefaultProduct(query.color_id, null);  
+      this.loadDefaultProduct(query.color_id, null);
     } else if (query.model_id) {
       this.loadDefaultProduct(null, query.model_id);
     } else {
@@ -158,10 +158,24 @@ class App extends Component {
     });
   }
 
-  loadDefaultProduct(model_id) {
+  loadDefaultProduct(color_id, model_id) {
     const { dispatch } = this.props;
 
-    getDefaultProduct(model_id).then(data => dispatch(ProductActions.loadProduct(data.product)));
+    if (color_id) {
+      getDefaultProduct(color_id).then(data => {
+        const product = data.product;
+        product.colors.forEach(c => (c.ProductColor.is_main = 0));
+        const selectedColor = product.colors.find(c => c.ProductColor.id === color_id);
+        console.log(selectedColor);
+        selectedColor.ProductColor.is_main = 1;
+
+        dispatch(ProductActions.loadProduct(product));
+      });
+    } else if (model_id) {
+      getDefaultProduct(null, model_id).then(data => {
+        dispatch(ProductActions.loadProduct(data.product));
+      });
+    }
 
     DrawTool.on('history:update', () => {
       const layers = DrawTool.sides.selected.layers.update();
@@ -177,7 +191,7 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+      if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
         this.calcPrice();
       }
     });
