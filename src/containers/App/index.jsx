@@ -131,8 +131,10 @@ class App extends Component {
         side: DrawTool.sides.selected.id,
       };
 
-      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
-      dispatch(DrawToolActions.updateLayers(data));
+      if (!DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+        dispatch(DrawToolActions.updateLayers(data));
+      }
 
       this.calcPrice();
     });
@@ -184,8 +186,10 @@ class App extends Component {
         side: DrawTool.sides.selected.id,
       };
 
-      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
-      dispatch(DrawToolActions.updateLayers(data));
+      if (!DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+        dispatch(DrawToolActions.updateLayers(data));
+      }
 
       this.calcPrice();
     });
@@ -223,8 +227,10 @@ class App extends Component {
         side: DrawTool.sides.selected.id,
       };
 
-      dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
-      dispatch(DrawToolActions.updateLayers(data));
+      if (!DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+        dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
+        dispatch(DrawToolActions.updateLayers(data));
+      }
 
       this.calcPrice();
     });
