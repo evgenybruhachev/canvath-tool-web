@@ -1,13 +1,11 @@
 import React from 'react';
 
+import Icon from '../icon';
+
 function Loader() {
   return (
     <div className="loader">
-      <div className="spinner">
-        <div className="loader-top" />
-        <div className="loader-bottom" />
-        <div className="loader-line" />
-      </div>
+      <Icon icon="spinner" className={'spinner'} />
     </div>
   );
 }
