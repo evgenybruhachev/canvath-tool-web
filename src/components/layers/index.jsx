@@ -158,10 +158,9 @@ export default class Layers extends Component {
     }
     this.setState({
       selected: index,
-      selection: newSelection.sort((a, b) => a - b),
+      selection: newSelection, //.sort((a, b) => a - b),
     });
     event.preventDefault();
-    // return false;
   }
   shouldCancelStart(e) {
     if (!e.target.className.includes('active')) {
@@ -192,7 +191,7 @@ export default class Layers extends Component {
           items[j].height = 0;
           items[j].visibility = 'hidden';
         } else {
-          items[j].height = items[j].defaultHeight * selection.length;
+          // items[j].height = items[j].defaultHeight * selection.length;
         }
       }
 
@@ -203,71 +202,54 @@ export default class Layers extends Component {
     }
   }
   onSortEnd({ oldIndex, newIndex }) {
+
+    if (!(this.state.moving && this.state.movingstarted)) {
+      return false;
+    }
+    if (!this.state.selection.length) {
+      return false;
+    }
+
     let _newIndex = newIndex;
 
-    if (this.state.moving && this.state.movingstarted) {
-      if (this.state.selection.length > 0) {
-        let newOrder = [];
-        const toPushInNewOrderLater = [];
-        for (let idx = 0; idx < this.state.items.length; idx += 1) {
-          const item = `${idx}-${this.state.items[idx].index}`;
-          if (this.state.selection.indexOf(idx) === -1) {
-            if (_newIndex > oldIndex) {
-              if (idx <= _newIndex) {
-                newOrder.push(item);
-              } else if (idx > _newIndex) {
-                toPushInNewOrderLater.push(item);
-              }
-            } else if (idx < _newIndex) {
-              newOrder.push(item);
-            } else if (idx >= _newIndex) {
-              toPushInNewOrderLater.push(item);
-            }
-          }
-        }
+    const selectedItems = this.state.selection.map(idx => this.state.items[idx].index);
+    const newitems = this.state.items;
+    const selectionToPush = [];
 
-        const selectedItems = this.state.selection.map(idx => this.state.items[idx].index);
+    let newselection = this.state.selection;
+    let newselected = this.state.selected;
+    let i = this.state.selection.length - 1;
 
-        newOrder = newOrder.concat(this.state.selection).concat(toPushInNewOrderLater);
-
-        const newitems = this.state.items;
-        let newselection = this.state.selection;
-        let newselected = this.state.selected;
-
-        const selectionToPush = [];
-        let i = this.state.selection.length - 1;
-        for (; i >= 0; i -= 1) {
-          const index = this.state.selection[i];
-          if (index < _newIndex && index !== this.state.selected) _newIndex -= 1;
-          selectionToPush.unshift(newitems[index]);
-          newitems.splice(index, 1);
-        }
-
-        let k = 0;
-        let j = 0;
-        for (; j < selectionToPush.length; j += 1) {
-          selectionToPush[j].height = selectionToPush[j].defaultHeight;
-          selectionToPush[j].visibility = 'visible';
-          newitems.splice(_newIndex + k, 0, selectionToPush[j]);
-          k += 1;
-        }
-
-        if (oldIndex !== _newIndex || (oldIndex === _newIndex && this.state.selection.length > 1)) {
-          newselection = [];
-          newselected = null;
-        }
-
-        this.setState({
-          items: newitems,
-          selected: newselected,
-          selection: newselection,
-          moving: false,
-          movingstarted: false,
-        });
-
-        this.props.callbackNewOrder(selectedItems, oldIndex, newIndex);
+    for (; i >= 0; i -= 1) {
+      const index = this.state.selection[i];
+      if (index < _newIndex && index !== this.state.selected) {
+        _newIndex -= 1;
       }
+      selectionToPush.unshift(newitems[index]);
+      newitems.splice(index, 1);
     }
+
+    let j = 0;
+    for (; j < selectionToPush.length; j += 1) {
+      // selectionToPush[j].height = selectionToPush[j].defaultHeight;
+      selectionToPush[j].visibility = 'visible';
+      newitems.splice(_newIndex + j, 0, selectionToPush[j]);
+    }
+
+    if (oldIndex !== _newIndex || (oldIndex === _newIndex && this.state.selection.length > 1)) {
+      newselection = [];
+      newselected = null;
+    }
+
+    this.setState({
+      items: newitems,
+      selected: newselected,
+      selection: newselection,
+      moving: false,
+      movingstarted: false,
+    });
+
+    this.props.callbackNewOrder(selectedItems, oldIndex, newIndex);
   }
   render() {
     let view;
@@ -295,7 +277,7 @@ export default class Layers extends Component {
             shouldCancelStart={this.shouldCancelStart}
           />
         </Scrollbars>
-      )
+      );
     } else {
       view = (
         <SortableList
@@ -312,7 +294,7 @@ export default class Layers extends Component {
           axis="x"
           shouldCancelStart={this.shouldCancelStart}
         />
-      )
+      );
     }
     return view;
   }

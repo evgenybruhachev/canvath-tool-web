@@ -152,15 +152,13 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected.fill(action.payload);
       break;
     case 'SORT_LAYERS': {
-      let times;
-
-      if (action.payload.newIndex > action.payload.oldIndex) {
-        times = action.payload.newIndex - action.payload.oldIndex;
-        Array(times).fill(0).map(() => DrawTool.sides.selected.layers.bringForward(...action.payload.items));
-      } else if (action.payload.newIndex < action.payload.oldIndex) {
-        times = action.payload.oldIndex - action.payload.newIndex;
-        Array(times).fill(0).map(() => DrawTool.sides.selected.layers.sendBackwards(...action.payload.items));
-      }
+      DrawTool._evented = false;
+      const index = action.payload.newIndex;
+      action.payload.items.forEach(item => DrawTool.sides.selected.layers.moveToIndex({ uuid: item, index }));
+      setTimeout(() => {
+        DrawTool._evented = true;
+        DrawTool.trigger('history:update', { side: { id: DrawTool.sides.selected.id } });
+      }, 100);
       break;
     }
     case 'TOGGLE_COLOR_PICKER':
