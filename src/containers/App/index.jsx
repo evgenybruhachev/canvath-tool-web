@@ -177,6 +177,10 @@ class App extends Component {
       getDefaultProduct(null, model_id).then(data => {
         dispatch(ProductActions.loadProduct(data.product));
       });
+    } else {
+      getDefaultProduct().then(data => {
+        dispatch(ProductActions.loadProduct(data.product));
+      });
     }
 
     DrawTool.on('history:update', () => {
