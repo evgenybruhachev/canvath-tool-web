@@ -1,4 +1,7 @@
-.loader{
+$offset: 187;
+$duration: 1.4s;
+
+.loader {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,70 +12,48 @@
   cursor: wait;
 
   .spinner {
-    animation: loader 5s cubic-bezier(.8, 0, .2, 1) infinite;
+    width: 40px;
     height: 40px;
-    width: 41px;
     position: absolute;
-    top: calc(50% - 20px);
-    left: calc(50% + 40px);
-
-    .loader-top {
-      animation: top 5s linear infinite;
-      border-top: 20px solid #0F5FD4;
-      border-right: 20px solid transparent;
-      border-left: 20px solid transparent;
-      height: 0px;
-      width: 1px;
-      transform-origin: 50% 100%;
-    }
-    .loader-bottom {
-      animation: bottom 5s linear infinite;
-      border-right: 20px solid transparent;
-      border-bottom: 20px solid #0F5FD4;
-      border-left: 20px solid transparent;
-      height: 0px;
-      width: 1px;
-      transform: scale(0);
-      transform-origin: 50% 100%;
-    }
-    .loader-line {
-      animation: line 5s linear infinite;
-      border-left: 1px dotted #0F5FD4;
-      height: 0px;
-      width: 0px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
-    }
+    top: calc(50% - 30px);
+    left: calc(50% + 30px);
+    animation: rotator $duration linear infinite;
   }
 }
 
+.icon-loader-circle {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  transform-origin: center;
+  animation:
+    dash $duration ease-in-out infinite,
+    colors ($duration*4) ease-in-out infinite;
+}
 
-@media screen and (max-width: $mobileBreakPoint){
-  .loader {
-    .spinner {
-      left: calc(50% - 20px);
-    }
+@keyframes rotator {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes colors {
+  0% { stroke: #4285F4; }
+  25% { stroke: #DE3E35; }
+  50% { stroke: #F7C223; }
+  75% { stroke: #1B9A59; }
+  100% { stroke: #4285F4; }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
   }
-}
-
-
-@keyframes loader {
-  90% { transform: rotate(0deg); }
-  100% { transform: rotate(180deg); }
-}
-@keyframes line {
-  10% { height: 20px; }
-  100% { height: 20px; }
-}
-
-@keyframes bottom {
-  10% { transform: scale(0); }
-  90% { transform: scale(1); }
-  100% { transform: scale(1); }
-}
-
-@keyframes top {
-  90% { transform: scale(0); }
-  100% { transform: scale(0);}
+  50% {
+    stroke-dasharray: 200, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
 }
