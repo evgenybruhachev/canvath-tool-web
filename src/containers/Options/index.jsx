@@ -320,7 +320,7 @@ class Options extends Component {
             <div className="bottom">
               <Layers
                 items={side && layers[this.getSideTitle()] && layers[this.getSideTitle()]}
-                callbackNewOrder={(items, oldIndex, newIndex) => dispatch(actions.sortLayers({ items, oldIndex, newIndex }))}
+                callbackNewOrder={(items) => dispatch(actions.sortLayers({ items }))}
                 onBlur={id => dispatch(actions.blurLayer(id))}
                 onFocus={id => dispatch(actions.focusLayer(id))}
               />

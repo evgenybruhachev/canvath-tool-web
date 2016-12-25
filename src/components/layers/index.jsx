@@ -1,104 +1,10 @@
 import React, { Component } from 'react';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import { Scrollbars } from 'react-custom-scrollbars';
-import classNames from 'classnames';
+import { arrayMove } from 'react-sortable-hoc';
 
-const SortableItem = SortableElement(
-  class SortableItemAnonymous extends Component {
+import SortableList from './list';
 
-    static propTypes = {
-      index: React.PropTypes.number,
-      onClickCallback: React.PropTypes.func,
-      uniqueIdToken: React.PropTypes.string,
-      checked: React.PropTypes.bool,
-      preview: React.PropTypes.string,
-      uuid: React.PropTypes.string,
-    }
-
-    constructor(props) {
-      super(props);
-      this.onClickCallback = this.onClickCallback.bind(this);
-      this.getIsMobile = this.getIsMobile.bind(this);
-
-      this.state = {
-        mobile: false,
-      }
-    }
-    componentDidMount() {
-      window.addEventListener('resize', this.getIsMobile, false);
-      this.getIsMobile();
-    }
-    componentWillUnmount() {
-      window.removeEventListener('resize', this.getIsMobile, false);
-    }
-    getIsMobile() {
-      this.setState(state => Object.assign(state,
-        { mobile: window.matchMedia('(max-width: 1080px)').matches }));
-    }
-
-    onClickCallback(event) {
-      return this.props.onClickCallback(this.props.index, this.props.uuid, event);
-    }
-
-    render() {
-      const id = `${this.props.uniqueIdToken}SortableItem${this.props.index}`;
-      const className = this.props.checked ? 'active' : '';
-
-      let view;
-
-      if (this.state.mobile) {
-        view = (
-          <li
-            key={`li-sortable-item-${id}`}
-            data-sortableId={id}
-            onMouseDown={this.onClickCallback}
-            className={classNames('layer', className)}
-            data-uuid={this.props.uuid}
-            style={{ backgroundImage: `url(${this.props.preview})` }}
-          />
-        );
-      } else {
-        view = (
-          <li
-            key={`li-sortable-item-${id}`}
-            data-sortableId={id}
-            onClick={this.onClickCallback}
-            className={classNames('layer', className)}
-            data-uuid={this.props.uuid}
-            style={{ backgroundImage: `url(${this.props.preview})` }}
-          />
-        );
-      }
-      return view;
-    }
-  }
-);
-
-const SortableList = SortableContainer(
-  ({ items = [], selection, uniqueIdToken, onClickCallback }) => (
-    <ul className="layers">
-      {items.map((value, index) => {
-        const checked = selection ? selection.includes(index) : 0;
-        const uuid = value.index;
-        return (
-          <SortableItem
-            key={`sortable-item-${index}`}
-            preview={value.preview}
-            checked={checked}
-            uniqueIdToken={uniqueIdToken}
-            index={index}
-            onClickCallback={onClickCallback}
-            className="layers"
-            uuid={uuid}
-          />
-        );
-      })
-    }
-    </ul>
-  )
-);
-
-export default class Layers extends Component {
+class Layers extends Component {
 
   static propTypes = {
     items: React.PropTypes.array,
@@ -121,7 +27,7 @@ export default class Layers extends Component {
 
     this.onClickCallback = this.onClickCallback.bind(this);
     this.onSortStart = this.onSortStart.bind(this);
-    this.onSortMove = this.onSortMove.bind(this);
+    // this.onSortMove = this.onSortMove.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
     this.getIsMobile = this.getIsMobile.bind(this);
     this.shouldCancelStart = this.shouldCancelStart.bind(this);
@@ -132,10 +38,6 @@ export default class Layers extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      selected: null,
-      selection: [],
-      moving: false,
-      movingstarted: false,
       items: nextProps.items,
     });
   }
@@ -146,19 +48,19 @@ export default class Layers extends Component {
     this.setState(state => Object.assign(state,
       { mobile: window.matchMedia('(max-width: 1080px)').matches }));
   }
-  onClickCallback(index, uuid, event) {
-    const newSelection = this.state.selection;
-    const testIndex = newSelection.indexOf(index);
-    if (testIndex === -1) {
-      newSelection.push(index);
-      this.props.onFocus(uuid);
-    } else {
+  onClickCallback(uuid, event) {
+    const items = this.state.items;
+    const item = items.find(i => i.index === uuid);
+
+    if (item.active) {
       this.props.onBlur(uuid);
-      newSelection.splice(testIndex, 1);
+      item.active = false;
+    } else {
+      item.active = true;
+      this.props.onFocus(uuid);
     }
     this.setState({
-      selected: index,
-      selection: newSelection, //.sort((a, b) => a - b),
+      items,
     });
     event.preventDefault();
   }
@@ -167,89 +69,58 @@ export default class Layers extends Component {
       return true;
     }
   }
-  onSortStart({ node, index, collection }, event) {
-    if (this.state.selection.length) {
-      this.setState({
-        movingstarted: true,
-      });
-    }
-  }
-  onSortMove(event) {
-    if (!this.state.moving && this.state.movingstarted) {
-      const selection = this.state.selection;
-      const selected = this.state.selected;
-      const items = this.state.items;
+  onSortStart(event) {
+    const items = this.state.items;
+    const selection = items.filter(i => i.active);
 
-
-      let indexSelected = selected;
-      let i = selection.length - 1;
-
-      for (; i >= 0; i -= 1) {
-        const j = selection[i];
-        if (j !== selected) {
-          if (j < indexSelected) indexSelected -= 1;
-          items[j].height = 0;
-          items[j].visibility = 'hidden';
-        } else {
-          // items[j].height = items[j].defaultHeight * selection.length;
+    if (selection.length > 1) {
+      const helper = document.querySelector('.helper');
+      helper.innerHTML = '';
+      helper.style.backgroundImage = '';
+      helper.style.zIndex = '99999';
+      helper.style.display = 'inline-block';
+      helper.className = 'helper';
+      items.forEach((i, index) => {
+        if (i.active) {
+          const itemNode = document.querySelector(`.layer[data-uniqueidtoken="layers${index}"]`);
+          if (itemNode) {
+            const clone = itemNode.cloneNode(true);
+            helper.appendChild(clone);
+            clone.style.visibility = 'visible';
+            clone.style.display = 'block';
+            itemNode.style.visibility = 'hidden';
+          }
         }
-      }
-
-      this.setState({
-        items,
-        moving: true,
       });
     }
   }
   onSortEnd({ oldIndex, newIndex }) {
-
-    if (!(this.state.moving && this.state.movingstarted)) {
-      return false;
-    }
-    if (!this.state.selection.length) {
-      return false;
-    }
-
-    let _newIndex = newIndex;
-
-    const selectedItems = this.state.selection.map(idx => this.state.items[idx].index);
-    const newitems = this.state.items;
-    const selectionToPush = [];
-
-    let newselection = this.state.selection;
-    let newselected = this.state.selected;
-    let i = this.state.selection.length - 1;
-
-    for (; i >= 0; i -= 1) {
-      const index = this.state.selection[i];
-      if (index < _newIndex && index !== this.state.selected) {
-        _newIndex -= 1;
-      }
-      selectionToPush.unshift(newitems[index]);
-      newitems.splice(index, 1);
-    }
-
-    let j = 0;
-    for (; j < selectionToPush.length; j += 1) {
-      // selectionToPush[j].height = selectionToPush[j].defaultHeight;
-      selectionToPush[j].visibility = 'visible';
-      newitems.splice(_newIndex + j, 0, selectionToPush[j]);
-    }
-
-    if (oldIndex !== _newIndex || (oldIndex === _newIndex && this.state.selection.length > 1)) {
-      newselection = [];
-      newselected = null;
-    }
-
-    this.setState({
-      items: newitems,
-      selected: newselected,
-      selection: newselection,
-      moving: false,
-      movingstarted: false,
+    const nodes = document.querySelectorAll('.layer');
+    nodes.forEach(node => {
+      node.style.display = 'inline-block';
+      node.style.visibility = 'visible';
     });
 
-    this.props.callbackNewOrder(selectedItems, oldIndex, newIndex);
+    const items = Object.assign({}, this.state).items;
+
+    let buffer = [];
+
+    const indexes = items
+      .map((i, index) => i.active ? index : null)
+      .filter(i => i)
+      .sort((a, b) => (a - b));
+
+    for (let i = 0; i < indexes.length; i += 1) {
+      const index = indexes[i] - i;
+      buffer = buffer.concat(items.splice(index, 1));
+    }
+
+    items.splice(newIndex, 0, ...buffer);
+
+    this.setState({
+      items,
+    });
+    this.props.callbackNewOrder(this.state.items);
   }
   render() {
     let view;
@@ -265,12 +136,10 @@ export default class Layers extends Component {
             uniqueIdToken={'layers'}
             items={this.state.items}
             selection={this.state.selection}
-            selected={this.state.selected}
             helperClass="helper"
             onClickCallback={this.onClickCallback}
             onSortEnd={this.onSortEnd}
             onSortStart={this.onSortStart}
-            onSortMove={this.onSortMove}
             useDragHandle={false}
             distance={10}
             axis="x"
@@ -284,12 +153,10 @@ export default class Layers extends Component {
           uniqueIdToken={'layers'}
           items={this.state.items}
           selection={this.state.selection}
-          selected={this.state.selected}
           helperClass="helper"
           onClickCallback={this.onClickCallback}
           onSortEnd={this.onSortEnd}
           onSortStart={this.onSortStart}
-          onSortMove={this.onSortMove}
           useDragHandle={false}
           axis="x"
           shouldCancelStart={this.shouldCancelStart}
@@ -298,4 +165,6 @@ export default class Layers extends Component {
     }
     return view;
   }
-}
+};
+
+export default Layers;
