@@ -133,7 +133,6 @@ export default store => next => (action) => {
       DrawTool.sides.selected.items.selected.remove();
       break;
     case 'ALIGN_LAYER':
-      console.log(...layersSelected);
       DrawTool.sides.selected.layers[action.payload](...layersSelected);
       break;
     case 'ALIGN_ITEM':
@@ -153,8 +152,9 @@ export default store => next => (action) => {
       break;
     case 'SORT_LAYERS': {
       DrawTool._evented = false;
-      const index = action.payload.newIndex;
-      action.payload.items.forEach(item => DrawTool.sides.selected.layers.moveToIndex({ uuid: item, index }));
+      action.payload.items.forEach((el, index) => {
+        DrawTool.sides.selected.layers.moveToIndex({ uuid: el.index, index });
+      });
       setTimeout(() => {
         DrawTool._evented = true;
         DrawTool.trigger('history:update', { side: { id: DrawTool.sides.selected.id } });
