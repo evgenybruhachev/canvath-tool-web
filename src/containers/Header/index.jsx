@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import Button from '../../components/button';
 import DropDown from '../../components/drop-down';
+import DropDownColors from '../../components/drop-down-colors';
 
 import DrawTool from '../../draw-tool/drawtool';
 
@@ -105,21 +107,24 @@ class Header extends Component {
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
-        <DropDown
+        <DropDownColors
           label={colorSelected ? <div className="list-item">
             <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
           </div> : 'Color'
           }
           onChange={this.selectColor}
+          selected={colorSelected || {title: 'none', value: '#ffffff'}}
         >
           {
-            colors && colors.map((color, index) => <div className="list-item" key={index} data-meta={color.ProductColor.id}>
-              <span className="color" style={{ backgroundColor: color.ProductColor.value }} />
-              {color.ProductColor.title}
-            </div>
-            )
+            colors && colors.map((color, index) => <div
+              className={classNames('list-item', { 'active': color.ProductColor.id === colorSelected.id })}
+              key={index}
+              data-meta={color.ProductColor.id}
+              style={{ backgroundColor: color.ProductColor.value }}
+
+            />)
           }
-        </DropDown>
+        </DropDownColors>
 
         <DropDown
           label={
