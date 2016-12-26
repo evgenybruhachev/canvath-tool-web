@@ -213,6 +213,10 @@
         <circle class="icon-loader-circle" fill="none" stroke-width="2" stroke-linecap="round" cx="50" cy="50" r="20" stroke-miterlimit="10"></circle>
     </symbol>
 
+    <symbol id="icon-paper" viewBox="0 0 32 32">
+        <path d="M 7 4 L 7 5 L 7 21 L 9 21 L 9 6 L 24 6 L 24 25 C 24 25.56503 23.56503 26 23 26 C 22.43497 26 22 25.56503 22 25 L 22 22 L 21 22 L 20 22 L 5 22 L 4 22 L 4 23 L 4 25 C 4 26.64497 5.3550302 28 7 28 L 23 28 C 24.64497 28 26 26.64497 26 25 L 26 5 L 26 4 L 25 4 L 8 4 L 7 4 z M 6 24 L 20 24 L 20 25 C 20 25.352983 20.073236 25.684242 20.1875 26 L 7 26 C 6.4349698 26 6 25.56503 6 25 L 6 24 z"></path>
+    </symbol>
+
 
 
 </svg>

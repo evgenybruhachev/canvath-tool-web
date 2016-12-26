@@ -41,6 +41,7 @@ class Options extends Component {
     colorPickerColor: React.PropTypes.string,
     selected: React.PropTypes.object,
     colors: React.PropTypes.array,
+    colorSelected: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -88,11 +89,40 @@ class Options extends Component {
       colorPickerColor,
       selected,
       colors,
+      colorSelected,
     } = this.props;
 
     let content;
 
     switch (activeTool) {
+
+      case 'sides':
+        content = (
+          <div className="options">
+            <div className="top">
+              <Scrollbars
+                style={{ width: '100%' }}
+                autoHide
+                hideTracksWhenNotNeeded
+              >
+                <div className="sides">
+                  {
+                    colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides
+                      .map((side, index) => <div
+                        className="side"
+                        key={index}
+                        onClick={() => dispatch(ProductActions.selectSide(side.ProductColorSide.id))}
+                      >
+                        <img src={side.ProductColorSide.image_url} alt="" className="preview" />
+                        <div className="title">{side.ProductColorSide.title}</div>
+                      </div>)
+                  }
+                </div>
+              </Scrollbars>
+            </div>
+          </div>
+        );
+        break;
       case 'colors':
         content = (
           <div className="options">
@@ -386,6 +416,7 @@ function mapStateToProps(state) {
     colorPickerColor: state.drawTool.colorPickerColor,
     selected: state.drawTool.selected,
     colors: state.product.colors,
+    colorSelected: state.product.colorSelected,
   };
 }
 

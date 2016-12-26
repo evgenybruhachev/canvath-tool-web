@@ -94,7 +94,7 @@ class MobileNavigation extends Component {
 
           <div>
             <DropDown onClick={this.openCategorySelect} label={product ? product.title : 'Type'} />
-
+            {/*
             <DropDown
               label={colorSelected ? <div className="list-item">
                 <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
@@ -119,6 +119,7 @@ class MobileNavigation extends Component {
             >
               {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
             </DropDown>
+            */}
           </div>
 
           <button className="btn" onClick={() => dispatch(DrawToolActions.empty())}>
