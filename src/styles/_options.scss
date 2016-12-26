@@ -51,6 +51,23 @@
     margin: 0;
   }
 
+  .colors{
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    height: 60px;
+    padding: 17px 0;
+    text-align: center;
+    .color{
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      border: 1px solid #bdbdbd;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  }
+
   .button{
     color: #9e9e9e;
     padding: 10px 0 0 0;

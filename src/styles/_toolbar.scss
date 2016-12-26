@@ -40,5 +40,14 @@
       min-width: 60px;
       margin-right: 10px;
     }
+
+    .color{
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      border: 1px solid #bdbdbd;
+      margin: 0 10px;
+    }
   }
 }
