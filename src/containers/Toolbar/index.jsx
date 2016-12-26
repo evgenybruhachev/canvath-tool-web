@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import EXIF from 'exif-js';
+import classNames from 'classnames';
 
 import DrawTool from '../../draw-tool/drawtool';
 
@@ -19,6 +20,7 @@ class Toolbar extends Component {
     dispatch: React.PropTypes.func,
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
+    colorSelected: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -155,13 +157,21 @@ class Toolbar extends Component {
   }
 
   render() {
-    const { activeTool, dispatch, selected, history } = this.props;
+    const { activeTool, dispatch, selected, history, colorSelected } = this.props;
 
     let view;
 
     if (this.state.mobile) {
       view = (
         <div className="toolbar">
+          <button
+            className={classNames('button', { active: activeTool === 'colors'})}
+            label={'カラー変更'}
+            onClick={() => dispatch(actions.setActiveTool('colors'))}
+          >
+            <span className="color" style={{ backgroundColor: colorSelected && colorSelected.value || '#ffffff' }} />
+            <span className="label">{'カラー変更'}</span>
+          </button>
           <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{ padding: '2px 0' }} onClick={() => dispatch(actions.setActiveTool('panning'))} active={activeTool === 'panning'} />
           <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))} active={activeTool === 'pointer'} />
           <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))} active={activeTool === 'brush'} />
@@ -215,6 +225,7 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     selected: state.drawTool.selected,
     history: state.drawTool.history,
+    colorSelected: state.product.colorSelected,
   };
 }
 

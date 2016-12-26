@@ -14,6 +14,7 @@ import Icon from '../../components/icon';
 import AddTextForm from '../../components/add-text-form';
 
 import * as actions from '../../actions/draw-tool';
+import * as ProductActions from '../../actions/product';
 
 import { getStickers, getShapes } from '../../api/extras';
 
@@ -39,6 +40,7 @@ class Options extends Component {
     colorPicker: React.PropTypes.bool,
     colorPickerColor: React.PropTypes.string,
     selected: React.PropTypes.object,
+    colors: React.PropTypes.array,
   }
 
   constructor(props) {
@@ -85,11 +87,36 @@ class Options extends Component {
       colorPicker,
       colorPickerColor,
       selected,
+      colors,
     } = this.props;
 
     let content;
 
     switch (activeTool) {
+      case 'colors':
+        content = (
+          <div className="options">
+            <div className="top">
+              <Scrollbars
+                style={{ width: '100%' }}
+                autoHide
+                hideTracksWhenNotNeeded
+              >
+                <div className="colors">
+                {
+                  colors && colors.map((color, index) => <div
+                    className={'color'}
+                    key={index}
+                    style={{backgroundColor: color.ProductColor.value}}
+                    onClick={() => dispatch(ProductActions.selectColor(color.ProductColor.id))}
+                  />)
+                }
+                </div>
+              </Scrollbars>
+            </div>
+          </div>
+        );
+        break;
       case 'pointer':
         content = (
           <div className="options">
@@ -358,6 +385,7 @@ function mapStateToProps(state) {
     colorPicker: state.drawTool.colorPicker,
     colorPickerColor: state.drawTool.colorPickerColor,
     selected: state.drawTool.selected,
+    colors: state.product.colors,
   };
 }
 
