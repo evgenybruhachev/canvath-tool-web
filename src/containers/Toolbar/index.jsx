@@ -164,7 +164,7 @@ class Toolbar extends Component {
     if (this.state.mobile) {
       view = (
         <div className="toolbar">
-          <Button icon="paper" label={'side'} onClick={() => dispatch(actions.setActiveTool('sides'))} active={activeTool === 'sides'} />
+          <Button icon="paper" label={'サイド'} onClick={() => dispatch(actions.setActiveTool('sides'))} active={activeTool === 'sides'} />
           <button
             className={classNames('button', { active: activeTool === 'colors'})}
             label={'カラー変更'}

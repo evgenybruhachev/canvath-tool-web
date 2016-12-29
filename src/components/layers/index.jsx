@@ -107,7 +107,7 @@ class Layers extends Component {
 
     const indexes = items
       .map((i, index) => i.active ? index : null)
-      .filter(i => i)
+      .filter(i => i !== null)
       .sort((a, b) => (a - b));
 
     for (let i = 0; i < indexes.length; i += 1) {
