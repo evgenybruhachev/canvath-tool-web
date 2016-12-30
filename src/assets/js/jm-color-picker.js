@@ -118,8 +118,8 @@ window.colorPicker = (function () {
     }
 
     function getPositionByElement(element) {
-        var x = +element.style.top.substring(0, element.style.top.length - 2);
-        var y = +element.style.left.substring(0, element.style.left.length - 2);
+        var x = +element.style.left.substring(0, element.style.top.length - 2);
+        var y = +element.style.top.substring(0, element.style.left.length - 2);
 
         return {
             x: x,
@@ -210,6 +210,8 @@ window.colorPicker = (function () {
         } else {
             var position = getPositionByElement(colorPickerCursor);
         }
+
+        console.log(position);
 
         var pixelData = ctx.getImageData(position.x, position.y, 1, 1).data;
         var slideRgb = {
