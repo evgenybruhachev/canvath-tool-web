@@ -21,6 +21,7 @@ config.entry = {
     'react-redux',
     'redux',
     './draw-tool/drawtool.js',
+    './assets/js/jm-color-picker.js',
   ],
 };
 
@@ -32,13 +33,13 @@ config.module = {
   loaders: [
     {
       test: /src.*\.(js|jsx$)/,
-      exclude: /(node_modules|drawtool.js)/,
+      exclude: /(node_modules|drawtool.js|jm-color-picker.js)/,
       loader: 'babel',
     },
   ],
 };
 
-config.postcss = [autoprefixer({ browsers: ['last 3 versions'] })];
+config.postcss = [autoprefixer];
 
 config.plugins = [
   new HtmlWebpackPlugin({
