@@ -25,13 +25,16 @@ class ColorPicker extends Component {
         this.setColorByPick = this.setColorByPick.bind(this);
     }
 
+    componentDidMount() {
+        this.jmColorPicker = colorPicker();
+    }
+
     componentWillReceiveProps(props) {
         this.setState({color: props.color});
     }
 
     handleClick() {
         this.setState({displayColorPicker: !this.state.displayColorPicker});
-        this.jmColorPicker = colorPicker();
     }
 
     handleClose() {
@@ -39,7 +42,8 @@ class ColorPicker extends Component {
     }
 
     handleChangeComplete(color) {
-        const rgb = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a || 1})`;
+        console.log(color);
+        const rgb = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${typeof color.rgb.a !== 'undefined' ? color.rgb.a : 1})`;
         this.setState({color: rgb});
         if (this.props.onChange) {
             this.props.onChange(rgb);
@@ -55,6 +59,7 @@ class ColorPicker extends Component {
     render() {
         return (
             <div className="color-picker">
+                <div className={this.state.displayColorPicker ? 'color-picker-substrate show' : 'color-picker-substrate'} onClick={this.handleClose}></div>
                 <div className="swatch" onClick={this.handleClick}>
                     <div className="color" style={{ backgroundColor: this.state.color }}/>
                     <div className="label">{this.props.label}</div>
@@ -64,11 +69,6 @@ class ColorPicker extends Component {
                         <button className="close" onClick={this.handleClose}>
                             <Icon icon={'close'}/>
                         </button>
-                        <div className="ready-colors">
-                            <button className="color-black" onClick={this.handleChangeComplete.bind({rgb: {r: 0, g: 0, b: 0}})}/>
-                            <button className="color-white" onClick={this.handleChangeComplete.bind({rgb: {r: 255, g: 255, b: 255}})}/>
-                            <button className="color-opacity"/>
-                        </div>
                         <button className="done" onClick={this.setColorByPick}>
                             <Icon icon={'done'}/>
                         </button>
