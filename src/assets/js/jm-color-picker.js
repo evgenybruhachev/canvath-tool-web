@@ -16,11 +16,13 @@ window.colorPicker = (function () {
     var b = 255;
     var opacity = 1;
     var brightness = 1;
-
-    console.log('reload');
+    //Support touch
+    var isTouchSupported = 'ontouchstart' in window;
+    var startEvent = isTouchSupported ? 'touchstart' : 'mousedown';
+    var moveEvent = isTouchSupported ? 'touchmove' : 'mousemove';
+    var endEvent = isTouchSupported ? 'touchend' : 'mouseup';
 
     vm.getColorValue = getColorValue;
-    vm.imgFilter = imgFilter;
 
     main();
 
@@ -91,12 +93,24 @@ window.colorPicker = (function () {
     }
 
     function getPositionByEvent(event) {
-        var x = event.layerX;
-        var y = event.layerY;
+        if (isTouchSupported) {
+            var colorPickerPlacePosition = colorPickerPlace.getBoundingClientRect();
 
-        return {
-            x: x,
-            y: y
+            if (event.targetTouches.length == 1)
+                var touch = event.targetTouches[0];
+
+            return {
+                x: touch.pageX - touch.target.offsetLeft - colorPickerPlacePosition.left,
+                y: touch.pageY - touch.target.offsetTop - colorPickerPlacePosition.top
+            }
+        } else {
+            var x = event.layerX;
+            var y = event.layerY;
+
+            return {
+                x: x,
+                y: y
+            }
         }
     }
 
@@ -131,55 +145,50 @@ window.colorPicker = (function () {
             );
         };
 
-        colorPickerPlace.addEventListener("mousedown", function (event) {
-            setCursorColor(event, true);
-        }, false);
-
-        colorPickerPlace.onmousedown = function (event) {
-            moveAt(event);
-
-            function moveAt(event) {
-                var coords = getPositionByEvent(event);
-                var radius = colorPickerPlace.width / 2;
-                var radiusDistance = Math.sqrt(Math.pow((coords.x - radius), 2) + Math.pow((coords.y - radius), 2)); //Safari border-radius not working with events
-
-                if (radiusDistance <= radius) {
-                    colorPickerCursor.style.left = coords.x - colorPickerCursor.offsetWidth / 2 + 'px';
-                    colorPickerCursor.style.top = coords.y - colorPickerCursor.offsetHeight / 2 + 'px';
-                    setCursorColor(event, true);
-                }
-            }
-
-            colorPickerPlace.onmousemove = function (event) {
-                moveAt(event);
-            };
-
-            colorPickerPlace.onmouseup = function () {
-                colorPickerPlace.onmousemove = null;
-                document.onmouseup = null;
-            };
-
-            colorPickerPlace.onmouseout = function () {
-                colorPickerPlace.onmousemove = null;
-                document.onmouseup = null;
-            };
-        };
-
-        colorPickerPlace.ondragstart = function () {
-            return false;
-        };
+        colorPickerPlace.addEventListener(startEvent, startMove, false);
 
         chengeSlider();
-    }
 
-    function setCursorColor(event, slideChange) {
-        if (typeof event !== 'undefined') {
-            var position = getPositionByEvent(event);
-        } else {
-            var position = getPositionByElementStyle(colorPickerCursor);
+        function startMove(event) {
+            var coords = getPositionByEvent(event);
+            moveAt(event, coords);
+
+            colorPickerPlace.addEventListener(moveEvent, moving, false);
+            colorPickerPlace.addEventListener(endEvent, endMove, false);
         }
 
-        if (position.x == 0 && position.y == 0){
+        function moving(event) {
+            var coords = getPositionByEvent(event);
+            moveAt(event, coords);
+        }
+
+        function endMove() {
+            colorPickerPlace.removeEventListener(moveEvent, moving);
+        }
+    }
+
+    function moveAt(event, coords) {
+        var radius = colorPickerPlace.width / 2;
+        var radiusDistance = Math.sqrt(Math.pow((coords.x - radius), 2) + Math.pow((coords.y - radius), 2)); //Safari border-radius not working with events
+
+        if (radiusDistance <= radius) {
+            colorPickerCursor.style.left = coords.x - colorPickerCursor.offsetWidth / 2 + 'px';
+            colorPickerCursor.style.top = coords.y - colorPickerCursor.offsetHeight / 2 + 'px';
+            setCursorColor(event, true, coords);
+        }
+    }
+
+    function setCursorColor(event, slideChange, coords) {
+        if (!coords) {
+            if (typeof event !== 'undefined') {
+                var position = getPositionByEvent(event);
+            } else {
+                var position = getPositionByElementStyle(colorPickerCursor);
+            }
+        } else
+            position = coords;
+
+        if (position.x == 0 && position.y == 0) {
             position.x = 57;
             position.y = 176;
         }
@@ -213,14 +222,26 @@ window.colorPicker = (function () {
         Array.prototype.forEach.call(sliderElements, function (element, i) {
             var thumbElem = element.children[0];
 
-            thumbElem.onmousedown = function (e) {
+            thumbElem.addEventListener(startEvent, function (event) {
                 var thumbCoords = getPositionByElement(thumbElem);
-                var shiftX = e.pageX - thumbCoords.x;
-
                 var sliderCoords = getPositionByElement(element);
 
-                document.onmousemove = function (e) {
-                    var newLeft = e.pageX - shiftX - sliderCoords.x;
+                if (isTouchSupported)
+                    var shiftX = event.targetTouches[0].pageX - thumbCoords.x;
+                else
+                    var shiftX = event.pageX - thumbCoords.x;
+
+                element.addEventListener(moveEvent, moving, false);
+                element.addEventListener(endEvent, function () {
+                    element.removeEventListener(moveEvent, moving);
+                }, false);
+
+                function moving(event) {
+                    if (isTouchSupported)
+                        var newLeft = event.targetTouches[0].pageX - shiftX - sliderCoords.x;
+                    else
+                        var newLeft = event.pageX - shiftX - sliderCoords.x;
+
                     var rightEdge = element.offsetWidth - thumbElem.offsetWidth;
 
                     if (newLeft < 0)
@@ -232,25 +253,8 @@ window.colorPicker = (function () {
                     changeColorBySlider(element, newLeft);
 
                     thumbElem.style.left = newLeft + 'px';
-                };
-
-                document.onmouseup = function () {
-                    document.onmousemove = document.onmouseup = null;
-                };
-
-                return false;
-            };
-
-            //element.onmousedown = function (e) {
-            //    var clickCoords = getPositionByEvent(e);
-            //
-            //    thumbElem.style.left = clickCoords.x + 'px';
-            //    changeColorBySlider(element, clickCoords.x);
-            //};
-
-            thumbElem.ondragstart = function () {
-                return false;
-            };
+                }
+            }, false);
         });
     }
 });

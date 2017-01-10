@@ -1,14 +1,13 @@
 .jm-color-picker {
   position: relative;
   background-color: #fff;
+  max-width: 250px;
+  margin: 0 auto;
 
   #color-picker-place {
     border-radius: 50%;
     position: relative;
     overflow: hidden;
-    margin: 0 auto;
-    overflow: hidden;
-    display: block;
   }
 
   #color-picker-cursor {
