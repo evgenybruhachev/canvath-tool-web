@@ -11,9 +11,9 @@ window.colorPicker = (function () {
     var sliderBrightness = document.getElementById('slider-brightness');
     var ctx = colorPickerPlace.getContext('2d');
     var bgColors = new Image();
-    var r = null;
-    var g = null;
-    var b = null;
+    var r = 0;
+    var g = 162;
+    var b = 255;
     var opacity = 1;
     var brightness = 1;
 
@@ -94,19 +94,6 @@ window.colorPicker = (function () {
         var x = event.layerX;
         var y = event.layerY;
 
-        //if (event.layerX != undefined && event.layerY != undefined) {
-        //    x = event.layerX;
-        //    y = event.layerY;
-        //} else {
-        //    x = event.layerX + document.body.scrollLeft +
-        //        document.documentElement.scrollLeft + pageXOffset;
-        //    y = event.clientY + document.body.scrollTop +
-        //        document.documentElement.scrollTop + pageYOffset;
-        //}
-        //
-        //x -= colorPickerPlace.offsetLeft;
-        //y -= colorPickerPlace.offsetTop;
-
         return {
             x: x,
             y: y
@@ -156,7 +143,7 @@ window.colorPicker = (function () {
                 var radius = colorPickerPlace.width / 2;
                 var radiusDistance = Math.sqrt(Math.pow((coords.x - radius), 2) + Math.pow((coords.y - radius), 2)); //Safari border-radius not working with events
 
-                if(radiusDistance <= radius){
+                if (radiusDistance <= radius) {
                     colorPickerCursor.style.left = coords.x - colorPickerCursor.offsetWidth / 2 + 'px';
                     colorPickerCursor.style.top = coords.y - colorPickerCursor.offsetHeight / 2 + 'px';
                     setCursorColor(event, true);
@@ -190,6 +177,11 @@ window.colorPicker = (function () {
             var position = getPositionByEvent(event);
         } else {
             var position = getPositionByElementStyle(colorPickerCursor);
+        }
+
+        if (position.x == 0 && position.y == 0){
+            position.x = 57;
+            position.y = 176;
         }
 
         var pixelData = ctx.getImageData(position.x, position.y, 1, 1).data;

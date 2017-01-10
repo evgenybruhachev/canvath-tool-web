@@ -124,3 +124,16 @@
     }
   }
 }
+
+@media all and (max-width: 400px) {
+  .color-picker{
+    .popover{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 105px;
+    }
+  }
+
+}
