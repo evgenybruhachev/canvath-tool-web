@@ -42,8 +42,7 @@ class ColorPicker extends Component {
     }
 
     handleChangeComplete(color) {
-        console.log(color);
-        const rgb = `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${typeof color.rgb.a !== 'undefined' ? color.rgb.a : 1})`;
+        const rgb = `rgba(${color.r}, ${color.g}, ${color.b}, ${typeof color.a !== 'undefined' ? color.a : 1})`;
         this.setState({color: rgb});
         if (this.props.onChange) {
             this.props.onChange(rgb);

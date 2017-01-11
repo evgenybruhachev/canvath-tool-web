@@ -107,6 +107,8 @@ if (NODE_ENV === 'production') {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.min.js')
   );
 
+  //config.postcss = [autoprefixer({ browsers: ['last 3 versions'] })];
+
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       comments: false,
