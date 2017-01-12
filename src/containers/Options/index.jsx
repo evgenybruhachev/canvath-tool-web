@@ -141,7 +141,7 @@ class Options extends Component {
                             </Scrollbars>
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -167,7 +167,7 @@ class Options extends Component {
                             </Scrollbars>
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -189,7 +189,7 @@ class Options extends Component {
                                     onClick={() => dispatch(actions.alignItem('toRight'))}/>
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -220,7 +220,7 @@ class Options extends Component {
                             />
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -307,7 +307,7 @@ class Options extends Component {
                             />
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -337,7 +337,7 @@ class Options extends Component {
                         </div> : null
                             }
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -374,7 +374,7 @@ class Options extends Component {
                         </div> : null
                             }
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;
@@ -386,7 +386,7 @@ class Options extends Component {
                                 画像を選びください
                             </div>
                             <button onClick={this.toggleOptions}
-                                    className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                    className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
                     );
                 } else {
@@ -404,7 +404,7 @@ class Options extends Component {
                                         onClick={() => dispatch(actions.removeColor())}/>
                             </div>
                             <button onClick={this.toggleOptions}
-                                    className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                    className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
                     );
                 }
@@ -435,7 +435,7 @@ class Options extends Component {
                             />
                         </div>
                         <button onClick={this.toggleOptions}
-                                className="options-toggle-button">{this.showOptions ? 'HIDE' : 'SHOW'}</button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
                 break;

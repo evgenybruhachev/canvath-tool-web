@@ -63,25 +63,23 @@ class ColorPicker extends Component {
                         <div className="color" style={{ backgroundColor: this.state.color }}/>
                         <div className="label">{this.props.label}</div>
                     </div>
-                    <div className="popover-wrapper">
-                        <div className={this.state.displayColorPicker ? 'popover show' : 'popover'}>
-                            <header>
-                                <button className="close" onClick={this.handleClose}>
-                                    <Icon icon={'close'}/>
-                                </button>
-                                <button className="done" onClick={this.setColorByPick}>
-                                    <Icon icon={'done'}/>
-                                </button>
-                            </header>
-                            <div className="jm-color-picker">
-                                <canvas width="250" height="250" id="color-picker-place"/>
-                                <div id="color-picker-cursor"></div>
-                                <div id="slider-opacity" className="color-picker-slider">
-                                    <div className="thumb"></div>
-                                </div>
-                                <div id="slider-brightness" className="color-picker-slider">
-                                    <div className="thumb"></div>
-                                </div>
+                    <div className={this.state.displayColorPicker ? 'popover show' : 'popover'}>
+                        <header>
+                            <button className="close" onClick={this.handleClose}>
+                                <Icon icon={'close'}/>
+                            </button>
+                            <button className="done" onClick={this.setColorByPick}>
+                                <Icon icon={'done'}/>
+                            </button>
+                        </header>
+                        <div className="jm-color-picker">
+                            <canvas width="250" height="250" id="color-picker-place"/>
+                            <div id="color-picker-cursor"></div>
+                            <div id="slider-opacity" className="color-picker-slider">
+                                <div className="thumb"></div>
+                            </div>
+                            <div id="slider-brightness" className="color-picker-slider">
+                                <div className="thumb"></div>
                             </div>
                         </div>
                     </div>

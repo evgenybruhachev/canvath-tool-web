@@ -293,8 +293,9 @@ class App extends Component {
       activeTool,
       currentCategory,
       templates,
-      loading,
-    } = this.props;
+      loading,カラー
+
+        } = this.props;
 
     return (
       <div className="app">

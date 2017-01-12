@@ -157,6 +157,7 @@ window.colorPicker = (function () {
         var radius = colorPickerPlace.width / 2;
         var radiusDistance = Math.sqrt(Math.pow((position.x - radius), 2) + Math.pow((position.y - radius), 2)); //Safari border-radius not working with events
 
+
         if (radiusDistance <= radius) {
             cursorPosition.x = position.x - colorPickerCursor.offsetWidth / 2;
             cursorPosition.y = position.y - colorPickerCursor.offsetHeight / 2;

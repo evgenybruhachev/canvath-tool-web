@@ -117,15 +117,20 @@
   .options-toggle-button{
     position: absolute;
     right: 5px;
-    height: 16px;
-    font-size: 12px;
-    background-color: #ececec;
     border: none;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    color: #757575;
-    line-height: 16px;
-    padding: 0 5px;
+    background-color: initial;
+    bottom: -16px;
+    padding: 0;
+    div{
+      height: 16px;
+      font-size: 12px;
+      background-color: #ececec;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
+      color: #757575;
+      line-height: 16px;
+      padding: 0 5px;
+    }
     &:hover{
       cursor: pointer;
     }
@@ -155,11 +160,16 @@
     .options-toggle-button{
       right: initial;
       left: 5px;
-      top: -17px;
-      border-bottom-right-radius: initial;
-      border-bottom-left-radius: initial;
-      border-top-right-radius: 3px;
-      border-top-left-radius: 3px;
+      top: -22px;
+      padding: 5px;
+      bottom: initial;
+      box-sizing: border-box;
+      div{
+        border-bottom-right-radius: initial;
+        border-bottom-left-radius: initial;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+      }
     }
   }
 }
