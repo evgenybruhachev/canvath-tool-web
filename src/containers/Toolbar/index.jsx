@@ -67,8 +67,8 @@ class Toolbar extends Component {
         var toolbar = document.getElementsByClassName('toolbar')[0];
         var toolbarWidth = toolbar.scrollWidth;
 
-        if (toolbarWidth > 770)
-            toolbarWidth = 770;
+        if (toolbarWidth > 759)
+            toolbarWidth = 759;
 
         if (toolbarWidth > window.innerWidth) {
             this.helpArrows.right = true;

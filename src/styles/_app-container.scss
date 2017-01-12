@@ -41,6 +41,8 @@
     flex-direction: column-reverse;
     justify-content: space-between;
     .app-container-inner{
+      padding-top: 0;
+      padding-bottom: 60px;
       height: calc(100% - 65px);
     }
   }

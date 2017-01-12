@@ -142,6 +142,7 @@ window.colorPicker = (function () {
         chengeSlider();
 
         function startMove(event) {
+            console.log(event);
             var position = getPositionByEvent(event);
             moveAt(event, position);
 
@@ -192,8 +193,8 @@ window.colorPicker = (function () {
         rgba.g = pixelData[1];
         rgba.b = pixelData[2];
 
-        colorPickerCursor.style.top = position.y - colorPickerCursor.offsetHeight / 2 + 'px';
-        colorPickerCursor.style.left = position.x - colorPickerCursor.offsetWidth / 2 + 'px';
+        //colorPickerCursor.style.top = position.y - colorPickerCursor.offsetHeight / 2 + 'px';
+        //colorPickerCursor.style.left = position.x - colorPickerCursor.offsetWidth / 2 + 'px';
         colorPickerCursor.style.opacity = 1;
         colorPickerCursor.style.backgroundColor = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
 
@@ -241,6 +242,13 @@ window.colorPicker = (function () {
 
                     thumbElem.style.left = newLeft + 'px';
                 }
+            }, false);
+
+            element.addEventListener(startEvent, function (event) {
+                var position = getPositionByEvent(event);
+
+                changeColorBySlider(element, position.x);
+                thumbElem.style.left = position.x + 'px';
             }, false);
         });
     }

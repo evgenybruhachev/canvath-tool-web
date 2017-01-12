@@ -9,21 +9,27 @@
   user-select: none;
 
   .top{
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 60px;
+    &.show{
+      display: flex;
+    }
   }
 
   .bottom{
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 60px;
     border-top: 1px solid #bdbdbd;
+    &.show{
+      display: flex;
+    }
   }
 
   .shapes{
@@ -107,10 +113,30 @@
     }
 
   }
+
+  .options-toggle-button{
+    position: absolute;
+    right: 5px;
+    height: 16px;
+    font-size: 12px;
+    background-color: #ececec;
+    border: none;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    color: #757575;
+    line-height: 16px;
+    padding: 0 5px;
+    &:hover{
+      cursor: pointer;
+    }
+  }
 }
 
 @media screen and (max-width: $mobileBreakPoint){
   .options {
+    top: initial;
+    bottom: 0;
+    border-top: 1px solid #bfbfbf;
     .top,
     .bottom{
       min-height: 45px;
@@ -124,6 +150,16 @@
       min-width: 60px;
       margin-right: 10px;
       position: relative;
+    }
+
+    .options-toggle-button{
+      right: initial;
+      left: 5px;
+      top: -17px;
+      border-bottom-right-radius: initial;
+      border-bottom-left-radius: initial;
+      border-top-right-radius: 3px;
+      border-top-left-radius: 3px;
     }
   }
 }

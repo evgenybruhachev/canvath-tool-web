@@ -125,15 +125,27 @@
   }
 }
 
-@media all and (max-width: 400px) {
+@media all and (max-width: $mobileBreakPoint) {
+  .color-picker{
+    .popover{
+      bottom: 60px;
+    }
+  }
+
+}
+
+@media all and (max-width: 415px) {
   .color-picker{
     .popover{
       position: fixed;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 120px;
       top: 105px;
+      .jm-color-picker{
+        top: 50%;
+        transform: translateY(-50%);
+      }
     }
   }
-
 }
