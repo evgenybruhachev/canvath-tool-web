@@ -17,9 +17,9 @@ window.colorPicker = (function () {
         b: 255,
         a: 1
     };
-    var defaultPosition = {
+    var cursorPosition = {
         x: 57,
-        y: 76
+        y: 176
     };
     var brightness = 1;
     //Support touch
@@ -118,13 +118,6 @@ window.colorPicker = (function () {
         };
     }
 
-    function getPositionByElementStyle(element) {
-        return {
-            x: +element.style.left.substring(0, element.style.left.length - 2) + colorPickerCursor.offsetWidth / 2,
-            y: +element.style.top.substring(0, element.style.top.length - 2) + colorPickerCursor.offsetHeight / 2
-        }
-    }
-
     function main() {
         bgColors.src = 'assets/img/bgGradient.png';
 
@@ -144,7 +137,7 @@ window.colorPicker = (function () {
         function startMove(event) {
             console.log(event);
             var position = getPositionByEvent(event);
-            moveAt(event, position);
+            moveAt(position);
 
             colorPickerPlace.addEventListener(moveEvent, moving, false);
             colorPickerPlace.addEventListener(endEvent, endMove, false);
@@ -152,7 +145,7 @@ window.colorPicker = (function () {
 
         function moving(event) {
             var position = getPositionByEvent(event);
-            moveAt(event, position);
+            moveAt(position);
         }
 
         function endMove() {
@@ -160,29 +153,21 @@ window.colorPicker = (function () {
         }
     }
 
-    function moveAt(event, position) {
+    function moveAt(position) {
         var radius = colorPickerPlace.width / 2;
         var radiusDistance = Math.sqrt(Math.pow((position.x - radius), 2) + Math.pow((position.y - radius), 2)); //Safari border-radius not working with events
 
         if (radiusDistance <= radius) {
-            colorPickerCursor.style.left = position.x - colorPickerCursor.offsetWidth / 2 + 'px';
-            colorPickerCursor.style.top = position.y - colorPickerCursor.offsetHeight / 2 + 'px';
-            setCursorColor(event, true, position);
+            cursorPosition.x = position.x - colorPickerCursor.offsetWidth / 2;
+            cursorPosition.y = position.y - colorPickerCursor.offsetHeight / 2;
+            colorPickerCursor.style.left = cursorPosition.x + 'px';
+            colorPickerCursor.style.top = cursorPosition.y + 'px';
+            setCursorColor(true);
         }
     }
 
-    function setCursorColor(event, slideChange, position) {
-        if (!position) {
-            if (typeof event !== 'undefined')
-                position = getPositionByEvent(event);
-            else
-                position = getPositionByElementStyle(colorPickerCursor);
-        }
-
-        if (position.x == 0 && position.y == 0)
-            position = defaultPosition;
-
-        var pixelData = ctx.getImageData(position.x, position.y, 1, 1).data;
+    function setCursorColor(slideChange) {
+        var pixelData = ctx.getImageData(cursorPosition.x +  colorPickerCursor.offsetWidth / 2, cursorPosition.y +  colorPickerCursor.offsetHeight / 2, 1, 1).data;
         var slideRgb = {
             r: Math.round(pixelData[0] / brightness),
             g: Math.round(pixelData[1] / brightness),
@@ -193,8 +178,6 @@ window.colorPicker = (function () {
         rgba.g = pixelData[1];
         rgba.b = pixelData[2];
 
-        //colorPickerCursor.style.top = position.y - colorPickerCursor.offsetHeight / 2 + 'px';
-        //colorPickerCursor.style.left = position.x - colorPickerCursor.offsetWidth / 2 + 'px';
         colorPickerCursor.style.opacity = 1;
         colorPickerCursor.style.backgroundColor = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
 
@@ -211,6 +194,7 @@ window.colorPicker = (function () {
             var thumbElem = element.children[0];
 
             thumbElem.addEventListener(startEvent, function (event) {
+                event.stopPropagation();
                 var thumbCoords = getPositionByElement(thumbElem);
                 var sliderCoords = getPositionByElement(element);
 

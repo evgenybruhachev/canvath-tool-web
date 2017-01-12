@@ -43,6 +43,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 1;
+      position: relative;
       //margin-bottom: 25px;
       button {
         width: 36px;
@@ -143,7 +145,7 @@
       bottom: 120px;
       top: 105px;
       .jm-color-picker{
-        top: 50%;
+        margin-top: calc(50% - 10px);
         transform: translateY(-50%);
       }
     }
