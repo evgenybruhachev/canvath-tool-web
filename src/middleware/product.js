@@ -11,14 +11,16 @@ export default store => next => (action) => {
       action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
       break;
     case 'SELECT_COLOR': {
-      const data = colors
-        .find(color => color.ProductColor.id === action.payload)
-        .sides
-        .map(side => JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content))));
+      DrawTool.sides.selected.items.finalizeBrush();
 
-      DrawTool.importJSON(JSON.stringify(data));
+      //Change to promise
+      setTimeout(() => {
+        const data = colors.find(color => color.ProductColor.id === action.payload)
+          .sides.map(side => JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content))));
 
-      DrawTool.sides.select(JSON.parse(JSON.parse(escapeJSON(sideSelected.content))).id);
+        DrawTool.importJSON(JSON.stringify(data));
+        DrawTool.sides.select(JSON.parse(JSON.parse(escapeJSON(sideSelected.content))).id);
+      }, 100);
       break;
     }
     case 'SELECT_SIDE': {
