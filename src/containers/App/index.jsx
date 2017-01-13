@@ -293,7 +293,7 @@ class App extends Component {
       activeTool,
       currentCategory,
       templates,
-      loading,カラー
+      loading,
 
         } = this.props;
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import Icon from '../icon';
 
+
 class DropDownColor extends Component {
 
   static propTypes = {
@@ -14,7 +15,7 @@ class DropDownColor extends Component {
     onClick: React.PropTypes.func,
     children: React.PropTypes.array,
     onChange: React.PropTypes.func,
-    selected: React.PropTypes.object,
+    selected: React.PropTypes.object
   }
 
   constructor(props) {

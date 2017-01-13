@@ -73,13 +73,17 @@ class ColorPicker extends Component {
                             </button>
                         </header>
                         <div className="jm-color-picker">
-                            <canvas width="250" height="250" id="color-picker-place"/>
-                            <div id="color-picker-cursor"></div>
-                            <div id="slider-opacity" className="color-picker-slider">
-                                <div className="thumb"></div>
+                            <div className="left-place">
+                                <canvas width="250" height="250" id="color-picker-place"/>
+                                <div id="color-picker-cursor"></div>
                             </div>
-                            <div id="slider-brightness" className="color-picker-slider">
-                                <div className="thumb"></div>
+                            <div className="right-place">
+                                <div id="slider-opacity" className="color-picker-slider">
+                                    <div className="thumb"></div>
+                                </div>
+                                <div id="slider-brightness" className="color-picker-slider">
+                                    <div className="thumb"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

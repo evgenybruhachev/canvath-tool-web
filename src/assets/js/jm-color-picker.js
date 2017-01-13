@@ -92,7 +92,6 @@ window.colorPicker = (function () {
     }
 
     function getPositionByEvent(event) {
-        console.log(event);
         if (isTouchSupported) {
             var colorPickerPlacePosition = colorPickerPlace.getBoundingClientRect();
 
@@ -135,7 +134,8 @@ window.colorPicker = (function () {
         chengeSlider();
 
         function startMove(event) {
-            console.log(event);
+            event.preventDefault();
+
             var position = getPositionByEvent(event);
             moveAt(position);
 
@@ -144,6 +144,8 @@ window.colorPicker = (function () {
         }
 
         function moving(event) {
+            event.preventDefault();
+
             var position = getPositionByEvent(event);
             moveAt(position);
         }
@@ -195,7 +197,8 @@ window.colorPicker = (function () {
             var thumbElem = element.children[0];
 
             thumbElem.addEventListener(startEvent, function (event) {
-                event.stopPropagation();
+                event.preventDefault();
+
                 var thumbCoords = getPositionByElement(thumbElem);
                 var sliderCoords = getPositionByElement(element);
 
@@ -210,6 +213,8 @@ window.colorPicker = (function () {
                 }, false);
 
                 function moving(event) {
+                    event.preventDefault();
+
                     if (isTouchSupported)
                         var newLeft = event.targetTouches[0].pageX - shiftX - sliderCoords.x;
                     else
@@ -230,7 +235,15 @@ window.colorPicker = (function () {
             }, false);
 
             element.addEventListener(startEvent, function (event) {
+                event.preventDefault();
+
                 var position = getPositionByEvent(event);
+
+                if(position.x > element.offsetWidth - element.children[0].offsetWidth)
+                    position.x = element.offsetWidth - element.children[0].offsetWidth;
+
+                if(position.x < 5)
+                    position.x = 0;
 
                 changeColorBySlider(element, position.x);
                 thumbElem.style.left = position.x + 'px';
