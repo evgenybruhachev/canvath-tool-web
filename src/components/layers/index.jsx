@@ -105,22 +105,24 @@ class Layers extends Component {
 
     let buffer = [];
 
-    const indexes = items
+    var indexes = items
       .map((i, index) => i.active ? index : null)
       .filter(i => i !== null)
       .sort((a, b) => (a - b));
 
-    for (let i = 0; i < indexes.length; i += 1) {
-      const index = indexes[i] - i;
-      buffer = buffer.concat(items.splice(index, 1));
-    }
+    indexes.forEach((position, i) => {
+      items[position - i].active = false;
+      buffer.push(items[position - i]);
+      items.splice(position - i, 1);
+    });
 
     items.splice(newIndex, 0, ...buffer);
 
     this.setState({
       items,
     });
-    this.props.callbackNewOrder(this.state.items);
+
+    this.props.callbackNewOrder(items);
   }
   render() {
     let view;
