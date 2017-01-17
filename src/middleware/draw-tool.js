@@ -156,8 +156,8 @@ export default store => next => (action) => {
         DrawTool.sides.selected.layers.moveToIndex({ uuid: el.index, index });
       });
       setTimeout(() => {
-        DrawTool.trigger('history:update', { side: { id: DrawTool.sides.selected.id } });
         DrawTool._evented = true;
+        DrawTool.trigger('history:update', { side: { id: DrawTool.sides.selected.id } });
       }, 100);
       break;
     }
