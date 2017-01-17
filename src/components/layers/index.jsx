@@ -111,7 +111,7 @@ class Layers extends Component {
       .sort((a, b) => (a - b));
 
     indexes.forEach((position, i) => {
-      items[position - i].active = false;
+      delete items[position - i].active;
       buffer.push(items[position - i]);
       items.splice(position - i, 1);
     });
