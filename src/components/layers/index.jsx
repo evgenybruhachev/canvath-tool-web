@@ -96,7 +96,7 @@ class Layers extends Component {
   }
   onSortEnd({ oldIndex, newIndex }) {
     const nodes = document.querySelectorAll('.layer');
-    nodes.forEach(node => {
+    Array.prototype.forEach.call(nodes, node => {
       node.style.display = 'inline-block';
       node.style.visibility = 'visible';
     });
@@ -110,7 +110,7 @@ class Layers extends Component {
       .filter(i => i !== null)
       .sort((a, b) => (a - b));
 
-    indexes.forEach((position, i) => {
+    Array.prototype.forEach.call(indexes, (position, i) => {
       buffer.push(items[position - i]);
       items.splice(position - i, 1);
     });
