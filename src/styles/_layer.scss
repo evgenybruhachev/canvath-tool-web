@@ -10,6 +10,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 20;
+  position: relative;
 
   &.active{
     border-color: #f1877f;

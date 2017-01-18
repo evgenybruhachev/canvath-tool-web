@@ -76,11 +76,11 @@ class Layers extends Component {
     if (selection.length > 1) {
       const helper = document.querySelector('.helper');
       helper.innerHTML = '';
-      helper.style.backgroundImage = '';
+      helper.style.backgroundImage = 'none';
       helper.style.zIndex = '99999';
       helper.style.display = 'inline-block';
       helper.className = 'helper';
-      items.forEach((i, index) => {
+      Array.prototype.forEach.call(items, (i, index) => {
         if (i.active) {
           const itemNode = document.querySelector(`.layer[data-uniqueidtoken="layers${index}"]`);
           if (itemNode) {
