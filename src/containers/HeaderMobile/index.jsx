@@ -93,7 +93,7 @@ class HeaderMobile extends Component {
 
     return (
       <div className="app-header">
-        <Button icon="hamburger" className="blue" onClick={this.showMobileNav} />
+        <Button icon="hamburger" className="blue hamburger-button" onClick={this.showMobileNav} />
         <Button icon="zoom-in" label="拡大" className="blue" onClick={() => dispatch(DrawToolActions.zoomIn())} />
         <Button icon="zoom-out" label="縮小" className="blue" onClick={() => dispatch(DrawToolActions.zoomOut())} />
         <Button icon="undo" label="戻る" className="blue" disabled={activeTool === 'brush' || history.currentIndex === 0} onClick={this.undo} />
