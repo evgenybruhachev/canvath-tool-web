@@ -35,21 +35,22 @@
     display: none;
     background-color: #fff;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.16);
-    padding: 15px 25px;
+    padding: 10px 16px 0;
     border-radius: 2px;
     margin-top: -40px;
     z-index: 999;
+    max-height: 547px;
+    width: 375px;
     header {
-      margin: 0 -10px;
+      margin: 0 -5px 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1;
       position: relative;
-      //margin-bottom: 25px;
       button {
-        width: 36px;
-        height: 36px;
+        width: 41px;
+        height: 41px;
         border: none;
         background: none;
         color: #ddd;
@@ -71,6 +72,13 @@
         &:hover {
           cursor: pointer;
         }
+      }
+      .h3{
+        font-size: 17px;
+        padding: 0 10px;
+        margin: 0;
+        max-width: 275px;
+        text-align: center;
       }
       .ready-colors {
         //<div className="ready-colors">
@@ -100,6 +108,77 @@
     &.show {
       display: block;
     }
+    .tab-links-wrap{
+      height: 30px;
+      line-height: 28px;
+      border-radius: 3px;
+      border: 1px solid #005bd7;
+      overflow: hidden;
+      margin-bottom: 16px;
+      .tab-link{
+        text-align: center;
+        text-decoration: none;
+        width: 50%;
+        display: block;
+        float: left;
+        color: #005bd7;
+        font-size: 13px;
+        &.active{
+          background: #005bd7;
+          color: #fff;
+        }
+      }
+    }
+    .tab-content{
+      text-align: center;
+      &.tab-content-colors{
+        padding-top: 18px;
+      }
+      &.tab-content-custom{
+        padding-top: 28px;
+      }
+      .left-place{
+        position: relative;
+        width: 310px;
+        margin: 0 auto;
+      }
+      .right-place{
+        padding: 0 9px 18px;
+        .color-picker-slider{
+          margin: 24px 0 36px;
+        }
+      }
+      .preinstalled-wrap, .last-usage-wrap{
+        padding-left: 6px;
+        >div>span{
+          &:nth-child(6n)>div{
+            margin-right: 0!important;
+          }
+          >div{
+            margin-bottom: 15px!important;
+            box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.08);
+            border-radius: 50%;
+          }
+        }
+      }
+      .last-usage-wrap{
+        height: 52px;
+        margin-bottom: 34px;
+        &.hidden{
+          display: none;
+        }
+        &.show{
+          display: block;
+        }
+      }
+      .preinstalled-wrap{
+        margin-right: -16px;
+        height: 326px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-top: 5px;
+      }
+    }
   }
   .cover {
     position: fixed;
@@ -123,6 +202,9 @@
       }
     }
   }
+}
+.hideTab{
+  display: none;
 }
 
 @media all and (max-width: $mobileBreakPoint) {
