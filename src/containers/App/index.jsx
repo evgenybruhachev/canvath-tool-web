@@ -168,7 +168,6 @@ class App extends Component {
         const product = data.product;
         product.colors.forEach(c => (c.ProductColor.is_main = 0));
         const selectedColor = product.colors.find(c => c.ProductColor.id === color_id);
-        console.log(selectedColor);
         selectedColor.ProductColor.is_main = 1;
 
         dispatch(ProductActions.loadProduct(product));
