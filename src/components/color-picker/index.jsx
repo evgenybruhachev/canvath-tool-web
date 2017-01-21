@@ -44,14 +44,15 @@ class ColorPicker extends Component {
 
     handleClick() {
         this.setState({displayColorPicker: !this.state.displayColorPicker});
-        this.setState({displayThisTabOne: true});
+        if(this.state.displayThisTabOne) {
+            this.setState({displayThisTabTwo: false});
+        }
+
     }
 
     handleClose() {
         this.setState({
-            displayColorPicker: false,
-            displayThisTabOne: false,
-            displayThisTabTwo: false
+            displayColorPicker: false
         });
     }
 
@@ -73,13 +74,13 @@ class ColorPicker extends Component {
         }
         else {
             color = this.state.colorCheck;
+            this.setState({
+                displayThisTabTwo: true,
+                displayThisTabOne: false
+            });
         }
         this.handleChangeComplete(color);
         this.pushLastUsageArr(color);
-        this.setState({
-            displayThisTabOne: false,
-            displayThisTabTwo: false
-        });
     }
 
     pushLastUsageArr (val) {
