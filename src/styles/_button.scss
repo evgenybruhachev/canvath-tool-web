@@ -200,14 +200,16 @@
   .button{
     &.blue {
       min-width: 25px;
-      height: 25px;
+      height: 40px;
       padding: 2px;
       margin: 0;
-      flex-direction: row;
+      flex-direction: column;
+      &.hamburger-button{
+        flex-direction: row;
+      }
       canvas{
         display: none;
       }
-
       .icon,
       .image {
         width: 20px;
@@ -218,6 +220,7 @@
       width: 20px;
       height: 65px;
     }
+
   }
 
 }
