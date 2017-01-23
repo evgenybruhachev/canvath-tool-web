@@ -20,7 +20,8 @@ class ColorPicker extends Component {
             displayThisTabOne: true,
             showLastUsegeBlock: false,
             color: props.color || 'rgba(0,162,255,1)',
-            lastColors: []
+            lastColors: [],
+            getLastcolor: ''
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -35,7 +36,18 @@ class ColorPicker extends Component {
     }
 
     componentDidMount() {
-        this.jmColorPicker = colorPicker();
+        $('.colorpicker').wheelColorPicker({
+            format: 'rgba',
+            layout: 'block',
+            sliders: 'wsv'
+        });
+
+        $('.colorpicker').on('slidermove', function() {
+            $('.jQWCP-wWheelCursor').css( "background-color", $(this).wheelColorPicker('getValue', 'rgb') );
+        });
+        $('.colorpicker').on('sliderup', function() {
+            $('.jQWCP-wWheelCursor').css( "background-color", $(this).wheelColorPicker('getValue', 'rgb') );
+        });
     }
 
     componentWillReceiveProps(props) {
@@ -47,6 +59,10 @@ class ColorPicker extends Component {
         if(this.state.displayThisTabOne) {
             this.setState({displayThisTabTwo: false});
         }
+        $('.colorpicker').wheelColorPicker('setValue', this.state.color);
+
+        $('.jQWCP-wWheelCursor').css( "background-color", this.state.color );
+
 
     }
 
@@ -57,20 +73,30 @@ class ColorPicker extends Component {
     }
 
     handleChangeComplete(color) {
-        const rgb = `rgba(${color.r}, ${color.g}, ${color.b}, ${typeof color.a !== 'undefined' ? color.a : 1})`;
+        const rgb = `rgba(${color.r},${color.g},${color.b},${typeof color.a !== 'undefined' ? color.a : 1})`;
         this.setState({color: rgb});
         if (this.props.onChange) {
             this.props.onChange(rgb);
         }
         this.state.displayColorPicker = false;
+
     }
     handleColorUpdate (colorValue) {
-        this.state.colorCheck = colorValue
+        this.state.colorCheck = colorValue;
     }
+
     setColorByPick() {
         var color;
         if(this.state.displayThisTabOne) {
-            color = this.jmColorPicker.getColorValue();
+            color = $('.colorpicker').val();
+            var colorStr = color.substr(0,color.length-1).substr(5);
+            var colorArr = colorStr.split(',');
+            var colorObj = {};
+            colorObj.r = colorArr[0]*1;
+            colorObj.g = colorArr[1]*1;
+            colorObj.b = colorArr[2]*1;
+            colorObj.a = 1;
+            color = colorObj;
         }
         else {
             color = this.state.colorCheck;
@@ -81,10 +107,11 @@ class ColorPicker extends Component {
         }
         this.handleChangeComplete(color);
         this.pushLastUsageArr(color);
+
     }
 
     pushLastUsageArr (val) {
-        var rgb = `rgba(${val.r}, ${val.g}, ${val.b}, ${typeof val.a !== 'undefined' ? val.a : 1})`;
+        var rgb = `rgba(${val.r},${val.g},${val.b},${typeof val.a !== 'undefined' ? val.a : 1})`;
         var hex = this.rgb2hex(rgb);
         var arr = this.state.lastColors;
         if(arr === undefined) {
@@ -129,6 +156,7 @@ class ColorPicker extends Component {
 
     handleChangeTabsOne() {
         this.setState({displayThisTabOne: true,displayThisTabTwo: false});
+        setTimeout("$('.colorpicker').wheelColorPicker('updateSelection')", 0);
     }
 
     handleChangeTabsTwo() {
@@ -161,17 +189,18 @@ class ColorPicker extends Component {
 
                         <div className={this.state.displayThisTabOne ? 'tab-content tab-content-colors' : 'tab-content tab-content-colors hideTab'}>
                             <div className="left-place">
-                                <canvas width="310" height="310" id="color-picker-place"/>
-                                <div id="color-picker-cursor"></div>
+                                {/*<canvas width="310" height="310" id="color-picker-place"/>*/}
+                                {/*<div id="color-picker-cursor"></div>*/}
+                                <input type="text" className="colorpicker"/>
                             </div>
-                            <div className="right-place">
-                                <div id="slider-opacity" className="color-picker-slider">
-                                    <div className="thumb"></div>
-                                </div>
-                                <div id="slider-brightness" className="color-picker-slider">
-                                    <div className="thumb"></div>
-                                </div>
-                            </div>
+                            {/*<div className="right-place">*/}
+                                {/*<div id="slider-opacity" className="color-picker-slider">*/}
+                                    {/*<div className="thumb"></div>*/}
+                                {/*</div>*/}
+                                {/*<div id="slider-brightness" className="color-picker-slider">*/}
+                                    {/*<div className="thumb"></div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
                         </div>
 
                         <div className={this.state.displayThisTabTwo ? 'tab-content tab-content-custom' : 'tab-content tab-content-custom hideTab'}>
