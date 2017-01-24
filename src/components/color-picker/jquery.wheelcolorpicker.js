@@ -1369,7 +1369,7 @@
 			var alphaSliderCtx = $alphaSlider.get(0).getContext('2d');
 			var alphaGradient = alphaSliderCtx.createLinearGradient(0, 0, 0, h);
 			alphaGradient.addColorStop(0, "rgba("+R+","+G+","+B+",1)");
-			alphaGradient.addColorStop(1, "rgba("+R+","+G+","+B+",0)");
+			alphaGradient.addColorStop(1, "rgba("+R+","+G+","+B+",1)");
 			alphaSliderCtx.fillStyle = alphaGradient;
 			alphaSliderCtx.clearRect(0, 0, w, h);
 			alphaSliderCtx.fillRect(0, 0, w, h);

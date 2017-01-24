@@ -128,7 +128,7 @@
   margin-bottom: 5px;
   float: left;
 }
-.jQWCP-wSat{
+.jQWCP-wAlpha{
   background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
   background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
   background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
@@ -194,6 +194,38 @@
   right: 0;
   z-index: 1000;
 }
+
+.tab-content-custom {
+  span {
+    div {
+      div {
+        position: relative;
+        &.activeColor {
+          &:before {
+            bottom: 3px;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+          }
+        }
+        &:before {
+          content: ' ';
+          display: block;
+          position: absolute;
+          bottom: 18px;
+          top: 18px;
+          left: 18px;
+          right: 18px;
+          background: #fff;
+          border-radius: 50%;
+          transition: all 100ms ease;
+        }
+      }
+    }
+  }
+}
+
+
 
 /*********************/
 
