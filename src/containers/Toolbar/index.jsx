@@ -216,7 +216,7 @@ class Toolbar extends Component {
                         onClick={this.helpClickArrows.bind(this, 'left')}>
                         <Icon icon={'left-arrow'}/>
                     </div>
-                    <Button icon="paper" label={'サイド'} onClick={() => dispatch(actions.setActiveTool('sides'))}
+                    <Button icon="paper" label={'裏表'} onClick={() => dispatch(actions.setActiveTool('sides'))}
                             active={activeTool === 'sides'}/>
                     <button
                         className={classNames('button', { active: activeTool === 'colors'})}
