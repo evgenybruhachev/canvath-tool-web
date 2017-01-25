@@ -1515,49 +1515,49 @@
 		var $hueSlider = $widget.find('.jQWCP-wHueSlider');
 		if(!$hueSlider.hasClass('hidden')) {
 			var $hueCursor = $widget.find('.jQWCP-wHueCursor');
-			$hueCursor.css('left', (color.h * $hueSlider.width()) + 'px');
+			$hueCursor.css('right', (color.h * $hueSlider.width()) + 'px');
 		}
 		
 		// Saturation
 		var $satSlider = $widget.find('.jQWCP-wSatSlider');
 		if(!$satSlider.hasClass('hidden')) {
 			var $satCursor = $widget.find('.jQWCP-wSatCursor');
-			$satCursor.css('left', ((1 - color.s) * $satSlider.width()) + 'px');
+			$satCursor.css('right', ((1 - color.s) * $satSlider.width()) + 'px');
 		}
 		
 		// Value
 		var $valSlider = $widget.find('.jQWCP-wValSlider');
 		if(!$valSlider.hasClass('hidden')) {
 			var $valCursor = $widget.find('.jQWCP-wValCursor');
-			$valCursor.css('left', ((1 - color.v) * $valSlider.width()) + 'px');
+			$valCursor.css('right', ((1 - color.v) * $valSlider.width()) + 'px');
 		}
 		
 		// Red
 		var $redSlider = $widget.find('.jQWCP-wRedSlider');
 		if(!$redSlider.hasClass('hidden')) {
 			var $redCursor = $widget.find('.jQWCP-wRedCursor');
-			$redCursor.css('left', ((1 - color.r) * $redSlider.width()) + 'px');
+			$redCursor.css('right', ((1 - color.r) * $redSlider.width()) + 'px');
 		}
 		
 		// Green
 		var $greenSlider = $widget.find('.jQWCP-wGreenSlider');
 		if(!$greenSlider.hasClass('hidden')) {
 			var $greenCursor = $widget.find('.jQWCP-wGreenCursor');
-			$greenCursor.css('left', ((1 - color.g) * $greenSlider.width()) + 'px');
+			$greenCursor.css('right', ((1 - color.g) * $greenSlider.width()) + 'px');
 		}
 		
 		// Blue
 		var $blueSlider = $widget.find('.jQWCP-wBlueSlider');
 		if(!$blueSlider.hasClass('hidden')) {
 			var $blueCursor = $widget.find('.jQWCP-wBlueCursor');
-			$blueCursor.css('left', ((1 - color.b) * $blueSlider.width()) + 'px');
+			$blueCursor.css('right', ((1 - color.b) * $blueSlider.width()) + 'px');
 		}
 		
 		// Alpha
 		var $alphaSlider = $widget.find('.jQWCP-wAlphaSlider');
 		if(!$alphaSlider.hasClass('hidden')) {
 			var $alphaCursor = $widget.find('.jQWCP-wAlphaCursor');
-			$alphaCursor.css('left', ((1 - color.a) * $alphaSlider.width()) + 'px');
+			$alphaCursor.css('right', ((1 - color.a) * $alphaSlider.width()) + 'px');
 		}
 		return this; // Allows method chaining
 	};
@@ -1635,7 +1635,7 @@
 			
 			var relX = (e.pageX - $control.offset().left - ($control.width() / 2)) / ($control.width() / 2);
 			var relY = - (e.pageY - $control.offset().top - ($control.height() / 2)) / ($control.height() / 2);
-			
+
 			// BUG_RELATIVE_PAGE_ORIGIN workaround
 			if(WCP.BUG_RELATIVE_PAGE_ORIGIN) {
 				var relX = (e.pageX - ($control.get(0).getBoundingClientRect().left - WCP.ORIGIN.left) - ($control.width() / 2)) / ($control.width() / 2);
@@ -1672,11 +1672,10 @@
 		else if($control.hasClass('jQWCP-slider-wrapper')) {
 			var $cursor = $control.find('.jQWCP-scursor');
 			
-			var relX = (e.pageX - $control.offset().left) / $control.width();
-			
+			var relX = 1 - ((e.pageX - $control.offset().left) / $control.width());
 			// BUG_RELATIVE_PAGE_ORIGIN workaround
 			if(WCP.BUG_RELATIVE_PAGE_ORIGIN) {
-				var relX = (e.pageX - ($control.get(0).getBoundingClientRect().left - WCP.ORIGIN.left)) / $control.width();
+				var relX = 1 - ((e.pageX - ($control.get(0).getBoundingClientRect().left - WCP.ORIGIN.left)) / $control.width());
 			}
 			
 			var value = relX < 0 ? 0 : relX > 1 ? 1 : relX;
@@ -1693,8 +1692,8 @@
 				value = 0.5;
 			}
 			
-			$cursor.css('left', (value * $control.width()) + 'px');
-			
+			$cursor.css('right', (value * $control.width()) + 'px');
+
 			/// Update color value ///
 			// Red
 			if($control.hasClass('jQWCP-wRed')) {
@@ -2162,7 +2161,6 @@
 		var $widget = $this.closest('.jQWCP-wWidget');
 		var instance = $widget.data('jQWCP.instance');
 		var $input = $(instance.input);
-		
 		$('body').data('jQWCP.activeControl', $this.parent().get(0));
 		
 		// Trigger sliderdown event
@@ -2183,7 +2181,7 @@
 		var $widget = $this.closest('.jQWCP-wWidget');
 		var instance = $widget.data('jQWCP.instance');
 		var $input = $(instance.input);
-		
+
 		$('body').data('jQWCP.activeControl', $this.get(0));
 		
 		// Trigger sliderdown event
@@ -2202,7 +2200,6 @@
 		var $widget = $this.closest('.jQWCP-wWidget');
 		var instance = $widget.data('jQWCP.instance');
 		var $input = $(instance.input);
-		
 		$('body').data('jQWCP.activeControl', $this.parent().get(0));
 		
 		// Trigger sliderdown event
@@ -2287,6 +2284,7 @@
 			
 			// Trigger sliderup event
 			$input.trigger('sliderup');
+
 		}
 	};
 
