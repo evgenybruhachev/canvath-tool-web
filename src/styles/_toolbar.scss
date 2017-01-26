@@ -88,5 +88,24 @@
       border: 1px solid #bdbdbd;
       margin: 0 10px;
     }
+
+    .color{
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      border-radius: 8px;
+      border: 1px solid #bdbdbd;
+      margin: 0 10px;
+    }
+
+    .substrate{
+      .substrateBg{
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-size: contain;
+        background-position: center;
+      }
+    }
   }
 }

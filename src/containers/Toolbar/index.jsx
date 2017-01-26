@@ -10,6 +10,8 @@ import DrawTool from '../../draw-tool/drawtool';
 import Button from '../../components/button';
 import Upload from '../../components/upload';
 
+import * as ProductActions from '../../actions/product';
+
 import { uploadByString } from '../../api/extras';
 
 import * as actions from '../../actions/draw-tool';
@@ -22,6 +24,7 @@ class Toolbar extends Component {
         selected: React.PropTypes.object,
         history: React.PropTypes.object,
         colorSelected: React.PropTypes.object,
+        sideSelected: React.PropTypes.object,
     }
 
     constructor(props) {
@@ -204,9 +207,13 @@ class Toolbar extends Component {
     }
 
     render() {
-        const { activeTool, dispatch, selected, history, colorSelected } = this.props;
+        const { activeTool, dispatch, selected, history, colorSelected, sideSelected } = this.props;
 
         let view;
+
+        if(sideSelected !== null && typeof sideSelected !== 'undefined'){
+            this.substrateStyle = {backgroundImage: 'url(' + sideSelected.image_url + ')'}
+        }
 
         if (this.state.mobile) {
             view = (
@@ -216,6 +223,11 @@ class Toolbar extends Component {
                         onClick={this.helpClickArrows.bind(this, 'left')}>
                         <Icon icon={'left-arrow'}/>
                     </div>
+                    <button className={'button substrate'} onClick={() => {dispatch(ProductActions.toggleLoadProductCategoryContainer(true))}}>
+                        <span className={'substrateBg'} style={this.substrateStyle} />
+                        <span className="label">{'アイテム'}</span>
+                    </button>
+
                     <Button icon="paper" label={'サイド'} onClick={() => dispatch(actions.setActiveTool('sides'))}
                             active={activeTool === 'sides'}/>
                     <button
@@ -309,6 +321,7 @@ function mapStateToProps(state) {
         selected: state.drawTool.selected,
         history: state.drawTool.history,
         colorSelected: state.product.colorSelected,
+        sideSelected: state.product.sideSelected,
     };
 }
 
