@@ -1,58 +1,267 @@
-.jm-color-picker {
+//.jm-color-picker {
+//  position: relative;
+//  //max-width: 250px;
+//  margin: 0 auto;
+//
+//  #color-picker-place {
+//    border-radius: 50%;
+//  }
+//
+//  #color-picker-cursor {
+//    border-radius: 50%;
+//    border: 2px solid #fff;
+//    position: absolute;
+//    opacity: 1;
+//    pointer-events: none;
+//    cursor: pointer;
+//    width: 30px;
+//    height: 30px;
+//    left: 73px;
+//    top: 224px;
+//    background-color: rgba(0,162,255,1);
+//  }
+//
+//  .color-picker-slider {
+//    border-radius: 3px;
+//    width: 100%;
+//    height: 10px;
+//    margin: 20px 5px;
+//    position: relative;
+//  }
+//
+//  #slider-opacity {
+//    background: #fff;
+//    background: -moz-linear-gradient(left top, #fff, rgba(0,162,255,1)) repeat scroll 0 0 transparent;
+//    background: -webkit-gradient(linear, left top, right bottom, from(#fff), to(rgba(0,162,255,1)));
+//    background: linear-gradient(left top, #fff, rgba(0,162,255,1));
+//  }
+//
+//  #slider-brightness {
+//    background: #000;
+//    background: -moz-linear-gradient(left top, #000, rgba(0,162,255,1)) repeat scroll 0 0 transparent;
+//    background: -webkit-gradient(linear, left top, right bottom, from(#000), to(rgba(0,162,255,1)));
+//    background: linear-gradient(left top, #000, rgba(0,162,255,1));
+//    margin-bottom: 10px;
+//  }
+//
+//  .thumb {
+//    width: 5px;
+//    height: 25px;
+//    border-radius: 3px;
+//    position: absolute;
+//    right: 0;
+//    top: -7.5px;
+//    background: #fff;
+//    cursor: pointer;
+//    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
+//  }
+//}
+/**
+ * jQuery Wheel Color Picker
+ * Base Stylesheet
+ *
+ * http://www.jar2.net/projects/jquery-wheelcolorpicker
+ *
+ * Copyright © 2011-2016 Fajar Chandra. All rights reserved.
+ * Released under MIT License.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Note: Width, height, left, and top properties are handled by the
+ * plugin. These values might change on the fly.
+ */
+
+.jQWCP-wWidget {
+  position: absolute;
+  z-index: 1;
+  outline: none!important;
+  max-width: 100%;
+  padding-bottom: 18px;
+}
+
+.jQWCP-wWidget.jQWCP-block {
   position: relative;
-  //max-width: 250px;
-  margin: 0 auto;
+}
 
-  #color-picker-place {
-    border-radius: 50%;
+.jQWCP-wWheel {
+  position: relative;
+  float: left;
+  width: 310px;
+  height: 310px;
+  -webkit-border-radius: 90px;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-size: contain !important;
+}
+.jQWCP-wWheelOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0;
+  -webkit-border-radius: 90px;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.jQWCP-wWheelCursor {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -18px -18px;
+  border: solid 3px #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.jQWCP-slider-wrapper,
+.jQWCP-wPreview {
+  position: relative;
+  height: 10px!important;
+  width: 100%!important;
+  border-radius: 5px;
+  margin-top: 28px;
+  margin-bottom: 5px;
+  float: left;
+}
+.jQWCP-slider-wrapper:before{
+  content: " ";
+  display: block;
+  bottom: -1px;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  border-radius: 5px;
+  border: 1px solid #fff;
+}
+
+.jQWCP-wAlpha:before{
+  background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
+}
+.jQWCP-wVal:before{
+  background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%);
+  background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(255,255,255,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00ffffff',GradientType=1 );
+
+}
+.jQWCP-wWheel:last-child,
+.jQWCP-slider-wrapper:last-child,
+.jQWCP-wPreview:last-child {
+  margin-right: 0;
+}
+
+.jQWCP-slider,
+.jQWCP-wPreviewBox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.jQWCP-slider {
+  cursor: pointer;
+  z-index: 0;
+}
+
+.jQWCP-slider-wrapper:hover .jQWCP-slider {
+  border-color: #666;
+}
+
+.jQWCP-scursor {
+  position: absolute;
+  right: 0;
+  top: 0!important;
+  bottom: 0;
+  width: 4px;
+  height: 25px;
+  margin: -8px -2px -5px -2px;
+  background: #fff;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.jQWCP-wAlphaSlider,
+.jQWCP-wPreviewBox {
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEVAQEB/f39eaJUuAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3QYRBDgK9dKdMgAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAARSURBVAjXY/jPwIAVYRf9DwB+vw/x6vMT1wAAAABJRU5ErkJggg==') center center;
+}
+
+.jQWCP-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.tab-content-custom {
+  span {
+    div {
+      div {
+        position: relative;
+        &.activeColor {
+          &:before {
+            bottom: 3px;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+          }
+        }
+        &:before {
+          content: ' ';
+          display: block;
+          position: absolute;
+          bottom: 18px;
+          top: 18px;
+          left: 18px;
+          right: 18px;
+          background: #fff;
+          border-radius: 50%;
+          transition: all 100ms ease;
+        }
+      }
+    }
   }
+}
 
-  #color-picker-cursor {
-    border-radius: 50%;
-    border: 2px solid #fff;
-    position: absolute;
-    opacity: 1;
-    pointer-events: none;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    left: 57px;
-    top: 176px;
-    background-color: rgba(0,162,255,1);
-  }
 
-  .color-picker-slider {
-    border-radius: 3px;
-    width: 100%;
-    height: 10px;
-    margin: 20px 5px;
-    position: relative;
-  }
 
-  #slider-opacity {
-    background: #fff;
-    background: -moz-linear-gradient(left top, #fff, rgba(0,162,255,1)) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, right bottom, from(#fff), to(rgba(0,162,255,1)));
-    background: linear-gradient(left top, #fff, rgba(0,162,255,1));
-  }
+/*********************/
 
-  #slider-brightness {
-    background: #000;
-    background: -moz-linear-gradient(left top, #000, rgba(0,162,255,1)) repeat scroll 0 0 transparent;
-    background: -webkit-gradient(linear, left top, right bottom, from(#000), to(rgba(0,162,255,1)));
-    background: linear-gradient(left top, #000, rgba(0,162,255,1));
-    margin-bottom: 10px;
-  }
+/* Mobile layout */
 
-  .thumb {
-    width: 5px;
-    height: 25px;
-    border-radius: 3px;
-    position: absolute;
-    right: 0;
-    top: -7.5px;
-    background: #fff;
-    cursor: pointer;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
+.jQWCP-mobile.jQWCP-wWidget {
+  position: fixed;
+  bottom: 0;
+  left: 0 !important;
+  top: auto !important;
+  width: 100%;
+  height: 75%;
+  max-height: 240px;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+@media (max-width: 320px){
+  .jQWCP-wWheel {
+    float: none;
+    width: 260px;
+    height: 260px;
+    margin: 0 auto;
   }
 }
