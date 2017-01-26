@@ -6,8 +6,10 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Layers from '../../components/layers';
 
 import Sticker from '../../components/sticker';
+import StickerShape from '../../components/sticker-shapes';
 
 import Button from '../../components/button';
+import ButtonShape from '../../components/button-shapes';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
 import Icon from '../../components/icon';
@@ -51,6 +53,7 @@ class Options extends Component {
         this.getShapes = this.getShapes.bind(this);
         this.getSideTitle = this.getSideTitle.bind(this);
         this.toggleOptions = this.toggleOptions.bind(this);
+        this.changeColorSVG = this.changeColorSVG.bind(this);
         this.showOptions = true;
         this.lastState = null;
     }
@@ -85,6 +88,10 @@ class Options extends Component {
         }
 
         this.lastState = this.props.activeTool;
+    }
+
+    changeColorSVG() {
+        $('.sticker svg').css('fill', shapeColor)
     }
 
     render() {
@@ -351,11 +358,12 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectShapeColor(color))}
                             />
                             {availableShapesCategories.map((shape, index) => (
-                            <Button
+                            <ButtonShape
                                 image={shape.content_url}
                                 label={shape.title}
                                 key={index}
                                 onClick={() => this.getShapes(shape.id)}
+                                color={shapeColor}
                             />)
                                 )}
                         </div>
@@ -366,8 +374,11 @@ class Options extends Component {
                                 hideTracksWhenNotNeeded
                             >
                                 <div className="stickers">
-                                    {availableShapes.map((shape, index) => <Sticker
-                                        path={shape} key={index} onClick={() => dispatch(actions.insertShape(shape))}
+                                    {availableShapes.map((shape, index) => <StickerShape
+                                        path={shape}
+                                        key={index}
+                                        onClick={() => dispatch(actions.insertShape(shape))}
+                                        color={shapeColor}
                                     />)}
                                 </div>
                             </Scrollbars>
