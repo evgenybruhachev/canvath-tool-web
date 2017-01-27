@@ -111,7 +111,11 @@ class Toolbar extends Component {
         dispatch(actions.setLoading(true));
 
         const getImage = (file) => {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
+                if(file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
+                    && file.type !== 'application/postscript' && file.type !== 'application/pdf')
+                    reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
+
                 const img = new Image();
                 img.onload = function () {
                     resolve(img);
@@ -190,7 +194,10 @@ class Toolbar extends Component {
                         dispatch(actions.setLoading(false));
                     });
                 },
-                err => window.alert(err)
+                err => {
+                    dispatch(actions.setLoading(false));
+                    window.alert(err);
+                }
             );
     }
 
