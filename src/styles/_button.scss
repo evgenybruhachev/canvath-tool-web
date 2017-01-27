@@ -117,8 +117,9 @@
   }
 
   &.complete-drawing{
-    height: 34px;
-    margin-left: 20px;
+    height: 35px!important;
+    margin-left: 10px!important;
+    background-color: #0F5FD4!important;
   }
 
   &.trash{
