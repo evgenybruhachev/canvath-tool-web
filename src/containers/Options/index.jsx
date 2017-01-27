@@ -117,7 +117,7 @@ class Options extends Component {
             selected,
             colors,
             colorSelected,
-            } = this.props;
+        } = this.props;
 
         let content;
 
@@ -136,14 +136,14 @@ class Options extends Component {
                                     {
                                         colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides
                                             .map((side, index) => <div
-                                            className="side"
-                                            key={index}
-                                            onClick={() => dispatch(ProductActions.selectSide(side.ProductColorSide.id))}
-                                        >
-                                            <img src={side.ProductColorSide.image_url} alt="" className="preview"/>
-                                            <div className="title">{side.ProductColorSide.title}</div>
-                                        </div>)
-                                        }
+                                                className="side"
+                                                key={index}
+                                                onClick={() => dispatch(ProductActions.selectSide(side.ProductColorSide.id))}
+                                            >
+                                                <img src={side.ProductColorSide.image_url} alt="" className="preview"/>
+                                                <div className="title">{side.ProductColorSide.title}</div>
+                                            </div>)
+                                    }
                                 </div>
                             </Scrollbars>
                         </div>
@@ -169,7 +169,7 @@ class Options extends Component {
                                             style={{backgroundColor: color.ProductColor.value}}
                                             onClick={() => dispatch(ProductActions.selectColor(color.ProductColor.id))}
                                         />)
-                                        }
+                                    }
                                 </div>
                             </Scrollbars>
                         </div>
@@ -209,8 +209,8 @@ class Options extends Component {
                                 value={activeBrush}
                                 onChange={brush => dispatch(actions.selectBrush(brush))}
                                 elements={availableBrushes
-                  .map(brush => ({ val: brush, node: <Icon icon={brush} /> }))
-                }
+                                    .map(brush => ({ val: brush, node: <Icon icon={brush} /> }))
+                                }
                             />
                             <ColorPicker
                                 label="カラー選択"
@@ -221,10 +221,11 @@ class Options extends Component {
                                 label="サイズ"
                                 value={brushOptions.width.toString()}
                                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
-                  .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
-                )}
+                                    .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
+                                    )}
                                 onChange={size => dispatch(actions.selectBrushSize(size))}
                             />
+                            <button className="complete-drawing button cart-button" onClick={() => dispatch(actions.setActiveTool('pointer'))}>完了</button>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -246,7 +247,7 @@ class Options extends Component {
                                 label="フォント"
                                 value={textOptions.font}
                                 elements={availableFonts.map(font => ({ val: font,
-                  node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                                    node: <span style={{ fontFamily: font }}>{font}</span> }))}
                                 onChange={font => dispatch(actions.selectTextFont(font))}
                                 className="fonts"
                             />
@@ -255,7 +256,7 @@ class Options extends Component {
                                 label="サイズ"
                                 value={textOptions.size.toString()}
                                 elements={[6, 8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72]
-                  .map(size => ({ val: size.toString(), node: <span>{size}</span> }))}
+                                    .map(size => ({ val: size.toString(), node: <span>{size}</span> }))}
                                 onChange={size => dispatch(actions.selectTextSize(size))}
                             />
 
@@ -342,7 +343,7 @@ class Options extends Component {
                                 </div>
                             </Scrollbars>
                         </div> : null
-                            }
+                        }
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
@@ -358,14 +359,14 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectShapeColor(color))}
                             />
                             {availableShapesCategories.map((shape, index) => (
-                            <ButtonShape
-                                image={shape.content_url}
-                                label={shape.title}
-                                key={index}
-                                onClick={() => this.getShapes(shape.id)}
-                                color={shapeColor}
-                            />)
-                                )}
+                                <ButtonShape
+                                    image={shape.content_url}
+                                    label={shape.title}
+                                    key={index}
+                                    onClick={() => this.getShapes(shape.id)}
+                                    color={shapeColor}
+                                />)
+                            )}
                         </div>
                         {availableShapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <Scrollbars
@@ -383,7 +384,7 @@ class Options extends Component {
                                 </div>
                             </Scrollbars>
                         </div> : null
-                            }
+                        }
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
