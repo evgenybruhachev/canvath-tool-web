@@ -90,38 +90,6 @@ class MobileNavigation extends Component {
             <span className="label">画像保存</span>
           </button>
 
-          <div className="aside-title">アイテム変更</div>
-
-          <div>
-            <DropDown onClick={this.openCategorySelect} label={product ? product.title : 'Type'} />
-            {/*
-            <DropDown
-              label={colorSelected ? <div className="list-item">
-                <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
-              </div> : 'Color'
-              }
-              onChange={this.selectColor}
-            >
-              {
-                colors && colors.map((color, index) => <div className="list-item" key={index} data-meta={color.ProductColor.id}>
-                  <span className="color" style={{ backgroundColor: color.ProductColor.value }} />
-                  {color.ProductColor.title}
-                </div>
-                )
-              }
-            </DropDown>
-
-            <DropDown
-              label={
-                sideSelected ? <div className="list-item">{sideSelected.title}</div> : 'Side'
-              }
-              onChange={this.selectSide}
-            >
-              {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
-            </DropDown>
-            */}
-          </div>
-
           <button className="btn" onClick={() => dispatch(DrawToolActions.empty())}>
             <span className="label">全削除</span>
           </button>
