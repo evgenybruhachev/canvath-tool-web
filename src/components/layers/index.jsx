@@ -31,30 +31,14 @@ class Layers extends Component {
         this.onSortEnd = this.onSortEnd.bind(this);
         this.getIsMobile = this.getIsMobile.bind(this);
         this.shouldCancelStart = this.shouldCancelStart.bind(this);
-        this.reverse = this.reverse.bind(this);
     }
     componentDidMount() {
         window.addEventListener('resize', this.getIsMobile, false);
         this.getIsMobile();
-        setTimeout(this.reverse,0)
     }
     componentWillReceiveProps(nextProps) {
-        let reverse = this.state.items;
-        let notReverse = nextProps.items;
-        if(reverse===notReverse){
-            this.setState({
-                items: notReverse
-            });
-        } else {
-            this.setState({
-                items: nextProps.items.reverse()
-            });
-        }
-    }
-
-    reverse(){
         this.setState({
-            items: this.state.items.reverse()
+            items: nextProps.items,
         });
     }
 
