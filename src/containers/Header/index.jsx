@@ -14,6 +14,7 @@ import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 
 import { WEBHOST } from '../../constants';
+import query from '../../constants/query';
 
 class Header extends Component {
 
@@ -62,7 +63,11 @@ class Header extends Component {
     const { dispatch } = this.props;
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+    if(query.session === ''){
+        alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+    } else {
+        setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+    }
   }
 
   goToCart() {

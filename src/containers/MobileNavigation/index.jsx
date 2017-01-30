@@ -10,6 +10,7 @@ import * as DrawToolActions from '../../actions/draw-tool';
 import Button from '../../components/button';
 import Icon from '../../components/icon';
 import DropDown from '../../components/drop-down';
+import query from '../../constants/query';
 
 class MobileNavigation extends Component {
 
@@ -65,7 +66,11 @@ class MobileNavigation extends Component {
     const { dispatch } = this.props;
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+    if(query.session === ''){
+        alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+    } else {
+        setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+    }
   }
 
   render() {
