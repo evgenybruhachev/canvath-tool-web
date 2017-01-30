@@ -21,7 +21,7 @@ class Layers extends Component {
             selection: [],
             moving: false,
             movingstarted: false,
-            items: props.items,
+            items: props.items.reverse(),
             mobile: false,
         };
 
