@@ -235,7 +235,7 @@ class Toolbar extends Component {
                         <span className="label">{'アイテム'}</span>
                     </button>
 
-                    <Button icon="paper" label={'裏表'} onClick={() => dispatch(actions.setActiveTool('sides'))}
+                    <Button icon="paper" label={'表裏'} onClick={() => dispatch(actions.setActiveTool('sides'))}
                             active={activeTool === 'sides'}/>
                     <button
                         className={classNames('button', { active: activeTool === 'colors'})}
