@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { parse } from 'querystring';
 import classNames from 'classnames';
 
 import Button from '../../components/button';
@@ -65,13 +66,28 @@ class Header extends Component {
   }
 
   handleSaveTemplate() {
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    if(query.session === ''){
-        alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+    // get session token from query string
+    let getSessionToken = (queryString) => {
+      let queryParams = parse(queryString);
+      for (let key in queryParams) {
+        if (key.indexOf('session') !== -1) {
+          return queryParams[key];
+        }
+      }
+    };
+    let sessionToken = getSessionToken(window.location.hash);
+    if (!sessionToken) {
+      sessionToken = getSessionToken(window.location.search);
+    }
+    // ...
+
+    if (!sessionToken) {
+      alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
     } else {
-        setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
+      setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
   }
 
