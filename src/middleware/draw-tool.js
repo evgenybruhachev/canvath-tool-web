@@ -28,8 +28,6 @@ export default store => next => (action) => {
       if (action.payload === 'panning') {
         DrawTool.sides.selected.drawingMode(false);
         DrawTool.sides.selected.panning = true;
-          console.log("!!!!!!!!");
-          console.log(DrawTool.sides.selected);
       } else {
         DrawTool.sides.selected.panning = false;
       }
