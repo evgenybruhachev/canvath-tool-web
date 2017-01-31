@@ -21,7 +21,7 @@ class Layers extends Component {
             selection: [],
             moving: false,
             movingstarted: false,
-            items: props.items.reverse(),
+            items: props.items,
             mobile: false,
         };
 
@@ -37,6 +37,7 @@ class Layers extends Component {
         this.getIsMobile();
     }
     componentWillReceiveProps(nextProps) {
+        nextProps.items.reverse();
         this.setState({
             items: nextProps.items,
         });
