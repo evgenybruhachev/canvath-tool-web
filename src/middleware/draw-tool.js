@@ -35,6 +35,7 @@ export default store => next => (action) => {
       if (action.payload === 'brush') {
         DrawTool.sides.selected.drawingMode(true);
         DrawTool.sides.selected.items[activeBrush](brushOptions);
+        DrawTool.sides.selected.draw = true;
       } else {
         DrawTool.sides.selected.drawingMode(false);
       }
