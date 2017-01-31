@@ -301,9 +301,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    if (typeof this._callbacks[event] !== 'undefined') {
-	
 	      this._callbacks[event].forEach(function (cb) {
 	        return cb(JSON.stringify(data));
+
 	      });
 	    }
 	  },
@@ -369,8 +369,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	
 	          _side.FabricCanvas.renderAll.bind(_side.FabricCanvas);
+
 	        });
-	
+              $('.app-container').addClass('app-show');
 	        resolve();
 	      });
 	    });
@@ -8455,7 +8456,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.canvas.clearContext(this.canvas.contextTop);
 	      this._resetShadow();
 	      this.canvas.renderAll();
-	
+
 	      // fire event 'path' created
 	      this.canvas.fire('path:created', { path: path });
 	    }

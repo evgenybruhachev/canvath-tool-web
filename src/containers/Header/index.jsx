@@ -12,6 +12,7 @@ import { getTemplates, saveProduct } from '../../api/products';
 
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
+import * as actions from '../../actions/draw-tool';
 
 import { WEBHOST } from '../../constants';
 import query from '../../constants/query';
@@ -52,6 +53,10 @@ class Header extends Component {
   selectColor(id) {
     const { dispatch } = this.props;
     dispatch(ProductActions.selectColor(id));
+
+    if(DrawTool.sides.selected.draw === true){
+        setTimeout(() => dispatch(actions.setActiveTool('brush')), 500);
+    }
   }
 
   selectSide(id) {
