@@ -32,18 +32,28 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      sessionToken: null
+    };
+
     this.openProductLoad = this.openProductLoad.bind(this);
     this.openCategorySelect = this.openCategorySelect.bind(this);
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
+    this.getSessionParse = this.getSessionParse.bind(this);
   }
 
   openProductLoad() {
     const { dispatch } = this.props;
     getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
-    dispatch(ProductActions.toggleLoadProductContainer(true));
+
+    if (!this.state.sessionToken) {
+      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
+    } else {
+      setTimeout(() => dispatch(ProductActions.toggleLoadProductContainer(true)), 500);
+    }
   }
 
   openCategorySelect() {
@@ -65,11 +75,8 @@ class Header extends Component {
     dispatch(ProductActions.selectSide(id));
   }
 
-  handleSaveTemplate() {
-    const {dispatch} = this.props;
-    dispatch(DrawToolActions.setActiveTool('pointer'));
-
-    // get session token from query string
+  // get session token from query string
+  getSessionParse () {
     let getSessionToken = (queryString) => {
       let queryParams = parse(queryString);
       for (let key in queryParams) {
@@ -82,10 +89,21 @@ class Header extends Component {
     if (!sessionToken) {
       sessionToken = getSessionToken(window.location.search);
     }
-    // ...
+    this.setState({ sessionToken: sessionToken });
+  }
 
-    if (!sessionToken) {
-      alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+  componentDidMount(){
+    this.getSessionParse()
+  }
+  // ...
+
+
+  handleSaveTemplate() {
+    const {dispatch} = this.props;
+    dispatch(DrawToolActions.setActiveTool('pointer'));
+
+    if (!this.state.sessionToken) {
+      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
