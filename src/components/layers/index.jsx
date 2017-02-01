@@ -37,6 +37,7 @@ class Layers extends Component {
         this.getIsMobile();
     }
     componentWillReceiveProps(nextProps) {
+        nextProps.items.reverse();
         this.setState({
             items: nextProps.items,
         });

@@ -35,6 +35,7 @@ export default store => next => (action) => {
       if (action.payload === 'brush') {
         DrawTool.sides.selected.drawingMode(true);
         DrawTool.sides.selected.items[activeBrush](brushOptions);
+        DrawTool.sides.selected.draw = true;
       } else {
         DrawTool.sides.selected.drawingMode(false);
       }
@@ -152,8 +153,9 @@ export default store => next => (action) => {
       break;
     case 'SORT_LAYERS': {
       DrawTool._evented = false;
-      action.payload.items.forEach((el, index) => {
-        DrawTool.sides.selected.layers.moveToIndex({ uuid: el.index, index });
+      action.payload.items.forEach((el, index, arr) => {
+        let sortIndex = arr.length - index - 1;
+        DrawTool.sides.selected.layers.moveToIndex({ uuid: el.index, index: sortIndex });
       });
       setTimeout(() => {
         DrawTool._evented = true;

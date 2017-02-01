@@ -264,6 +264,7 @@ class Toolbar extends Component {
                             onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                             active={activeTool === 'removeColor'}/>
                     <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
+                            disabled={history.collection.length <= 1}
                             active={activeTool === 'layers'}/>
                     <div
                         className={this.helpArrows.right ? 'user-help-scroll-arrow right show' : 'user-help-scroll-arrow right'}
@@ -310,6 +311,7 @@ class Toolbar extends Component {
                                 onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                                 active={activeTool === 'removeColor'}/>
                         <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
+                                disabled={history.collection.length <= 1}
                                 active={activeTool === 'layers'}/>
                         <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
                     </div>

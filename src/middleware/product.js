@@ -82,7 +82,7 @@ export default store => next => (action) => {
         Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg.split('\n').join(''), 'svg')]).then((values) => {
           saveTemplate(values[0], values[1]);
         });
-      });
+      }, true);
       break;
     }
 
