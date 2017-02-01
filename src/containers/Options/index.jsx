@@ -26,11 +26,15 @@ class Options extends Component {
         activeTool: React.PropTypes.string,
         availableBrushes: React.PropTypes.array,
         availableFonts: React.PropTypes.array,
+        availableFontsJP: React.PropTypes.array,
+        availableFontsEN: React.PropTypes.array,
+        availableFontsCategories: React.PropTypes.array,
         availableShapesCategories: React.PropTypes.array,
         availableShapes: React.PropTypes.array,
         activeBrush: React.PropTypes.string,
         brushOptions: React.PropTypes.object,
         textOptions: React.PropTypes.object,
+        categoriesFontsOptions: React.PropTypes.object,
         dispatch: React.PropTypes.func,
         layers: React.PropTypes.object,
         side: React.PropTypes.object,
@@ -48,6 +52,10 @@ class Options extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+          availableFonts:[]
+        };
 
         this.getStickers = this.getStickers.bind(this);
         this.getShapes = this.getShapes.bind(this);
@@ -90,19 +98,33 @@ class Options extends Component {
         this.lastState = this.props.activeTool;
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e"){
+          setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsJP }), 0)
+          ;
+        } else {
+          setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsEN }), 0)
+        }
+    }
+
     changeColorSVG() {
         $('.sticker svg').css('fill', shapeColor)
     }
 
     render() {
+
         const {
             activeTool,
             availableBrushes,
             availableFonts,
+            availableFontsJP,
+            availableFontsEN,
+            availableFontsCategories,
             availableShapesCategories,
             availableShapes,
             activeBrush,
             textOptions,
+            categoriesFontsOptions,
             brushOptions,
             layers,
             side,
@@ -118,6 +140,7 @@ class Options extends Component {
             colors,
             colorSelected,
         } = this.props;
+
 
         let content;
 
@@ -244,9 +267,18 @@ class Options extends Component {
                             />
 
                             <DropDownM
+                              label="言語"
+                              value={categoriesFontsOptions.title}
+                              elements={availableFontsCategories.map(categoriesFonts => ({ val: categoriesFonts,
+                                node: <span>{categoriesFonts}</span> }))}
+                              onChange={categoriesFonts => dispatch(actions.selectTextCategoriesFonts(categoriesFonts))}
+                              className="categoriesFonts"
+                            />
+
+                            <DropDownM
                                 label="フォント"
                                 value={textOptions.font}
-                                elements={availableFonts.map(font => ({ val: font,
+                                elements={this.state.availableFonts.map(font => ({ val: font,
                                     node: <span style={{ fontFamily: font }}>{font}</span> }))}
                                 onChange={font => dispatch(actions.selectTextFont(font))}
                                 className="fonts"
@@ -467,8 +499,12 @@ function mapStateToProps(state) {
         activeBrush: state.drawTool.activeBrush,
         brushOptions: state.drawTool.brushOptions,
         textOptions: state.drawTool.textOptions,
+        categoriesFontsOptions: state.drawTool.categoriesFontsOptions,
         availableBrushes: state.drawTool.availableBrushes,
         availableFonts: state.drawTool.availableFonts,
+        availableFontsJP: state.drawTool.availableFontsJP,
+        availableFontsEN: state.drawTool.availableFontsEN,
+        availableFontsCategories: state.drawTool.availableFontsCategories,
         availableShapesCategories: state.drawTool.availableShapesCategories,
         availableShapes: state.drawTool.availableShapes,
         layers: state.drawTool.layers,
