@@ -24,7 +24,7 @@ import * as DrawToolActions from '../../actions/draw-tool';
 
 import { getCategories, getProductsByCategory, getProduct, removeTemplate,
   getProductWithDesign, getDesign, getDefaultProduct } from '../../api/products';
-import { getBrushes, getFonts } from '../../api/options';
+import { getBrushes, getFonts, getFontsJP, getFontsEN, getCategoriesFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
 class App extends Component {
@@ -71,8 +71,13 @@ class App extends Component {
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
     getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
+    getFontsJP().then(data => dispatch(DrawToolActions.updateFontsJP(data)));
+    getFontsEN().then(data => dispatch(DrawToolActions.updateFontsEN(data)));
+    getCategoriesFonts().then(data => dispatch(DrawToolActions.updateCategoriesFonts(data)));
     getShapesCategories().then(data => dispatch(DrawToolActions.updateShapesCategories(data)));
     getStickersCategories().then(data => dispatch(DrawToolActions.updateStickersCategories(data)));
+
+
 
     if (query.item_id) {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));

@@ -2,6 +2,9 @@ import { createAction } from 'redux-actions';
 
 export const updateBrushes = createAction('UPDATE_BRUSHES');
 export const updateFonts = createAction('UPDATE_FONTS');
+export const updateFontsJP = createAction('UPDATE_FONTS_JP');
+export const updateFontsEN = createAction('UPDATE_FONTS_EN');
+export const updateCategoriesFonts = createAction('UPDATE_CATEGORIES_FONTS');
 export const updateShapesCategories = createAction('UPDATE_SHAPES_CATEGORIES');
 export const updateShapes = createAction('UPDATE_SHAPES');
 export const updateStickersCategories = createAction('UPDATE_STICKERS_CATEGORIES');
@@ -28,6 +31,7 @@ export const updateHistory = createAction('UPDATE_HISTORY');
 export const addText = createAction('ADD_TEXT');
 export const selectTextColor = createAction('SELECT_TEXT_COLOR');
 export const selectTextFont = createAction('SELECT_TEXT_FONT');
+export const selectTextCategoriesFonts = createAction('SELECT_TEXT_CATEGORIES_FONTS');
 export const selectTextSize = createAction('SELECT_TEXT_SIZE');
 export const selectTextAlign = createAction('SELECT_TEXT_ALIGN');
 export const selectTextBold = createAction('SELECT_TEXT_BOLD');
