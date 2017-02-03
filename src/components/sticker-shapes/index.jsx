@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+import * as actions from '../../actions/draw-tool';
 
 class StickerShape extends Component {
 
   static propTypes = {
     path: React.PropTypes.string,
     onClick: React.PropTypes.func,
+    dispatch: React.PropTypes.func
   };
 
   constructor(props) {
@@ -24,6 +27,9 @@ class StickerShape extends Component {
   }
 
   getSvgFunc( url ) {
+
+      const { dispatch } = this.props;
+
       let req = null;
       try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
           try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {
@@ -36,7 +42,8 @@ class StickerShape extends Component {
 
       req.onreadystatechange = () => {
           if (req.readyState == XMLHttpRequest.DONE) {
-              setTimeout(() => $(this.refs['dhilt']).find('svg').css('fill', this.props.color))
+              dispatch(actions.stickerShapeSvgLoad(url));
+              setTimeout(() => $(this.refs['stickerShapeItem']).find('svg').css('fill', this.props.color))
           }
       };
 
@@ -59,13 +66,13 @@ class StickerShape extends Component {
           })
       }
       if(nextProps.color !== this.props.color) {
-          $(this.refs['dhilt']).find('svg').css('fill', nextProps.color)
+          $(this.refs['stickerShapeItem']).find('svg').css('fill', nextProps.color)
       }
   }
 
   render() {
     return (
-      <div ref='dhilt'
+      <div ref='stickerShapeItem'
         className={classNames('sticker')}
         onClick={this.handleOnClick}
       >
@@ -75,4 +82,13 @@ class StickerShape extends Component {
   }
 }
 
-export default StickerShape;
+function mapStateToProps(state) {
+  return {
+    test: true
+  };
+}
+
+export default connect(
+  mapStateToProps
+)(StickerShape);
+

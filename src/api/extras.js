@@ -56,7 +56,8 @@ export const getShapes = (id) => {
       method: 'GET',
       mode: 'cors',
     })
-    .then(response => response.json().then(data => resolve(data.shapes)))
+    .then(response => response.json()
+    .then(data => resolve(data.shapes)))
     .catch(err => reject(err));
   });
 };
