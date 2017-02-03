@@ -3,6 +3,10 @@ import escapeJSON from '../utils/escapeJSON';
 import { uploadByString } from '../api/extras';
 import { saveTemplate } from '../api/products';
 
+import React from 'react';
+import { connect } from 'redux'
+import * as actions from '../actions/draw-tool';
+
 export default store => next => (action) => {
   const { colors, colorSelected, sideSelected } = store.getState().product;
 
@@ -39,11 +43,12 @@ export default store => next => (action) => {
           return JSON.parse(JSON.parse(escapeJSON(side.ProductColorSide.content)));
         });
 
-        DrawTool.importJSON(JSON.stringify(data));
-
-        DrawTool.sides.select(
-          JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
-        );
+        DrawTool.importJSON(JSON.stringify(data)).then(() => {
+          DrawTool.sides.select(
+              JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
+          );
+          store.dispatch(actions.setLoading(false));
+        });
       }
       break;
     }
