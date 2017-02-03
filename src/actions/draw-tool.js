@@ -63,3 +63,6 @@ export const removeColor = createAction('REMOVE_COLOR');
 
 export const selectItem = createAction('SELECT_ITEM');
 export const unselectItem = createAction('UNSELECT_ITEM');
+
+export const stickerShapeSvgLoad = createAction('STICKER_SHAPE_SVG_LOAD');
+export const loadingSVG = createAction('LOADING_SVG');

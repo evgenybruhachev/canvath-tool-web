@@ -32,6 +32,8 @@ const initialState = {
   availableShapesCategories: [],
   availableFontsCategories: [],
   availableShapes: [],
+  loadedAvailableShapes: [],
+  svgStickerShapesLoading: true,
   history: { currentIndex: 0, collection: [{}] },
   loading: false,
 };
@@ -60,6 +62,8 @@ export default handleActions({
     availableShapesCategories: action.payload.map(shape => shape.DrawerShapeCategory),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
+    loadedAvailableShapes: [],
+    svgStickerShapesLoading: true,
     availableShapes: action.payload.map(shape => shape.DrawerShape.content_url),
   }),
   UPDATE_STICKERS_CATEGORIES: (state, action) => Object.assign({}, state, {
@@ -200,5 +204,23 @@ export default handleActions({
   LOADING: (state, action) => Object.assign({}, state, {
     loading: action.payload,
   }),
+
+  LOADING_SVG: (state, action) => Object.assign({}, state, {
+    loadedAvailableShapes: [],
+    svgStickerShapesLoading: action.payload,
+  }),
+
+  STICKER_SHAPE_SVG_LOAD: (state, action) => {
+    let urls = state.loadedAvailableShapes;
+
+    if(!state.loadedAvailableShapes.find(url => url === action.payload))
+    {
+      urls.push(action.payload);
+    }
+    return Object.assign({}, state, {
+      loadedAvailableShapes: urls,
+      svgStickerShapesLoading: state.availableShapes.length === urls.length
+    });
+  }
 
 }, initialState);

@@ -31,6 +31,7 @@ class Options extends Component {
         availableFontsCategories: React.PropTypes.array,
         availableShapesCategories: React.PropTypes.array,
         availableShapes: React.PropTypes.array,
+        loadedAvailableShapes: React.PropTypes.array,
         activeBrush: React.PropTypes.string,
         brushOptions: React.PropTypes.object,
         textOptions: React.PropTypes.object,
@@ -48,6 +49,7 @@ class Options extends Component {
         selected: React.PropTypes.object,
         colors: React.PropTypes.array,
         colorSelected: React.PropTypes.object,
+        svgStickerShapesLoading: React.PropTypes.bool
     };
 
     constructor(props) {
@@ -73,6 +75,8 @@ class Options extends Component {
 
     getShapes(id) {
         const { dispatch } = this.props;
+        dispatch(actions.loadingSVG(false));
+        dispatch(actions.stickerShapeSvgLoad());
         getShapes(id).then(data => dispatch(actions.updateShapes(data)));
     }
 
@@ -122,6 +126,8 @@ class Options extends Component {
             availableFontsCategories,
             availableShapesCategories,
             availableShapes,
+            loadedAvailableShapes,
+            svgStickerShapesLoading,
             activeBrush,
             textOptions,
             categoriesFontsOptions,
@@ -391,16 +397,17 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectShapeColor(color))}
                             />
                             {availableShapesCategories.map((shape, index) => (
-                                <ButtonShape
-                                    image={shape.content_url}
-                                    label={shape.title}
-                                    key={index}
-                                    onClick={() => this.getShapes(shape.id)}
-                                    color={shapeColor}
-                                />)
+                              <ButtonShape
+                                image={shape.content_url}
+                                label={shape.title}
+                                key={index}
+                                onClick={() => this.getShapes(shape.id)}
+                                color={shapeColor}
+                              />)
                             )}
                         </div>
-                        {availableShapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">loading...</span></div> : null }
+                        {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <Scrollbars
                                 style={{ width: '100%' }}
                                 autoHide
@@ -507,6 +514,8 @@ function mapStateToProps(state) {
         availableFontsCategories: state.drawTool.availableFontsCategories,
         availableShapesCategories: state.drawTool.availableShapesCategories,
         availableShapes: state.drawTool.availableShapes,
+        loadedAvailableShapes: state.drawTool.loadedAvailableShapes,
+        svgStickerShapesLoading: state.drawTool.svgStickerShapesLoading,
         layers: state.drawTool.layers,
         side: state.product.sideSelected,
         shapeColor: state.drawTool.shapeColor,
