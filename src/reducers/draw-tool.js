@@ -35,7 +35,7 @@ const initialState = {
   loadedAvailableShapes: [],
   svgStickerShapesLoading: true,
   history: { currentIndex: 0, collection: [{}] },
-  loading: false,
+  loading: true,
 };
 
 export default handleActions({
