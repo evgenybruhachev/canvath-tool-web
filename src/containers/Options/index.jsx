@@ -150,6 +150,9 @@ class Options extends Component {
 
         let content;
 
+      // console.log('textOptions');
+      // console.log(textOptions);
+
         switch (activeTool) {
 
             case 'sides':
@@ -282,12 +285,12 @@ class Options extends Component {
                             />
 
                             <DropDownM
-                                label="フォント"
-                                value={textOptions.font}
-                                elements={this.state.availableFonts.map(font => ({ val: font,
-                                    node: <span style={{ fontFamily: font }}>{font}</span> }))}
-                                onChange={font => dispatch(actions.selectTextFont(font))}
-                                className="fonts"
+                              label="フォント"
+                              value={textOptions.font}
+                              elements={this.state.availableFonts.map(font => ({ val: font,
+                                node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                              onChange={font => dispatch(actions.selectTextFont(font))}
+                              className="fonts"
                             />
 
                             <DropDownM
