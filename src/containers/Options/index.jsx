@@ -409,7 +409,7 @@ class Options extends Component {
                               />)
                             )}
                         </div>
-                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">loading...</span></div> : null }
+                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">読み込み中</span></div> : null }
                         {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <Scrollbars
                                 style={{ width: '100%' }}
