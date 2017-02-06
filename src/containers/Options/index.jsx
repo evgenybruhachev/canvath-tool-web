@@ -151,6 +151,9 @@ class Options extends Component {
 
         let content;
 
+      // console.log('textOptions');
+      // console.log(textOptions);
+
         switch (activeTool) {
 
             case 'sides':
@@ -283,12 +286,12 @@ class Options extends Component {
                             />
 
                             <DropDownM
-                                label="フォント"
-                                value={textOptions.font}
-                                elements={this.state.availableFonts.map(font => ({ val: font,
-                                    node: <span style={{ fontFamily: font }}>{font}</span> }))}
-                                onChange={font => dispatch(actions.selectTextFont(font))}
-                                className="fonts"
+                              label="フォント"
+                              value={textOptions.font}
+                              elements={this.state.availableFonts.map(font => ({ val: font,
+                                node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                              onChange={font => dispatch(actions.selectTextFont(font))}
+                              className="fonts"
                             />
 
                             <DropDownM
@@ -407,7 +410,7 @@ class Options extends Component {
                               />)
                             )}
                         </div>
-                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">loading...</span></div> : null }
+                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">読み込み中</span></div> : null }
                         {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <Scrollbars
                                 style={{ width: '100%' }}
