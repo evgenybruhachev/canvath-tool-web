@@ -103,12 +103,22 @@ class Options extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.availableFonts != this.props.availableFonts || nextProps.activeTool == 'text'){
-            if(nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e"){
-                setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsJP }), 0);
-            } else {
-                setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsEN }), 0);
+        if((nextProps.availableFonts != this.props.availableFonts || nextProps.activeTool == 'text')
+            && (typeof nextProps.availableFontsJP != 'undefined' || typeof nextProps.availableFontsEN != 'undefined')){
+
+            if(typeof nextProps.availableFontsJP != 'undefined' && nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e") {
+                this.setState({ availableFonts: nextProps.availableFontsJP });
+            } else if(typeof nextProps.availableFontsEN != 'undefined'){
+                this.setState({ availableFonts: nextProps.availableFontsEN });
             }
+
+            Array.prototype.forEach.call(this.props.availableFontsCategories, (item, index, arr) => {
+                if(typeof this.props.availableFontsJP == 'undefined' && item == '\u65e5\u672c\u8a9e')
+                    this.props.availableFontsCategories.splice(index, 1);
+
+                if(typeof this.props.availableFontsEN == 'undefined' && item == '\u82f1\u8a9e')
+                    this.props.availableFontsCategories.splice(index, 1);
+            });
         }
     }
 
@@ -148,11 +158,7 @@ class Options extends Component {
             colorSelected,
         } = this.props;
 
-
         let content;
-
-      // console.log('textOptions');
-      // console.log(textOptions);
 
         switch (activeTool) {
 
@@ -254,7 +260,7 @@ class Options extends Component {
                                 label="サイズ"
                                 value={brushOptions.width.toString()}
                                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
-                                    .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
+                                    .map((i, index) => ({ val: String(i), node: <span>{i}pt</span> })
                                     )}
                                 onChange={size => dispatch(actions.selectBrushSize(size))}
                             />

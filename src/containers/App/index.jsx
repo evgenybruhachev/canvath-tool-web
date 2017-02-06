@@ -71,8 +71,14 @@ class App extends Component {
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
     getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
-    getFontsJP().then(data => dispatch(DrawToolActions.updateFontsJP(data)));
-    getFontsEN().then(data => dispatch(DrawToolActions.updateFontsEN(data)));
+    getFontsJP().then(data => {
+      if(typeof data != 'undefined' && data.length > 0)
+        dispatch(DrawToolActions.updateFontsJP(data));
+    });
+    getFontsEN().then(data => {
+      if(typeof data != 'undefined' && data.length > 0)
+        dispatch(DrawToolActions.updateFontsEN(data));
+    });
     getCategoriesFonts().then(data => dispatch(DrawToolActions.updateCategoriesFonts(data)));
     getShapesCategories().then(data => dispatch(DrawToolActions.updateShapesCategories(data)));
     getStickersCategories().then(data => dispatch(DrawToolActions.updateStickersCategories(data)));
