@@ -103,11 +103,12 @@ class Options extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e"){
-          setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsJP }), 0)
-          ;
-        } else {
-          setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsEN }), 0)
+        if(nextProps.availableFonts != this.props.availableFonts || nextProps.activeTool == 'text'){
+            if(nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e"){
+                setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsJP }), 0);
+            } else {
+                setTimeout(() => this.setState({ availableFonts: nextProps.availableFontsEN }), 0);
+            }
         }
     }
 
