@@ -86,6 +86,7 @@ class HeaderMobile extends Component {
           form.appendChild(input);
         }
 
+        document.body.appendChild(form);
         form.submit();
       });
 
