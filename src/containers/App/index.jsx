@@ -105,7 +105,7 @@ class App extends Component {
           height: 30
         },
         offset: {
-          y: -12.5,
+          y: -13.5,
           x: 0
         }
       }
