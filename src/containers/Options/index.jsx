@@ -205,9 +205,11 @@ class Options extends Component {
                                         colors && colors.map((color, index) => <div
                                             className={'color'}
                                             key={index}
-                                            style={{backgroundColor: color.ProductColor.value}}
                                             onClick={() => dispatch(ProductActions.selectColor(color.ProductColor.id))}
-                                        />)
+                                        >
+                                            <span className={'colorBG'} style={{backgroundColor: color.ProductColor.value}}></span>
+                                            <span className={'colorLabel'}>{color.ProductColor.title}</span>
+                                        </div>)
                                     }
                                 </div>
                             </Scrollbars>
