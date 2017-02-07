@@ -195,7 +195,21 @@ class Toolbar extends Component {
   // separate img and pdf
 
 
-    if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif') {
+    if (file.type === 'application/postscript' || file.type === 'application/pdf') {
+      uploadPdf(file.type, file).then(
+        url => {
+          DrawTool.sides.selected.items.addImage(url).then(() => {
+            dispatch(actions.setLoading(false));
+          });
+        },
+        err => {
+          dispatch(actions.setLoading(false));
+          window.alert(err);
+        }
+      );
+
+    }
+    else {
       getImage(file)
         .then(image => getBase64(file, image))
         .then(base64 => uploadByString('image/png', base64, 'png'))
@@ -211,20 +225,7 @@ class Toolbar extends Component {
           }
         );
     }
-    else if (file.type === 'application/postscript' || file.type === 'application/pdf') {
-      uploadPdf(file.type, file).then(
-        url => {
-          DrawTool.sides.selected.items.addImage(url).then(() => {
-            dispatch(actions.setLoading(false));
-          });
-        },
-        err => {
-          dispatch(actions.setLoading(false));
-          window.alert(err);
-        }
-      );
 
-    }
 
   }
 
