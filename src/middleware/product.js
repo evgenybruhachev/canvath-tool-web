@@ -92,7 +92,7 @@ export default store => next => (action) => {
     }
 
     case 'APPLY_TEMPLATE': {
-      DrawTool.sides.selected.items.addImage(`${action.payload}?_`);
+      DrawTool.sides.selected.items.addImage(`${action.payload}?_`, true);
       break;
     }
     default:
