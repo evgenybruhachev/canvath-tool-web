@@ -259,6 +259,7 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectBrushColor(color))}
                             />
                             <DropDownM
+                                className="brushSize"
                                 label="サイズ"
                                 value={brushOptions.width.toString()}
                                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
