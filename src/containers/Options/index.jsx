@@ -26,11 +26,16 @@ class Options extends Component {
         activeTool: React.PropTypes.string,
         availableBrushes: React.PropTypes.array,
         availableFonts: React.PropTypes.array,
+        availableFontsJP: React.PropTypes.array,
+        availableFontsEN: React.PropTypes.array,
+        availableFontsCategories: React.PropTypes.array,
         availableShapesCategories: React.PropTypes.array,
         availableShapes: React.PropTypes.array,
+        loadedAvailableShapes: React.PropTypes.array,
         activeBrush: React.PropTypes.string,
         brushOptions: React.PropTypes.object,
         textOptions: React.PropTypes.object,
+        categoriesFontsOptions: React.PropTypes.object,
         dispatch: React.PropTypes.func,
         layers: React.PropTypes.object,
         side: React.PropTypes.object,
@@ -44,10 +49,15 @@ class Options extends Component {
         selected: React.PropTypes.object,
         colors: React.PropTypes.array,
         colorSelected: React.PropTypes.object,
+        svgStickerShapesLoading: React.PropTypes.bool
     };
 
     constructor(props) {
         super(props);
+
+        this.state = {
+          availableFonts:[]
+        };
 
         this.getStickers = this.getStickers.bind(this);
         this.getShapes = this.getShapes.bind(this);
@@ -65,6 +75,8 @@ class Options extends Component {
 
     getShapes(id) {
         const { dispatch } = this.props;
+        dispatch(actions.loadingSVG(false));
+        dispatch(actions.stickerShapeSvgLoad());
         getShapes(id).then(data => dispatch(actions.updateShapes(data)));
     }
 
@@ -90,19 +102,46 @@ class Options extends Component {
         this.lastState = this.props.activeTool;
     }
 
+    componentWillReceiveProps(nextProps){
+        if((nextProps.availableFonts != this.props.availableFonts || nextProps.activeTool == 'text')
+            && (typeof nextProps.availableFontsJP != 'undefined' || typeof nextProps.availableFontsEN != 'undefined')){
+
+            if(typeof nextProps.availableFontsJP != 'undefined' && nextProps.categoriesFontsOptions.title === "\u65e5\u672c\u8a9e") {
+                this.setState({ availableFonts: nextProps.availableFontsJP });
+            } else if(typeof nextProps.availableFontsEN != 'undefined'){
+                this.setState({ availableFonts: nextProps.availableFontsEN });
+            }
+
+            Array.prototype.forEach.call(this.props.availableFontsCategories, (item, index, arr) => {
+                if(typeof this.props.availableFontsJP == 'undefined' && item == '\u65e5\u672c\u8a9e')
+                    this.props.availableFontsCategories.splice(index, 1);
+
+                if(typeof this.props.availableFontsEN == 'undefined' && item == '\u82f1\u8a9e')
+                    this.props.availableFontsCategories.splice(index, 1);
+            });
+        }
+    }
+
     changeColorSVG() {
         $('.sticker svg').css('fill', shapeColor)
     }
 
     render() {
+
         const {
             activeTool,
             availableBrushes,
             availableFonts,
+            availableFontsJP,
+            availableFontsEN,
+            availableFontsCategories,
             availableShapesCategories,
             availableShapes,
+            loadedAvailableShapes,
+            svgStickerShapesLoading,
             activeBrush,
             textOptions,
+            categoriesFontsOptions,
             brushOptions,
             layers,
             side,
@@ -166,9 +205,11 @@ class Options extends Component {
                                         colors && colors.map((color, index) => <div
                                             className={'color'}
                                             key={index}
-                                            style={{backgroundColor: color.ProductColor.value}}
                                             onClick={() => dispatch(ProductActions.selectColor(color.ProductColor.id))}
-                                        />)
+                                        >
+                                            <span className={'colorBG'} style={{backgroundColor: color.ProductColor.value}}></span>
+                                            <span className={'colorLabel'}>{color.ProductColor.title}</span>
+                                        </div>)
                                     }
                                 </div>
                             </Scrollbars>
@@ -221,7 +262,7 @@ class Options extends Component {
                                 label="サイズ"
                                 value={brushOptions.width.toString()}
                                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
-                                    .map((i, index) => ({ val: String(i), node: <span>{i}px</span> })
+                                    .map((i, index) => ({ val: String(i), node: <span>{i}pt</span> })
                                     )}
                                 onChange={size => dispatch(actions.selectBrushSize(size))}
                             />
@@ -244,12 +285,21 @@ class Options extends Component {
                             />
 
                             <DropDownM
-                                label="フォント"
-                                value={textOptions.font}
-                                elements={availableFonts.map(font => ({ val: font,
-                                    node: <span style={{ fontFamily: font }}>{font}</span> }))}
-                                onChange={font => dispatch(actions.selectTextFont(font))}
-                                className="fonts"
+                              label="言語"
+                              value={categoriesFontsOptions.title}
+                              elements={availableFontsCategories.map(categoriesFonts => ({ val: categoriesFonts,
+                                node: <span>{categoriesFonts}</span> }))}
+                              onChange={categoriesFonts => dispatch(actions.selectTextCategoriesFonts(categoriesFonts))}
+                              className="categoriesFonts"
+                            />
+
+                            <DropDownM
+                              label="フォント"
+                              value={textOptions.font}
+                              elements={this.state.availableFonts.map(font => ({ val: font,
+                                node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                              onChange={font => dispatch(actions.selectTextFont(font))}
+                              className="fonts"
                             />
 
                             <DropDownM
@@ -359,16 +409,17 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectShapeColor(color))}
                             />
                             {availableShapesCategories.map((shape, index) => (
-                                <ButtonShape
-                                    image={shape.content_url}
-                                    label={shape.title}
-                                    key={index}
-                                    onClick={() => this.getShapes(shape.id)}
-                                    color={shapeColor}
-                                />)
+                              <ButtonShape
+                                image={shape.content_url}
+                                label={shape.title}
+                                key={index}
+                                onClick={() => this.getShapes(shape.id)}
+                                color={shapeColor}
+                              />)
                             )}
                         </div>
-                        {availableShapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">読み込み中</span></div> : null }
+                        {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <Scrollbars
                                 style={{ width: '100%' }}
                                 autoHide
@@ -467,10 +518,16 @@ function mapStateToProps(state) {
         activeBrush: state.drawTool.activeBrush,
         brushOptions: state.drawTool.brushOptions,
         textOptions: state.drawTool.textOptions,
+        categoriesFontsOptions: state.drawTool.categoriesFontsOptions,
         availableBrushes: state.drawTool.availableBrushes,
         availableFonts: state.drawTool.availableFonts,
+        availableFontsJP: state.drawTool.availableFontsJP,
+        availableFontsEN: state.drawTool.availableFontsEN,
+        availableFontsCategories: state.drawTool.availableFontsCategories,
         availableShapesCategories: state.drawTool.availableShapesCategories,
         availableShapes: state.drawTool.availableShapes,
+        loadedAvailableShapes: state.drawTool.loadedAvailableShapes,
+        svgStickerShapesLoading: state.drawTool.svgStickerShapesLoading,
         layers: state.drawTool.layers,
         side: state.product.sideSelected,
         shapeColor: state.drawTool.shapeColor,

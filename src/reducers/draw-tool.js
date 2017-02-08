@@ -18,6 +18,9 @@ const initialState = {
     italic: false,
     vertical: false,
   },
+  categoriesFontsOptions: {
+    title: "\u65e5\u672c\u8a9e"
+  },
   layers: {},
   layersSelected: [],
   color: 'rgba(0, 162, 255, 1)',
@@ -27,9 +30,12 @@ const initialState = {
   colorPickerColor: 'rgba(0, 162, 255, 1)',
   colorPicker: false,
   availableShapesCategories: [],
+  availableFontsCategories: [],
   availableShapes: [],
+  loadedAvailableShapes: [],
+  svgStickerShapesLoading: true,
   history: { currentIndex: 0, collection: [{}] },
-  loading: false,
+  loading: true,
 };
 
 export default handleActions({
@@ -41,11 +47,23 @@ export default handleActions({
     availableFonts: action.payload.map(font => font.DrawerFont.title),
     textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
   }),
-
+  UPDATE_FONTS_JP: (state, action) => Object.assign({}, state, {
+    availableFontsJP: action.payload.map(font => font.DrawerFont.title),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+  }),
+  UPDATE_FONTS_EN: (state, action) => Object.assign({}, state, {
+    availableFontsEN: action.payload.map(font => font.DrawerFont.title),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+  }),
+  UPDATE_CATEGORIES_FONTS: (state, action) => Object.assign({}, state, {
+    availableFontsCategories: action.payload.map(categoriesFonts => categoriesFonts.DrawerFontCategory.title),
+  }),
   UPDATE_SHAPES_CATEGORIES: (state, action) => Object.assign({}, state, {
     availableShapesCategories: action.payload.map(shape => shape.DrawerShapeCategory),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
+    loadedAvailableShapes: [],
+    svgStickerShapesLoading: true,
     availableShapes: action.payload.map(shape => shape.DrawerShape.content_url),
   }),
   UPDATE_STICKERS_CATEGORIES: (state, action) => Object.assign({}, state, {
@@ -70,6 +88,10 @@ export default handleActions({
     brushOptions: Object.assign({}, state.brushOptions, { opacity: action.payload }),
   }),
 
+  SELECT_TEXT_CATEGORIES_FONTS: (state, action) => Object.assign({}, state, {
+    categoriesFontsOptions: Object.assign({}, state.categoriesFontsOptions, { title: action.payload }),
+  }),
+
   SELECT_TEXT_COLOR: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { color: action.payload }),
   }),
@@ -77,6 +99,7 @@ export default handleActions({
   SELECT_TEXT_FONT: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { font: action.payload }),
   }),
+
   SELECT_TEXT_SIZE: (state, action) => Object.assign({}, state, {
     textOptions: Object.assign({}, state.textOptions, { size: action.payload }),
   }),
@@ -181,5 +204,23 @@ export default handleActions({
   LOADING: (state, action) => Object.assign({}, state, {
     loading: action.payload,
   }),
+
+  LOADING_SVG: (state, action) => Object.assign({}, state, {
+    loadedAvailableShapes: [],
+    svgStickerShapesLoading: action.payload,
+  }),
+
+  STICKER_SHAPE_SVG_LOAD: (state, action) => {
+    let urls = state.loadedAvailableShapes;
+
+    if(!state.loadedAvailableShapes.find(url => url === action.payload))
+    {
+      urls.push(action.payload);
+    }
+    return Object.assign({}, state, {
+      loadedAvailableShapes: urls,
+      svgStickerShapesLoading: state.availableShapes.length === urls.length
+    });
+  }
 
 }, initialState);

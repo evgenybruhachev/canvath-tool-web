@@ -41,6 +41,16 @@
       pointer-events: none;
     }
   }
+  select{
+    font-size: 14px;
+    color: #424242;
+    line-height: 1;
+    width: 100%;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
   &.active {
     .list {
       display: block;
@@ -94,9 +104,15 @@
         }
       }
     }
+    &.categoriesFonts{
+      min-width: 60px;
+    }
     .list{
       margin-top: 0;
       bottom: 75px;
+    }
+    .label{
+      padding-left: 3px;
     }
   }
 }

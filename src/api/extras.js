@@ -23,6 +23,22 @@ export const upload = (image) => {
   });
 };
 
+export const uploadPdf = ( mime_type, content) => {
+
+  const formData = new FormData();
+  formData.append('image', content);
+
+  return new Promise((resolve, reject) => {
+    fetch( `${HOST}/image`, {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json().then(data => resolve(data)))
+      .catch(err => reject(err));
+  });
+};
+
+
 export const uploadByString = (mime_type, content, extension) => {
   const data = {
     session: query.session,
@@ -56,7 +72,8 @@ export const getShapes = (id) => {
       method: 'GET',
       mode: 'cors',
     })
-    .then(response => response.json().then(data => resolve(data.shapes)))
+    .then(response => response.json()
+    .then(data => resolve(data.shapes)))
     .catch(err => reject(err));
   });
 };

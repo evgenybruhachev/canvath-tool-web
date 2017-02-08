@@ -32,6 +32,7 @@ class ButtonShape extends Component  {
     }
 
     getSvgFunc( url ) {
+
         let req = null;
         try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
             try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {
@@ -62,9 +63,7 @@ class ButtonShape extends Component  {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.image !== this.props.image){
-            this.setState({
-                svgElement: this.getSvgFunc(nextProps.image)
-            })
+          setTimeout(() => this.setState({ svgElement: this.getSvgFunc(nextProps.image) }), 500);
         }
         if(nextProps.color !== this.props.color) {
             $(this.refs['dhilt']).find('svg').css('fill', nextProps.color)

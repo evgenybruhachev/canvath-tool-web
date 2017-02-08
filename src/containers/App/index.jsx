@@ -24,7 +24,7 @@ import * as DrawToolActions from '../../actions/draw-tool';
 
 import { getCategories, getProductsByCategory, getProduct, removeTemplate,
   getProductWithDesign, getDesign, getDefaultProduct } from '../../api/products';
-import { getBrushes, getFonts } from '../../api/options';
+import { getBrushes, getFonts, getFontsJP, getFontsEN, getCategoriesFonts } from '../../api/options';
 import { getShapesCategories, getStickersCategories } from '../../api/extras';
 
 class App extends Component {
@@ -71,8 +71,19 @@ class App extends Component {
     getCategories().then(data => dispatch(ProductActions.loadCategories(data)));
     getBrushes().then(data => dispatch(DrawToolActions.updateBrushes(data)));
     getFonts().then(data => dispatch(DrawToolActions.updateFonts(data)));
+    getFontsJP().then(data => {
+      if(typeof data != 'undefined' && data.length > 0)
+        dispatch(DrawToolActions.updateFontsJP(data));
+    });
+    getFontsEN().then(data => {
+      if(typeof data != 'undefined' && data.length > 0)
+        dispatch(DrawToolActions.updateFontsEN(data));
+    });
+    getCategoriesFonts().then(data => dispatch(DrawToolActions.updateCategoriesFonts(data)));
     getShapesCategories().then(data => dispatch(DrawToolActions.updateShapesCategories(data)));
     getStickersCategories().then(data => dispatch(DrawToolActions.updateStickersCategories(data)));
+
+
 
     if (query.item_id) {
       getProductWithDesign(query.item_id).then(data => this.loadProductWithDesign(data));
@@ -85,6 +96,20 @@ class App extends Component {
     } else {
       this.loadDefaultProduct();
     }
+
+    DrawTool.setCustomiseControls({
+      mtr: {
+        src: 'data:image/png;base64,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',
+        size: {
+          width:30,
+          height: 30
+        },
+        offset: {
+          y: -13.5,
+          x: 0
+        }
+      }
+    });
   }
 
   goToCategory(id, title) {
