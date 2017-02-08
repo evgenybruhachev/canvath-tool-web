@@ -34,19 +34,21 @@ class ButtonShape extends Component  {
     getSvgFunc( url ) {
 
         let req = null;
-        try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
-            try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {
-                try { req = new XMLHttpRequest(); } catch(e) {}
+
+        try { req = new XMLHttpRequest(); } catch(e) {
+            try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
+                try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
             }
         }
+
         if (req == null) throw new Error('XMLHttpRequest not supported');
 
         req.open("GET", url, false);
 
         req.onreadystatechange = () => {
-            if (req.readyState == XMLHttpRequest.DONE) {
-                setTimeout(() => $(this.refs['dhilt']).find('svg').css('fill', this.props.color))
-            }
+        if (req.readyState == XMLHttpRequest.DONE) {
+          setTimeout(() => $(this.refs['dhilt']).find('svg').css('fill', this.props.color))
+        }
         };
 
         req.send(null);

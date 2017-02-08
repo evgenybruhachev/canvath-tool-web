@@ -61,16 +61,24 @@
     width: calc(100% - 100px);
     white-space: nowrap;
     height: 60px;
-    padding: 17px 0;
+    padding: 10px 0;
     text-align: center;
     .color{
       display: inline-block;
-      width: 25px;
-      height: 25px;
-      border-radius: 8px;
-      border: 1px solid #bdbdbd;
       margin: 0 10px;
       cursor: pointer;
+      text-align: center;
+      .colorBG{
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border-radius: 8px;
+        border: 1px solid #bdbdbd;
+      }
+      .colorLabel{
+        display: block;
+        font-size: 10px;
+      }
     }
   }
 

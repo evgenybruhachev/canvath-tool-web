@@ -31,11 +31,13 @@ class StickerShape extends Component {
       const { dispatch } = this.props;
 
       let req = null;
-      try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
-          try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {
-              try { req = new XMLHttpRequest(); } catch(e) {}
+
+      try { req = new XMLHttpRequest(); } catch(e) {
+          try { req = new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {
+             try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
           }
       }
+
       if (req == null) throw new Error('XMLHttpRequest not supported');
 
       req.open("GET", url, false);
@@ -43,7 +45,7 @@ class StickerShape extends Component {
       req.onreadystatechange = () => {
           if (req.readyState == XMLHttpRequest.DONE) {
               dispatch(actions.stickerShapeSvgLoad(url));
-              setTimeout(() => $(this.refs['stickerShapeItem']).find('svg').css('fill', this.props.color))
+              setTimeout(() => $(this.refs['stickerShapeItem']).find('svg').css('fill', this.props.color), 0)
           }
       };
 

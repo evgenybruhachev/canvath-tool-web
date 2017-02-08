@@ -77,7 +77,7 @@ class DropDownMaterial extends Component {
 
     const valueNode = elements.find(el => el.val === value);
     let view;
-    if (this.state.mobile) {
+    if (this.state.mobile && className !== 'icons') {
       view = (
         <div
           className={classNames('drop-down-material', className)}
