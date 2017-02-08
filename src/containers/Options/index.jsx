@@ -259,6 +259,7 @@ class Options extends Component {
                                 onChange={color => dispatch(actions.selectBrushColor(color))}
                             />
                             <DropDownM
+                                className="brushSize"
                                 label="サイズ"
                                 value={brushOptions.width.toString()}
                                 elements={[1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
@@ -466,6 +467,7 @@ class Options extends Component {
                                 <Button icon={'close'} label={'カラー透明化'}
                                         onClick={() => dispatch(actions.removeColor())}/>
                             </div>
+                            <div className="bottom show"><span className="loading">画像の中の透明化したい色の部分を選んでください、パレットが透明化したい色に変わりましたら透明化ボタンを押してください</span></div>
                             <button onClick={this.toggleOptions}
                                     className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
