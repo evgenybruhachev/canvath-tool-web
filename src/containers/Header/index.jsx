@@ -85,7 +85,7 @@ class Header extends Component {
     // ...
 
     if (!sessionToken) {
-      alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+      alert("UP-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
     } else {
       setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
@@ -118,6 +118,17 @@ class Header extends Component {
           form.appendChild(input);
         }
 
+        query.setData(parse(window.location.search.substring(1)));
+
+        if (query.cart_id) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('value', query.cart_id);
+            input.setAttribute('name', 'cart_id');
+            input.setAttribute('id', 'cart_id');
+            form.appendChild(input);
+        }
+
         form.submit();
       });
 
@@ -129,7 +140,7 @@ class Header extends Component {
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="Nobori" className="logo" />
+        <img src="assets/img/logo.png" alt="UP-T" className="logo" />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />

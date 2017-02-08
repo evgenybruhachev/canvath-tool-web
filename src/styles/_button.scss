@@ -13,7 +13,7 @@
   cursor: pointer;
   padding: 10px 0;
   position: relative;
-  color: #7794aa;
+  color: #757575;
   user-select: none;
 
   &.disabled{
@@ -27,7 +27,7 @@
       display: block;
       width: 25px;
       height: 25px;
-      fill: #7794aa;
+      fill: #757575;
       margin: 0 auto;
     }
   }
@@ -36,7 +36,7 @@
     display: block;
     width: 25px;
     height: 25px;
-    fill: #7794aa;
+    fill: #757575;
     margin: 0 auto;
   }
 
@@ -44,7 +44,7 @@
     display: block;
     width: 25px;
     height: 25px;
-    fill: #7794aa;
+    fill: #757575;
     margin: 0 auto;
   }
 
@@ -52,16 +52,17 @@
     margin-top: 3px;
     font-size: 10px;
     text-align: center;
-    color: #7794aa;
+    color: #757575;
+    white-space: nowrap;
     white-space: nowrap;
   }
 
   &.active{
     .label {
-      color: #000000;
+      color: #212121;
     }
     .icon {
-      fill: #000000;
+      fill: #212121;
     }
   }
 
@@ -84,7 +85,7 @@
     flex-direction: row;
     height: 44px;
     overflow: hidden;
-    background-color: #0F5FD4;
+    background-color: #FF0201;
     outline: none;
     border: 0 solid transparent;
     border-radius: 2px;;
@@ -119,7 +120,7 @@
   &.complete-drawing{
     height: 35px!important;
     margin-left: 10px!important;
-    background-color: #0F5FD4!important;
+    background-color: #FF0201!important;
   }
 
   &.trash{
@@ -195,7 +196,7 @@
       .image {
         width: 30px;
         height: 30px;
-        fill: #0F5FD4;
+        fill: #FF0201;
         margin: 0 auto;
         display: block;
       }
@@ -205,7 +206,7 @@
         font-size: 12px;
         line-height: 20px;
         text-align: center;
-        color: #0F5FD4;
+        color: #FF0201;
       }
     }
   }

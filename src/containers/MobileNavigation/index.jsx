@@ -67,7 +67,7 @@ class MobileNavigation extends Component {
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
     if(query.session === ''){
-        alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
+        alert("UP-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります");
     } else {
         setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
@@ -80,7 +80,7 @@ class MobileNavigation extends Component {
       <div className={classNames('mobile-navigation', { active: mobileNavigation })}>
         <div className="head">
           <div className="aside" />
-          <img src="assets/img/logo-s.png" alt="Nobori" className="logo" />
+          <img src="assets/img/logo-s.png" alt="UP-T" className="logo" />
           <div className="aside">
             <Button className="flat-button" icon={'close'} onClick={this.hideMobileNav} />
           </div>

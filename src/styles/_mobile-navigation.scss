@@ -18,10 +18,11 @@
     align-items: center;
     justify-content: space-between;
     height: 50px;
+    margin-top: 10px;
     margin-bottom: 20px;
     padding: 0 15px;
     .logo{
-      width: 25px;
+      width: 65px;
       height: auto;
     }
     .aside{
@@ -43,7 +44,7 @@
       .icon{
         display: inline-block;
         vertical-align: middle;
-        fill: #7794aa;
+        fill: #757575;
         width: 25px;
         height: 25px;
         &~ .label{
@@ -54,14 +55,14 @@
         display: inline-block;
         vertical-align: middle;
         font-size: 18px;
-        color: #7794aa;
+        color: #757575;
 
       }
     }
   }
 
   .aside-title{
-    color: #7794aa;
+    color: #757575;
     font-size: 18px;
     text-align: center;
     padding: 10px 0 0;
