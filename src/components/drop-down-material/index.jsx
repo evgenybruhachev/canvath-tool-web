@@ -34,11 +34,14 @@ class DropDownMaterial extends Component {
   handleChange(event) {
     if(this.props.className === 'brushSize'){
       this.setState({selectValueBrush: event.target.value});
+      if (this.props.onChange)
+        this.props.onChange(event.target.value.slice(0,-2));
     } else {
       this.setState({selectValue: event.target.value});
+      if (this.props.onChange)
+        this.props.onChange(event.target.value);
     }
-    if (this.props.onChange)
-      this.props.onChange(event.target.value);
+
   }
 
   getElementsOptions () {
