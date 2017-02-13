@@ -253,20 +253,15 @@ class Toolbar extends Component {
     if (this.state.mobile) {
       view = (
         <div className="toolbar with-scroll" onScroll={this.helpScrollArrows}>
-          <div
-            className={this.helpArrows.left ? 'user-help-scroll-arrow left show' : 'user-help-scroll-arrow left'}
-            onClick={this.helpClickArrows.bind(this, 'left')}>
-            <Icon icon={'left-arrow'}/>
-          </div>
           <button className={'button substrate'} onClick={() => {
             dispatch(ProductActions.toggleLoadProductCategoryContainer(true))
           }}>
             <span className={'substrateBg'} style={this.substrateStyle}/>
-            <span className="label">{'アイテム'}</span>
+            <span className="label">{'アイテム変更'}</span>
           </button>
-
-          <Button icon="paper" label={'表裏'} onClick={() => dispatch(actions.setActiveTool('sides'))}
+          <Button icon="paper" label={'表裏袖'} onClick={() => dispatch(actions.setActiveTool('sides'))}
                   active={activeTool === 'sides'}/>
+
           <button
             className={classNames('button', {active: activeTool === 'colors'})}
             label={'カラー変更'}
@@ -279,23 +274,30 @@ class Toolbar extends Component {
           <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{padding: '2px 0'}}
                   onClick={() => dispatch(actions.setActiveTool('panning'))}
                   active={activeTool === 'panning'}/>
+          <div
+            className={this.helpArrows.left ? 'user-help-scroll-arrow left show' : 'user-help-scroll-arrow left'}
+            onClick={this.helpClickArrows.bind(this, 'left')}>
+            <Icon icon={'left-arrow'}/>
+          </div>
+
           <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))}
                   active={activeTool === 'pointer'}/>
-          <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))}
-                  active={activeTool === 'brush'}/>
+          <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
           <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))}
                   active={activeTool === 'text'}/>
-          <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
-          <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))}
-                  active={activeTool === 'sticker'}/>
           <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))}
                   active={activeTool === 'shapes'}/>
-          <Button icon="opacity" label={'カラー削除'}
+          <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))}
+                  active={activeTool === 'sticker'}/>
+          <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))}
+                  active={activeTool === 'brush'}/>
+          <Button icon="opacity" label={'カラー透明化'}
                   onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                   active={activeTool === 'removeColor'}/>
           <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
                   disabled={history.collection.length <= 1}
                   active={activeTool === 'layers'}/>
+          <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
           <div
             className={this.helpArrows.right ? 'user-help-scroll-arrow right show' : 'user-help-scroll-arrow right'}
             onClick={this.helpClickArrows.bind(this, 'right')}>
@@ -322,21 +324,23 @@ class Toolbar extends Component {
                     onClick={this.redo}/>
             <Button icon="trash" label={'削除'} onClick={() => dispatch(actions.remove())}
                     disabled={!selected}/>
+
             <div className="separator"/>
+
             <Button icon="hand" label={<span>アイテム<br />位置移動</span>} style={{padding: '2px 0'}}
                     onClick={() => dispatch(actions.setActiveTool('panning'))}
                     active={activeTool === 'panning'}/>
             <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))}
                     active={activeTool === 'pointer'}/>
-            <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))}
-                    active={activeTool === 'brush'}/>
+            <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
             <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))}
                     active={activeTool === 'text'}/>
-            <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
-            <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))}
-                    active={activeTool === 'sticker'}/>
             <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))}
                     active={activeTool === 'shapes'}/>
+            <Button icon="sticker" label={'スタンプ'} onClick={() => dispatch(actions.setActiveTool('sticker'))}
+                    active={activeTool === 'sticker'}/>
+            <Button icon="brush" label={'筆'} onClick={() => dispatch(actions.setActiveTool('brush'))}
+                    active={activeTool === 'brush'}/>
             <Button icon="opacity" label={'カラー透明化'}
                     onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                     active={activeTool === 'removeColor'}/>

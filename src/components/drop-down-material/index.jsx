@@ -20,6 +20,7 @@ class DropDownMaterial extends Component {
       active: false,
       value: null,
       selectValue: "日本語",
+      selectValueBrush: "20pt",
       mobile: window.matchMedia('(max-width: 1079px)').matches,
     };
 
@@ -31,25 +32,38 @@ class DropDownMaterial extends Component {
   }
 
   handleChange(event) {
-    this.setState({selectValue: event.target.value});
-    if (this.props.onChange)
-      this.props.onChange(event.target.value);
+    if(this.props.className === 'brushSize'){
+      this.setState({selectValueBrush: event.target.value});
+      if (this.props.onChange)
+        this.props.onChange(event.target.value.slice(0,-2));
+    } else {
+      this.setState({selectValue: event.target.value});
+      if (this.props.onChange)
+        this.props.onChange(event.target.value);
+    }
+
   }
 
   getElementsOptions () {
     let elementsArr = this.props.elements;
-
-    return elementsArr.map(function (element,i) {
-      return <option
-        key={i}
-        value={element.val}>
-        {element.val}
-      </option>
-    });
+    if(this.props.className === 'brushSize'){
+      return elementsArr.map(function (element,i) {
+        return <option
+          key={i}
+          value={element.val + "pt"}>
+          {element.val + "pt"}
+        </option>
+      });
+    } else {
+      return elementsArr.map(function (element,i) {
+        return <option
+          key={i}
+          value={element.val}>
+          {element.val}
+        </option>
+      });
+    }
   }
-
-
-
 
   componentDidMount() {
     document.addEventListener('click', this.handleClickOutside, true);
@@ -76,8 +90,25 @@ class DropDownMaterial extends Component {
     const { label, value, elements, className, style } = this.props;
 
     const valueNode = elements.find(el => el.val === value);
+
     let view;
-    if (this.state.mobile && className !== 'icons') {
+
+    if (this.state.mobile && className === 'brushSize') {
+      view = (
+        <div
+          className={classNames('drop-down-material', className)}
+          style={style}
+        >
+          {label && <div className="label">{label}</div>}
+          <select
+            value={this.state.selectValueBrush}
+            onChange={this.handleChange}
+          >
+            {this.getElementsOptions()}
+          </select>
+        </div>
+      );
+    }else if (this.state.mobile && className !== 'icons') {
       view = (
         <div
           className={classNames('drop-down-material', className)}
