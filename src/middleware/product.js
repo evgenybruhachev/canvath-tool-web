@@ -64,7 +64,11 @@ export default store => next => (action) => {
 
         DrawTool.importJSON(JSON.stringify(data)).then(() => {
           DrawTool.sides._collection.forEach((side) => {
-            side.fromJSON(action.payload.sides[side.id]);
+              if (action.payload.sides[side.id] != null && action.payload.sides[side.id].startsWith('http')) {
+                  side.items.addImage(`${action.payload.sides[side.id]}?_`);
+              } else {
+                  side.fromJSON(action.payload.sides[side.id]);
+              }
           });
         });
 
