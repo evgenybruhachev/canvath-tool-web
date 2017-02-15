@@ -119,7 +119,10 @@ class Header extends Component {
 
     setTimeout(() => {
       DrawTool.sides._collection.forEach((side) => {
-        sides[side.id] = { content: side.toJSON() };
+          let contentObject = side.toObject();
+          if (contentObject.canvas.objects.length > 0) {
+              sides[side.id] = { content: side.toJSON() };
+          }
       });
 
       saveProduct(colorSelected.id, sides).then((data) => {
