@@ -91,6 +91,13 @@ class ColorPicker extends Component {
     setColorByPick() {
         var color;
         if(this.state.displayThisTabOne) {
+            color = this.state.colorCheck;
+            this.setState({
+                displayThisTabTwo: false,
+                displayThisTabOne: true
+            });
+        }
+        else {
             color = $('.colorpicker').val();
             var colorStr = color.substr(0,color.length-1).substr(5);
             var colorArr = colorStr.split(',');
@@ -100,13 +107,6 @@ class ColorPicker extends Component {
             colorObj.b = colorArr[2]*1;
             colorObj.a = colorArr[3]*1;
             color = colorObj;
-        }
-        else {
-            color = this.state.colorCheck;
-            this.setState({
-                displayThisTabTwo: true,
-                displayThisTabOne: false
-            });
         }
         this.handleChangeComplete(color);
         this.pushLastUsageArr(color);
@@ -187,23 +187,7 @@ class ColorPicker extends Component {
                             <a href="#" className={this.state.displayThisTabTwo ? 'tab-link active' : 'tab-link'} onClick={this.handleChangeTabsTwo}>カスタム</a>
                         </div>
 
-                        <div className={this.state.displayThisTabOne ? 'tab-content tab-content-colors' : 'tab-content tab-content-colors hideTab'}>
-                            <div className="left-place">
-                                {/*<canvas width="310" height="310" id="color-picker-place"/>*/}
-                                {/*<div id="color-picker-cursor"></div>*/}
-                                <input type="text" className="colorpicker"/>
-                            </div>
-                            {/*<div className="right-place">*/}
-                                {/*<div id="slider-opacity" className="color-picker-slider">*/}
-                                    {/*<div className="thumb"></div>*/}
-                                {/*</div>*/}
-                                {/*<div id="slider-brightness" className="color-picker-slider">*/}
-                                    {/*<div className="thumb"></div>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
-                        </div>
-
-                        <div className={this.state.displayThisTabTwo ? 'tab-content tab-content-custom' : 'tab-content tab-content-custom hideTab'}>
+                        <div className={this.state.displayThisTabOne ? 'tab-content tab-content-custom' : 'tab-content tab-content-custom hideTab'}>
 
                             <div className={"last-usage-wrap " + (this.state.showLastUsegeBlock ? 'show' : 'hidden')}>
                                 <LastUsagePicker updateColor={this.handleColorUpdate} colors={this.state.lastColors} />
@@ -212,6 +196,24 @@ class ColorPicker extends Component {
                             <div className="preinstalled-wrap">
                                 <PreinstalledPicker updateColor={this.handleColorUpdate}  />
                             </div>
+
+                        </div>
+
+                        <div className={this.state.displayThisTabTwo ? 'tab-content tab-content-colors' : 'tab-content tab-content-colors hideTab'}>
+
+                            <div className="left-place">
+                                {/*<canvas width="310" height="310" id="color-picker-place"/>*/}
+                                {/*<div id="color-picker-cursor"></div>*/}
+                                <input type="text" className="colorpicker"/>
+                            </div>
+                            {/*<div className="right-place">*/}
+                            {/*<div id="slider-opacity" className="color-picker-slider">*/}
+                            {/*<div className="thumb"></div>*/}
+                            {/*</div>*/}
+                            {/*<div id="slider-brightness" className="color-picker-slider">*/}
+                            {/*<div className="thumb"></div>*/}
+                            {/*</div>*/}
+                            {/*</div>*/}
 
                         </div>
 

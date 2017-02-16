@@ -71,6 +71,8 @@ export default store => next => (action) => {
         DrawTool.sides.select(
           JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
         );
+
+        store.dispatch(actions.setLoading(false));
       }
       break;
     }
