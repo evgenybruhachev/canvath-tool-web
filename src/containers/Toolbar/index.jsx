@@ -297,7 +297,7 @@ class Toolbar extends Component {
           <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
                   disabled={history.collection.length <= 1}
                   active={activeTool === 'layers'}/>
-          <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
+          <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           <div
             className={this.helpArrows.right ? 'user-help-scroll-arrow right show' : 'user-help-scroll-arrow right'}
             onClick={this.helpClickArrows.bind(this, 'right')}>
@@ -347,7 +347,7 @@ class Toolbar extends Component {
             <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
                     disabled={history.collection.length <= 1}
                     active={activeTool === 'layers'}/>
-            <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
+            <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           </div>
         </Scrollbars>
       );
