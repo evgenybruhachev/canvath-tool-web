@@ -11,6 +11,7 @@ import Button from '../../components/button';
 import Upload from '../../components/upload';
 
 import * as ProductActions from '../../actions/product';
+import * as DrawToolActions from '../../actions/draw-tool';
 
 import {uploadByString, uploadPdf} from '../../api/extras';
 
@@ -231,13 +232,31 @@ class Toolbar extends Component {
 
   undo() {
     const {dispatch} = this.props;
+
     dispatch(actions.undo(DrawTool.history.history[DrawTool.sides.selected.id]));
+
+    setTimeout(() => {
+      dispatch(DrawToolActions.updateLayers({
+        layers: DrawTool.sides.selected.layers.update().reverse(),
+        side: DrawTool.sides.selected.id,
+      }));
+    });
+
     this.forceUpdate();
   }
 
   redo() {
     const {dispatch} = this.props;
+
     dispatch(actions.redo(DrawTool.history.history[DrawTool.sides.selected.id]));
+
+    setTimeout(() => {
+      dispatch(DrawToolActions.updateLayers({
+        layers: DrawTool.sides.selected.layers.update().reverse(),
+        side: DrawTool.sides.selected.id,
+      }));
+    });
+
     this.forceUpdate();
   }
 
