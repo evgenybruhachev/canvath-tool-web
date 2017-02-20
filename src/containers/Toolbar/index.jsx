@@ -20,6 +20,7 @@ class Toolbar extends Component {
     dispatch: React.PropTypes.func,
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
+    layers: React.PropTypes.object,
     colorSelected: React.PropTypes.object,
     sideSelected: React.PropTypes.object,
   }
@@ -130,8 +131,7 @@ class Toolbar extends Component {
   }
 
   render() {
-    const {activeTool, dispatch, selected, history, colorSelected, sideSelected} = this.props;
-
+    const {activeTool, dispatch, selected, history, colorSelected, sideSelected, layers} = this.props;
     let view;
 
     if (sideSelected !== null && typeof sideSelected !== 'undefined') {
@@ -184,7 +184,7 @@ class Toolbar extends Component {
                   onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                   active={activeTool === 'removeColor'}/>
           <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
-                  disabled={history.collection.length <= 1}
+                  disabled={layers <= 1}
                   active={activeTool === 'layers'}/>
           <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           <div
@@ -235,7 +235,7 @@ class Toolbar extends Component {
                     onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                     active={activeTool === 'removeColor'}/>
             <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
-                    disabled={history.collection.length <= 1}
+                    disabled={layers <= 1}
                     active={activeTool === 'layers'}/>
             <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           </div>
@@ -253,6 +253,7 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     selected: state.drawTool.selected,
     history: state.drawTool.history,
+    layers: state.drawTool.layers,
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
   };
