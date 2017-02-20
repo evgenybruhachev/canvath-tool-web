@@ -9,6 +9,11 @@ import Sticker from '../../components/sticker';
 import StickerShape from '../../components/sticker-shapes';
 
 import Button from '../../components/button';
+import Upload from '../../components/upload';
+
+import EXIF from 'exif-js';
+import {uploadByString, uploadPdf} from '../../api/extras';
+
 import ButtonShape from '../../components/button-shapes';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
@@ -124,6 +129,124 @@ class Options extends Component {
 
     changeColorSVG() {
         $('.sticker svg').css('fill', shapeColor)
+    }
+
+    fileUpload(file) {
+        const {dispatch} = this.props;
+        const vCanv = document.createElement('canvas');
+        const vCtx = vCanv.getContext('2d');
+
+        dispatch(actions.setLoading(true));
+
+        const getImage = (file) => {
+        return new Promise((resolve, reject) => {
+            if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
+            && file.type !== 'application/postscript' && file.type !== 'application/pdf')
+            reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
+
+            const img = new Image();
+            img.onload = function () {
+            resolve(img);
+            };
+
+            img.src = URL.createObjectURL(file);
+
+        });
+        };
+
+        const getBase64 = (file, image) => {
+        return new Promise((resolve) => {
+            EXIF.getData(file, () => {
+            const orientation = EXIF.getTag(file, 'Orientation');
+
+            vCanv.width = image.width;
+            vCanv.height = image.height;
+
+            vCtx.save();
+            let width = vCanv.width;
+            let styleWidth = vCanv.style.width;
+            let height = vCanv.height;
+            let styleHeight = vCanv.style.height;
+            if (orientation) {
+                if (orientation > 4) {
+                vCanv.width = height;
+                vCanv.style.width = styleHeight;
+                vCanv.height = width;
+                vCanv.style.height = styleWidth;
+                }
+                switch (orientation) {
+                case 2:
+                    vCtx.translate(width, 0);
+                    vCtx.scale(-1, 1);
+                    break;
+                case 3:
+                    vCtx.translate(width, height);
+                    vCtx.rotate(Math.PI);
+                    break;
+                case 4:
+                    vCtx.translate(0, height);
+                    vCtx.scale(1, -1);
+                    break;
+                case 5:
+                    vCtx.rotate(0.5 * Math.PI);
+                    vCtx.scale(1, -1);
+                    break;
+                case 6:
+                    vCtx.rotate(0.5 * Math.PI);
+                    vCtx.translate(0, -height);
+                    break;
+                case 7:
+                    vCtx.rotate(0.5 * Math.PI);
+                    vCtx.translate(width, -height);
+                    vCtx.scale(-1, 1);
+                    break;
+                case 8:
+                    vCtx.rotate(-0.5 * Math.PI);
+                    vCtx.translate(-width, 0);
+                    break;
+                default:
+                    break;
+                }
+            }
+
+            vCtx.drawImage(image, 0, 0);
+            vCtx.restore();
+            resolve(vCanv.toDataURL());
+            });
+        });
+        };
+
+        // separate img and pdf
+        if (file.type === 'application/postscript' || file.type === 'application/pdf') {
+        uploadPdf(file.type, file).then(
+            url => {
+                DrawTool.sides.selected.items.addImage(url).then(() => {
+                    dispatch(actions.setLoading(false));
+                });
+            },
+            err => {
+                dispatch(actions.setLoading(false));
+                window.alert(err);
+            }
+        );
+
+        }
+        else {
+        getImage(file)
+            .then(image => getBase64(file, image))
+            .then(base64 => uploadByString('image/png', base64, 'png'))
+            .then(
+            url => {
+                DrawTool.sides.selected.items.addImage(url).then(() => {
+                dispatch(actions.setLoading(false));
+                });
+            },
+            err => {
+                dispatch(actions.setLoading(false));
+                window.alert(err);
+            }
+            );
+        }
     }
 
     render() {
@@ -503,6 +626,16 @@ class Options extends Component {
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                     </div>
                 );
+                break;
+            case 'uploadFile':
+                    content = (
+                        <div className="options">
+                            <div className={this.showOptions ? 'top show' : 'top'}>
+                                <span className="loading">クリックして画像を最大２０ＭＢJPEG,GIF,PNG,PDF,AI</span>
+                                <Upload className="cart-button complete-drawing" label={'アップロード'} onUpload={files => this.fileUpload(files[0])}/>
+                            </div>
+                        </div>
+                    );
                 break;
             default:
                 content = (null);
