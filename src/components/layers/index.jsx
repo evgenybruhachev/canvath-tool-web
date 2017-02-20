@@ -32,7 +32,6 @@ class Layers extends Component {
 		this.onSortEnd = this.onSortEnd.bind(this);
 		this.getIsMobile = this.getIsMobile.bind(this);
 		this.shouldCancelStart = this.shouldCancelStart.bind(this);
-		console.log(this);
 	}
 
 	componentDidMount() {

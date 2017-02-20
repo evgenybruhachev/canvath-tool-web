@@ -630,8 +630,8 @@ class Options extends Component {
             case 'uploadFile':
                     content = (
                         <div className="options">
-                            <div className={this.showOptions ? 'top show' : 'top'}>
-                                <span className="loading">クリックして画像を最大２０ＭＢJPEG,GIF,PNG,PDF,AI</span>
+                            <div className={this.showOptions ? 'top top__upload show' : 'top top__upload'}>
+                                <span className="loading">クリックして画像<br className="visible-xs"/>（JPEG,GIF,PNG,PDF,AI）<br className="visible-xs"/>を最大２０ＭＢ</span>
                                 <Upload className="cart-button complete-drawing" label={'アップロード'} onUpload={files => this.fileUpload(files[0])}/>
                             </div>
                         </div>

@@ -192,6 +192,12 @@
       margin: 0;
       background-color: #ffffff;
 
+      &.complete-drawing{
+        .label {
+            color: #fff;
+        }
+      }
+
       .icon,
       .image {
         width: 30px;
@@ -207,6 +213,7 @@
         line-height: 20px;
         text-align: center;
         color: #0F5FD4;
+        
       }
     }
   }
