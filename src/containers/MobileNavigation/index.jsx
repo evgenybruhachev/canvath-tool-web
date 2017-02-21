@@ -73,7 +73,7 @@ class MobileNavigation extends Component {
     const { dispatch } = this.props;
     getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
 
-    if (!this.state.sessionToken) {
+    if (!this.state.sessionToken || !query.login_type || query.login_type != "user") {
       setTimeout(() => alert("UP-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.toggleLoadProductContainer(true)), 500);
@@ -99,7 +99,7 @@ class MobileNavigation extends Component {
     const { dispatch } = this.props;
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    if (!this.state.sessionToken) {
+    if (!this.state.sessionToken || !query.login_type || query.login_type != "user") {
       setTimeout(() => alert("UP-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
