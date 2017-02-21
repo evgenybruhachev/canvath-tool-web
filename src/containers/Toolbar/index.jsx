@@ -118,6 +118,8 @@ class Toolbar extends Component {
   redo() {
     const {dispatch} = this.props;
 
+    //DrawTool.sides.selected.getPreview();
+    
     dispatch(actions.redo(DrawTool.history.history[DrawTool.sides.selected.id]));
 
     setTimeout(() => {

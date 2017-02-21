@@ -8,6 +8,7 @@
 .sticker{
   width: 40px;
   height: 40px;
+  min-width: 40px;
   margin: 0 5px;
   display: inline-block;
   border: 1px solid transparent;
@@ -16,6 +17,9 @@
   background-repeat: no-repeat;
   background-size: contain;
   z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   svg{
     width: 100%;
   }

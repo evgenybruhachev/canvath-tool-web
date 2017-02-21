@@ -7,30 +7,47 @@
   width: 100%;
   z-index: 10;
   user-select: none;
+  
+  //overflow: visible;
+  
+  // overflow: -moz-scrollbars-none;
+  // &::-webkit-scrollbar { width: 0; }
 
-  .top{
+  .top, .bottom{
     display: none;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 60px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    &.bottom{
+      border-top: 1px solid #bdbdbd;
+    }
     &.show{
       display: flex;
+    }
+    .before, .after{
+      margin: auto;
     }
   }
 
-  .bottom{
-    width: 100%;
-    display: none;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    border-top: 1px solid #bdbdbd;
-    &.show{
-      display: flex;
-    }
-  }
+  // .bottom{
+  //   width: 100%;
+  //   display: none;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: center;
+  //   height: 60px;
+  //   border-top: 1px solid #bdbdbd;
+  //   &.show{
+  //     display: flex;
+  //   }
+  //   &::before, &::after{
+  //     content: '';
+  //     margin: auto;
+  //   }
+  // }
 
   .shapes{
     width: calc(100% - 100px);
