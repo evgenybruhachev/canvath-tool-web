@@ -18,6 +18,8 @@ import * as actions from '../../actions/draw-tool';
 import { WEBHOST } from '../../constants';
 import query from '../../constants/query';
 
+import disableOnBeforeUnload from '../../utils/onbeforeunload';
+
 class Header extends Component {
 
   static propTypes = {
@@ -112,6 +114,8 @@ class Header extends Component {
   goToCart() {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
+
+    disableOnBeforeUnload();
 
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
