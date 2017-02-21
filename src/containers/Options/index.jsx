@@ -289,6 +289,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <Scrollbars
                                 style={{ width: '100%' }}
                                 autoHide
@@ -308,6 +309,7 @@ class Options extends Component {
                                     }
                                 </div>
                             </Scrollbars>
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -318,6 +320,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <Scrollbars
                                 style={{ width: '100%' }}
                                 autoHide
@@ -336,6 +339,7 @@ class Options extends Component {
                                     }
                                 </div>
                             </Scrollbars>
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -346,6 +350,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <Button icon={'align-top'} label={'上'}
                                     onClick={() => dispatch(actions.alignItem('toTop'))}/>
                             <Button icon={'align-ver-center'} label={'垂直揃え'}
@@ -358,6 +363,7 @@ class Options extends Component {
                                     onClick={() => dispatch(actions.alignItem('toHCenter'))}/>
                             <Button icon={'align-right'} label={'右'}
                                     onClick={() => dispatch(actions.alignItem('toRight'))}/>
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -368,6 +374,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <DropDownM
                                 className="icons"
                                 value={activeBrush}
@@ -391,6 +398,7 @@ class Options extends Component {
                                 onChange={size => dispatch(actions.selectBrushSize(size))}
                             />
                             <button className="complete-drawing button cart-button" onClick={() => dispatch(actions.setActiveTool('pointer'))}>完了</button>
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -401,6 +409,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
 
                             <ColorPicker
                                 label="カラー選択"
@@ -478,15 +487,18 @@ class Options extends Component {
                                 onClick={() => dispatch(actions.selectTextVertical(!textOptions.vertical))}
                                 active={textOptions.vertical}
                             />
+                            <div className="after"></div>
                             {/* <Button icon={'text-underline'} label={'Underline'} /> */}
                         </div>
                         <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                            <div className="before"></div>
                             <AddTextForm
                                 value={text}
                                 selected={!!textEl}
                                 onSubmit={val => dispatch(textEl ? actions.changeText(val) : actions.addText(val))}
                                 onChange={val => dispatch(actions.changeTextVal(val))}
                             />
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -497,25 +509,21 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             {stickersCat.map((cat, index) => <Button
                                 image={cat.content_url}
                                 label={cat.title}
                                 onClick={() => this.getStickers(cat.id)}
                                 key={index}
                             />)}
+                            <div className="after"></div>
                         </div>
                         {stickers.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
-                            <Scrollbars
-                                style={{ width: '100%' }}
-                                autoHide
-                                hideTracksWhenNotNeeded
-                            >
-                                <div className="stickers">
-                                    {stickers.map((sticker, index) => <Sticker
-                                        path={sticker} key={index} onClick={url => dispatch(actions.insertSticker(url))}
-                                    />)}
-                                </div>
-                            </Scrollbars>
+                            <div className="before"></div>
+                            {stickers.map((sticker, index) => <Sticker
+                                path={sticker} key={index} onClick={url => dispatch(actions.insertSticker(url))}
+                            />)}
+                            <div className="after"></div>
                         </div> : null
                         }
                         <button onClick={this.toggleOptions}
@@ -527,6 +535,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <ColorPicker
                                 label="カラー選択"
                                 color={shapeColor}
@@ -541,23 +550,18 @@ class Options extends Component {
                                 color={shapeColor}
                               />)
                             )}
+                            <div className="after"></div>
                         </div>
-                        { !svgStickerShapesLoading ?  <div className="bottom show"><span className="loading">読み込み中</span></div> : null }
+                        { !svgStickerShapesLoading ?  <div className="bottom show"><div className="before"></div><span className="loading">読み込み中</span><div className="after"></div></div> : null }
                         {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
-                            <Scrollbars
-                                style={{ width: '100%' }}
-                                autoHide
-                                hideTracksWhenNotNeeded
-                            >
-                                <div className="stickers">
-                                    {availableShapes.map((shape, index) => <StickerShape
-                                        path={shape}
-                                        key={index}
-                                        onClick={() => dispatch(actions.insertShape(shape))}
-                                        color={shapeColor}
-                                    />)}
-                                </div>
-                            </Scrollbars>
+                            <div className="before"></div>
+                            {availableShapes.map((shape, index) => <StickerShape
+                                path={shape}
+                                key={index}
+                                onClick={() => dispatch(actions.insertShape(shape))}
+                                color={shapeColor}
+                            />)}
+                            <div className="after"></div>
                         </div> : null
                         }
                         <button onClick={this.toggleOptions}
@@ -570,16 +574,21 @@ class Options extends Component {
                     content = (
                         <div className="options">
                             <div className={this.showOptions ? 'top show' : 'top'}>
+                                <div className="before"></div>
                                 画像を選びください
+                                <button onClick={this.toggleOptions}
+                                    className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                                <div className="after"></div>
                             </div>
                             <button onClick={this.toggleOptions}
-                                    className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
                     );
                 } else {
                     content = (
                         <div className="options">
                             <div className={this.showOptions ? 'top show' : 'top'}>
+                                <div className="before"></div>
                                 <ColorPicker
                                     label="カラー選択"
                                     color={colorPickerColor}
@@ -589,8 +598,13 @@ class Options extends Component {
                                         onClick={() => dispatch(actions.toggleColorPicker(!colorPicker))}/>
                                 <Button icon={'close'} label={'カラー透明化'}
                                         onClick={() => dispatch(actions.removeColor())}/>
+                                <div className="after"></div>
                             </div>
-                            <div className="bottom show"><span className="loading">画像の中の透明化したい色の部分を選んでください、パレットが透明化したい色に変わりましたら透明化ボタンを押してください</span></div>
+                            <div className="bottom show">
+                                <div className="before"></div>
+                                <span className="loading">画像の中の透明化したい色の部分を選んでください、パレットが透明化したい色に変わりましたら透明化ボタンを押してください</span>    
+                                <div className="after"></div>
+                            </div>
                             <button onClick={this.toggleOptions}
                                     className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
@@ -601,6 +615,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <div className="before"></div>
                             <Button icon={'align-top'} label={'上'}
                                     onClick={() => dispatch(actions.alignLayer('toTop'))}/>
                             <Button icon={'align-ver-center'} label={'垂直揃え'}
@@ -613,14 +628,17 @@ class Options extends Component {
                                     onClick={() => dispatch(actions.alignLayer('toHCenter'))}/>
                             <Button icon={'align-right'} label={'右'}
                                     onClick={() => dispatch(actions.alignLayer('toRight'))}/>
+                            <div className="after"></div>
                         </div>
                         <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                            <div className="before"></div>
                             <Layers
                                 items={side && layers[this.getSideTitle()] && layers[this.getSideTitle()]}
                                 callbackNewOrder={(items) => dispatch(actions.sortLayers({ items }))}
                                 onBlur={id => dispatch(actions.blurLayer(id))}
                                 onFocus={id => dispatch(actions.focusLayer(id))}
                             />
+                            <div className="after"></div>
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
@@ -631,9 +649,13 @@ class Options extends Component {
                     content = (
                         <div className="options">
                             <div className={this.showOptions ? 'top top__upload show' : 'top top__upload'}>
+                                <div className="before"></div>
                                 <span className="loading">クリックして画像<br className="visible-xs"/>（JPEG,GIF,PNG,PDF,AI）<br className="visible-xs"/>を最大２０ＭＢ</span>
                                 <Upload className="cart-button complete-drawing" label={'アップロード'} onUpload={files => this.fileUpload(files[0])}/>
+                                <div className="after"></div>
                             </div>
+                            <button onClick={this.toggleOptions}
+                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
                         </div>
                     );
                 break;
