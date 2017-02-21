@@ -50,7 +50,7 @@ class Header extends Component {
     getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
 
     if (!this.state.sessionToken) {
-      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
+      setTimeout(() => alert("UP-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.toggleLoadProductContainer(true)), 500);
     }

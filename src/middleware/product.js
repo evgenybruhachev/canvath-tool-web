@@ -67,6 +67,7 @@ export default store => next => (action) => {
               if (action.payload.sides[side.id]) {
                 if (action.payload.sides[side.id].startsWith('http')) {
                     side.items.addImage(`${action.payload.sides[side.id]}?_`);
+                    store.dispatch(actions.setLoading(false));
                 } else {
                   side.fromJSON(action.payload.sides[side.id], () => {
                       setTimeout(() => {
