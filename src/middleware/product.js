@@ -68,7 +68,15 @@ export default store => next => (action) => {
                 if (action.payload.sides[side.id].startsWith('http')) {
                     side.items.addImage(`${action.payload.sides[side.id]}?_`);
                 } else {
-                    side.fromJSON(action.payload.sides[side.id]);
+                  side.fromJSON(action.payload.sides[side.id], () => {
+                      setTimeout(() => {
+                          store.dispatch(actions.updateLayers({
+                              layers: DrawTool.sides.selected.layers.update().reverse(),
+                              side: DrawTool.sides.selected.id,
+                            }));
+                          store.dispatch(actions.setLoading(false));
+                      });
+                  }, true);
                 }
               }
           });
@@ -77,8 +85,6 @@ export default store => next => (action) => {
         DrawTool.sides.select(
           JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
         );
-
-        store.dispatch(actions.setLoading(false));
       }
       break;
     }

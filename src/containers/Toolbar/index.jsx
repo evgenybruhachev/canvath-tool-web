@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Scrollbars} from 'react-custom-scrollbars';
-import EXIF from 'exif-js';
 import classNames from 'classnames';
 import Icon from '../../components/icon';
 
 import DrawTool from '../../draw-tool/drawtool';
 
 import Button from '../../components/button';
-import Upload from '../../components/upload';
 
 import * as ProductActions from '../../actions/product';
-
-import {uploadByString, uploadPdf} from '../../api/extras';
+import * as DrawToolActions from '../../actions/draw-tool';
 
 import * as actions from '../../actions/draw-tool';
 
@@ -23,6 +20,7 @@ class Toolbar extends Component {
     dispatch: React.PropTypes.func,
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
+    layers: React.PropTypes.object,
     colorSelected: React.PropTypes.object,
     sideSelected: React.PropTypes.object,
   }
@@ -102,148 +100,38 @@ class Toolbar extends Component {
       }));
   }
 
-  fileUpload(file) {
-    const {dispatch} = this.props;
-
-
-
-    const vCanv = document.createElement('canvas');
-    const vCtx = vCanv.getContext('2d');
-
-    dispatch(actions.setLoading(true));
-
-    const getImage = (file) => {
-      return new Promise((resolve, reject) => {
-        if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
-          && file.type !== 'application/postscript' && file.type !== 'application/pdf')
-          reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
-
-
-        const img = new Image();
-        img.onload = function () {
-          resolve(img);
-        };
-
-        img.src = URL.createObjectURL(file);
-
-      });
-    };
-
-    const getBase64 = (file, image) => {
-      return new Promise((resolve) => {
-        EXIF.getData(file, () => {
-          const orientation = EXIF.getTag(file, 'Orientation');
-
-          vCanv.width = image.width;
-          vCanv.height = image.height;
-
-          vCtx.save();
-          let width = vCanv.width;
-          let styleWidth = vCanv.style.width;
-          let height = vCanv.height;
-          let styleHeight = vCanv.style.height;
-          if (orientation) {
-            if (orientation > 4) {
-              vCanv.width = height;
-              vCanv.style.width = styleHeight;
-              vCanv.height = width;
-              vCanv.style.height = styleWidth;
-            }
-            switch (orientation) {
-              case 2:
-                vCtx.translate(width, 0);
-                vCtx.scale(-1, 1);
-                break;
-              case 3:
-                vCtx.translate(width, height);
-                vCtx.rotate(Math.PI);
-                break;
-              case 4:
-                vCtx.translate(0, height);
-                vCtx.scale(1, -1);
-                break;
-              case 5:
-                vCtx.rotate(0.5 * Math.PI);
-                vCtx.scale(1, -1);
-                break;
-              case 6:
-                vCtx.rotate(0.5 * Math.PI);
-                vCtx.translate(0, -height);
-                break;
-              case 7:
-                vCtx.rotate(0.5 * Math.PI);
-                vCtx.translate(width, -height);
-                vCtx.scale(-1, 1);
-                break;
-              case 8:
-                vCtx.rotate(-0.5 * Math.PI);
-                vCtx.translate(-width, 0);
-                break;
-              default:
-                break;
-            }
-          }
-
-          vCtx.drawImage(image, 0, 0);
-          vCtx.restore();
-          resolve(vCanv.toDataURL());
-        });
-      });
-    };
-
-
-  // separate img and pdf
-
-
-    if (file.type === 'application/postscript' || file.type === 'application/pdf') {
-      uploadPdf(file.type, file).then(
-        url => {
-          DrawTool.sides.selected.items.addImage(url).then(() => {
-            dispatch(actions.setLoading(false));
-          });
-        },
-        err => {
-          dispatch(actions.setLoading(false));
-          window.alert(err);
-        }
-      );
-
-    }
-    else {
-      getImage(file)
-        .then(image => getBase64(file, image))
-        .then(base64 => uploadByString('image/png', base64, 'png'))
-        .then(
-          url => {
-            DrawTool.sides.selected.items.addImage(url).then(() => {
-              dispatch(actions.setLoading(false));
-            });
-          },
-          err => {
-            dispatch(actions.setLoading(false));
-            window.alert(err);
-          }
-        );
-    }
-
-
-  }
-
   undo() {
     const {dispatch} = this.props;
+
     dispatch(actions.undo(DrawTool.history.history[DrawTool.sides.selected.id]));
+
+    setTimeout(() => {
+      dispatch(DrawToolActions.updateLayers({
+        layers: DrawTool.sides.selected.layers.update().reverse(),
+        side: DrawTool.sides.selected.id,
+      }));
+    });
+
     this.forceUpdate();
   }
 
   redo() {
     const {dispatch} = this.props;
+
     dispatch(actions.redo(DrawTool.history.history[DrawTool.sides.selected.id]));
+
+    setTimeout(() => {
+      dispatch(DrawToolActions.updateLayers({
+        layers: DrawTool.sides.selected.layers.update().reverse(),
+        side: DrawTool.sides.selected.id,
+      }));
+    });
+
     this.forceUpdate();
   }
 
   render() {
-    const {activeTool, dispatch, selected, history, colorSelected, sideSelected} = this.props;
-
+    const {activeTool, dispatch, selected, history, colorSelected, sideSelected, layers} = this.props;
     let view;
 
     if (sideSelected !== null && typeof sideSelected !== 'undefined') {
@@ -282,7 +170,8 @@ class Toolbar extends Component {
 
           <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))}
                   active={activeTool === 'pointer'}/>
-          <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
+          <Button icon="image" label={'画像'} onClick={() => dispatch(actions.setActiveTool('uploadFile'))}
+                    active={activeTool === 'uploadFile'}/>
           <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))}
                   active={activeTool === 'text'}/>
           <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))}
@@ -295,9 +184,9 @@ class Toolbar extends Component {
                   onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                   active={activeTool === 'removeColor'}/>
           <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
-                  disabled={history.collection.length <= 1}
+                  disabled={layers <= 1}
                   active={activeTool === 'layers'}/>
-          <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
+          <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           <div
             className={this.helpArrows.right ? 'user-help-scroll-arrow right show' : 'user-help-scroll-arrow right'}
             onClick={this.helpClickArrows.bind(this, 'right')}>
@@ -332,7 +221,8 @@ class Toolbar extends Component {
                     active={activeTool === 'panning'}/>
             <Button icon="cursor" label={'画像移動'} onClick={() => dispatch(actions.setActiveTool('pointer'))}
                     active={activeTool === 'pointer'}/>
-            <Upload icon="image" label={'画像'} onUpload={files => this.fileUpload(files[0])}/>
+            <Button icon="image" label={'画像'} onClick={() => dispatch(actions.setActiveTool('uploadFile'))}
+                    active={activeTool === 'uploadFile'}/>
             <Button icon="text" label={'テキスト'} onClick={() => dispatch(actions.setActiveTool('text'))}
                     active={activeTool === 'text'}/>
             <Button icon="figures" label={'シェイプ'} onClick={() => dispatch(actions.setActiveTool('shapes'))}
@@ -345,9 +235,9 @@ class Toolbar extends Component {
                     onClick={() => dispatch(actions.setActiveTool('removeColor'))}
                     active={activeTool === 'removeColor'}/>
             <Button icon="layers" label={'レイヤー'} onClick={() => dispatch(actions.setActiveTool('layers'))}
-                    disabled={history.collection.length <= 1}
+                    disabled={layers <= 1}
                     active={activeTool === 'layers'}/>
-            <Button icon="delete" ink={false} label={'全削除'} onClick={() => dispatch(actions.empty())}/>
+            <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           </div>
         </Scrollbars>
       );
@@ -363,6 +253,7 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     selected: state.drawTool.selected,
     history: state.drawTool.history,
+    layers: state.drawTool.layers,
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
   };

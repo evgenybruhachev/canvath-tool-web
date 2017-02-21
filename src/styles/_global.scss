@@ -50,6 +50,10 @@ input {
   height: 100%;
 }
 
+.visible-xs{
+  display: none;
+}
+
 @media all and (max-width: $xsMobileBreakPoint) {
   body {
     position: fixed;
@@ -58,5 +62,9 @@ input {
     top: 0;
     bottom: 0;
     right: 0;
+  }
+
+  .visible-xs {
+    display: block;
   }
 }

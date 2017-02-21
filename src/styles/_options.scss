@@ -181,3 +181,17 @@
     }
   }
 }
+
+@media all and (max-width: $xsMobileBreakPoint) {
+.options .top{
+    &.top__upload{
+      justify-content: center;
+      .loading{
+        text-align: center;
+      }
+      .button.cart-button{
+        min-width: 86px;
+      }
+    }
+  }
+}
