@@ -45,14 +45,12 @@ class HeaderMobile extends Component {
   }
 
   undo() {
-    console.log(this);
     const { dispatch } = this.props;
     dispatch(DrawToolActions.undo(DrawTool.history.history[DrawTool.sides.selected.id]));
     this.forceUpdate();
   }
 
   redo() {
-    console.log(this);
     const { dispatch } = this.props;
     dispatch(DrawToolActions.redo(DrawTool.history.history[DrawTool.sides.selected.id]));
     this.forceUpdate();

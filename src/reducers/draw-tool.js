@@ -153,6 +153,12 @@ export default handleActions({
     let shape = {};
 
     if (action.payload.type.includes('text')) {
+
+      if(state.availableFontsJP.indexOf(action.payload.fontFamily) != -1)
+        state.categoriesFontsOptions.title = '\u65e5\u672c\u8a9e';
+      else
+        state.categoriesFontsOptions.title = '\u82f1\u8a9e';
+
       text = {
         textEl: action.payload,
         text: action.payload.text,
