@@ -47,7 +47,7 @@
     "querystring": "^0.2.0",
     "react": "^15.3.2",
     "react-color": "^2.4.0",
-    "react-custom-scrollbars": "^4.0.0",
+    "react-custom-scrollbars": "^4.0.2",
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.7.2",
     "react-ink": "^5.1.1",

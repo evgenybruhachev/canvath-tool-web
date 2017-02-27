@@ -4,7 +4,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
   z-index: 10;
   user-select: none;
   
@@ -202,13 +201,25 @@
 @media all and (max-width: $xsMobileBreakPoint) {
 .options .top{
     &.top__upload{
+      height: initial;
       justify-content: center;
       .loading{
+        margin: 10px auto;
         text-align: center;
       }
       .button.cart-button{
         min-width: 86px;
       }
+    }
+  }
+}
+
+@media screen and (min-width: $mobileBreakPoint){
+  .options {
+    .top, .bottom {
+      overflow-y: hidden;
+      overflow-x: auto;
+      @include visible-scroll();
     }
   }
 }

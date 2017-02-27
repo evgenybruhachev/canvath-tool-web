@@ -196,13 +196,7 @@ class Toolbar extends Component {
       );
     } else {
       view = (
-        <Scrollbars
-          style={{width: 60}}
-          autoHide
-          hideTracksWhenNotNeeded
-          autoHeight
-          autoHeightMax={this.state.height - 60}
-        >
+        <div className="toolbar-container">
           <div className="toolbar">
             <Button icon="zoom-in" label={'拡大'} onClick={() => dispatch(actions.zoomIn())}/>
             <Button icon="zoom-out" label={'縮小'} onClick={() => dispatch(actions.zoomOut())}/>
@@ -239,7 +233,7 @@ class Toolbar extends Component {
                     active={activeTool === 'layers'}/>
             <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
           </div>
-        </Scrollbars>
+        </div>
       );
     }
 
