@@ -109,3 +109,12 @@
     }
   }
 }
+
+@media screen and (min-width: $mobileBreakPoint){
+  .toolbar-container {
+    //width: 60px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include visible-scroll();
+  }
+}

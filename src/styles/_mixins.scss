@@ -1,0 +1,27 @@
+@mixin visible-scroll() {
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 7px;
+  }
+
+  &::-webkit-scrollbar-track{
+    opacity: 0;
+  }
+
+  &::-webkit-scrollbar-track-piece{
+    opacity: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 9px;
+    //border: 2px solid white;
+    background-color: rgba(0, 0, 0, .5);
+  }
+}
