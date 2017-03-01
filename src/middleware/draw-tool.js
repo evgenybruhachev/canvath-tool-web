@@ -1,5 +1,7 @@
 import DrawTool from '../draw-tool/drawtool';
 
+import * as actions from '../actions/draw-tool';
+
 window.DrawTool = DrawTool;
 
 const isSelectedSide = () => DrawTool.sides && DrawTool.sides.selected;
@@ -167,8 +169,12 @@ export default store => next => (action) => {
       DrawTool.sides.selected.colorPicker.active = action.payload;
       break;
     case 'REMOVE_COLOR':
-      DrawTool.sides.selected.items.selected.removeColor(colorPickerColor, 25);
-      DrawTool.sides.selected.colorPicker.active = false;
+      store.dispatch(actions.setLoading(true));
+      setTimeout(() => {
+        DrawTool.sides.selected.items.selected.removeColor(colorPickerColor, 25);
+        DrawTool.sides.selected.colorPicker.active = false;
+        store.dispatch(actions.setLoading(false));
+      }, 10);
       break;
     default:
 
