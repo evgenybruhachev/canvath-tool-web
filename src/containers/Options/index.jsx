@@ -651,7 +651,7 @@ class Options extends Component {
                             <div className={this.showOptions ? 'top top__upload show' : 'top top__upload'}>
                                 <div className="before"></div>
                                 <span className="loading">
-                                    アップロードをクリックして取り込みたい画像を選択してください。<br className="visible-xs"/>JPEG,GIF,PNG,AI,PDFに対応しています。<br className="visible-xs"/>最大20MBまで
+                                    アップロードをクリックして取り込みたい画像を選択してください。<br className="visible-xs"/>JPEG,GIF,PNG,AI,PDFに対応。<br className="visible-xs"/>最大20MBまで
                                 </span>
                                 <Upload className="cart-button complete-drawing" label={'アップロード'} onUpload={files => this.fileUpload(files[0])}/>
                                 <div className="after"></div>
