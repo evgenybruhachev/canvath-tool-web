@@ -71,12 +71,6 @@ class DropDown extends Component {
           </svg>
         </div>
         <div className="list">
-          <Scrollbars
-            autoHide
-            hideTracksWhenNotNeeded
-            autoHeight
-            autoHeightMax={300}
-          >
             {
               React.Children.map(
               children, child => React.cloneElement(child,
@@ -84,7 +78,6 @@ class DropDown extends Component {
               )
               )
             }
-          </Scrollbars>
         </div>
       </div>
     );
