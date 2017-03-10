@@ -13,6 +13,8 @@ import Button from '../../components/button';
 
 import { saveProduct } from '../../api/products';
 
+import disableOnBeforeUnload from '../../utils/onbeforeunload';
+
 class HeaderMobile extends Component {
 
   static propTypes = {
@@ -59,6 +61,8 @@ class HeaderMobile extends Component {
   goToCart() {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
+
+    disableOnBeforeUnload();
 
     dispatch(DrawToolActions.setLoading(true));
 
