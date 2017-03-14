@@ -45,11 +45,11 @@ class ButtonShape extends Component  {
 
         req.open("GET", url, false);
 
-        req.onreadystatechange = () => {
-        if (req.readyState == XMLHttpRequest.DONE) {
-          setTimeout(() => $(this.refs['dhilt']).find('svg').css('fill', this.props.color))
-        }
-        };
+        // req.onreadystatechange = () => {
+        // if (req.readyState == XMLHttpRequest.DONE) {
+        //   setTimeout(() => $(this.refs['dhilt']).find('svg').css('fill', this.props.color))
+        // }
+        // };
 
         req.send(null);
         req = req.responseText;
@@ -67,9 +67,9 @@ class ButtonShape extends Component  {
         if(nextProps.image !== this.props.image){
           setTimeout(() => this.setState({ svgElement: this.getSvgFunc(nextProps.image) }), 500);
         }
-        if(nextProps.color !== this.props.color) {
-            $(this.refs['dhilt']).find('svg').css('fill', nextProps.color)
-        }
+        // if(nextProps.color !== this.props.color) {
+        //     $(this.refs['dhilt']).find('svg').css('fill', nextProps.color)
+        // }
     }
 
     render() {
