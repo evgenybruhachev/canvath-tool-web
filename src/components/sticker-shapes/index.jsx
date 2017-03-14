@@ -45,7 +45,7 @@ class StickerShape extends Component {
       req.onreadystatechange = () => {
           if (req.readyState == XMLHttpRequest.DONE) {
               dispatch(actions.stickerShapeSvgLoad(url));
-              setTimeout(() => $(this.refs['stickerShapeItem']).find('svg').css('fill', this.props.color), 0)
+              // setTimeout(() => $(this.refs['stickerShapeItem']).find('svg').css('fill', this.props.color), 0)
           }
       };
 
@@ -67,9 +67,9 @@ class StickerShape extends Component {
               svgElement: this.getSvgFunc(nextProps.path)
           })
       }
-      if(nextProps.color !== this.props.color) {
-          $(this.refs['stickerShapeItem']).find('svg').css('fill', nextProps.color)
-      }
+      // if(nextProps.color !== this.props.color) {
+      //     $(this.refs['stickerShapeItem']).find('svg').css('fill', nextProps.color)
+      // }
   }
 
   render() {
@@ -93,4 +93,3 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps
 )(StickerShape);
-
