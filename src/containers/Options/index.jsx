@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Layers from '../../components/layers';
 
 import Sticker from '../../components/sticker';
-import StickerShape from '../../components/sticker-shapes';
+import Shape from '../../components/shape';
 
 import Button from '../../components/button';
 import Upload from '../../components/upload';
@@ -14,7 +14,6 @@ import Upload from '../../components/upload';
 import EXIF from 'exif-js';
 import {uploadByString, uploadPdf} from '../../api/extras';
 
-import ButtonShape from '../../components/button-shapes';
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
 import Icon from '../../components/icon';
@@ -34,9 +33,6 @@ class Options extends Component {
         availableFontsJP: React.PropTypes.array,
         availableFontsEN: React.PropTypes.array,
         availableFontsCategories: React.PropTypes.array,
-        availableShapesCategories: React.PropTypes.array,
-        availableShapes: React.PropTypes.array,
-        loadedAvailableShapes: React.PropTypes.array,
         activeBrush: React.PropTypes.string,
         brushOptions: React.PropTypes.object,
         textOptions: React.PropTypes.object,
@@ -49,12 +45,13 @@ class Options extends Component {
         textEl: React.PropTypes.object,
         stickersCat: React.PropTypes.array,
         stickers: React.PropTypes.array,
+        shapesCat: React.PropTypes.array,
+        shapes: React.PropTypes.array,
         colorPicker: React.PropTypes.bool,
         colorPickerColor: React.PropTypes.string,
         selected: React.PropTypes.object,
         colors: React.PropTypes.array,
         colorSelected: React.PropTypes.object,
-        svgStickerShapesLoading: React.PropTypes.bool
     };
 
     constructor(props) {
@@ -80,8 +77,6 @@ class Options extends Component {
 
     getShapes(id) {
         const { dispatch } = this.props;
-        dispatch(actions.loadingSVG(false));
-        dispatch(actions.stickerShapeSvgLoad());
         getShapes(id).then(data => dispatch(actions.updateShapes(data)));
     }
 
@@ -258,10 +253,6 @@ class Options extends Component {
             availableFontsJP,
             availableFontsEN,
             availableFontsCategories,
-            availableShapesCategories,
-            availableShapes,
-            loadedAvailableShapes,
-            svgStickerShapesLoading,
             activeBrush,
             textOptions,
             categoriesFontsOptions,
@@ -272,6 +263,8 @@ class Options extends Component {
             shapeColor,
             text,
             textEl,
+            shapesCat,
+            shapes,
             stickersCat,
             stickers,
             colorPicker,
@@ -541,25 +534,18 @@ class Options extends Component {
                                 color={shapeColor}
                                 onChange={color => dispatch(actions.selectShapeColor(color))}
                             />
-                            {availableShapesCategories.map((shape, index) => (
-                              <ButtonShape
-                                image={shape.content_url}
-                                label={shape.title}
+                          {shapesCat.map((cat, index) => <Button
+                                image={cat.content_url}
+                                label={cat.title}
+                                onClick={() => this.getShapes(cat.id)}
                                 key={index}
-                                onClick={() => this.getShapes(shape.id)}
-                                color={shapeColor}
-                              />)
-                            )}
+                            />)}
                             <div className="after"></div>
                         </div>
-                        { !svgStickerShapesLoading ?  <div className="bottom show"><div className="before"></div><span className="loading">読み込み中</span><div className="after"></div></div> : null }
-                        {availableShapes.length && svgStickerShapesLoading ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                        {shapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
                             <div className="before"></div>
-                            {availableShapes.map((shape, index) => <StickerShape
-                                path={shape}
-                                key={index}
-                                onClick={() => dispatch(actions.insertShape(shape))}
-                                color={shapeColor}
+                            {shapes.map((sticker, index) => <Sticker
+                                path={sticker} key={index} onClick={url => dispatch(actions.insertShape(url))}
                             />)}
                             <div className="after"></div>
                         </div> : null
@@ -602,7 +588,7 @@ class Options extends Component {
                             </div>
                             <div className="bottom show">
                                 <div className="before"></div>
-                                <span className="loading">画像の中の透明化したい色の部分を選んでください、パレットが透明化したい色に変わりましたら透明化ボタンを押してください</span>    
+                                <span className="loading">画像の中の透明化したい色の部分を選んでください、パレットが透明化したい色に変わりましたら透明化ボタンを押してください</span>
                                 <div className="after"></div>
                             </div>
                             <button onClick={this.toggleOptions}
@@ -683,10 +669,6 @@ function mapStateToProps(state) {
         availableFontsJP: state.drawTool.availableFontsJP,
         availableFontsEN: state.drawTool.availableFontsEN,
         availableFontsCategories: state.drawTool.availableFontsCategories,
-        availableShapesCategories: state.drawTool.availableShapesCategories,
-        availableShapes: state.drawTool.availableShapes,
-        loadedAvailableShapes: state.drawTool.loadedAvailableShapes,
-        svgStickerShapesLoading: state.drawTool.svgStickerShapesLoading,
         layers: state.drawTool.layers,
         side: state.product.sideSelected,
         shapeColor: state.drawTool.shapeColor,
@@ -694,6 +676,8 @@ function mapStateToProps(state) {
         textEl: state.drawTool.textEl,
         stickersCat: state.drawTool.stickersCat,
         stickers: state.drawTool.stickers,
+        shapesCat: state.drawTool.shapesCat,
+        shapes: state.drawTool.shapes,
         colorPicker: state.drawTool.colorPicker,
         colorPickerColor: state.drawTool.colorPickerColor,
         selected: state.drawTool.selected,
