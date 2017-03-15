@@ -17,6 +17,12 @@ class PreinstalledPicker extends React.Component {
         circleSpacing: 23,
         width: 354
     };
+    componentDidMount() {
+      $('.preinstalled-wrap span div div').click(function() {
+          $('.tab-content-custom span div div').removeClass('activeColor');
+          $(this).addClass('activeColor');
+      });
+    }
     render() {
         return <CirclePicker
             colors = {this.state.colors}
