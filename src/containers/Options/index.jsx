@@ -24,6 +24,8 @@ import * as ProductActions from '../../actions/product';
 
 import { getStickers, getShapes } from '../../api/extras';
 
+import FontDetect from '../../utils/fontdetect';
+
 class Options extends Component {
 
     static propTypes = {
@@ -58,7 +60,9 @@ class Options extends Component {
         super(props);
 
         this.state = {
-          availableFonts:[]
+          availableFonts: [],
+          loadedFonts: {},
+          mobile: window.matchMedia('(max-width: 1079px)').matches
         };
 
         this.getStickers = this.getStickers.bind(this);
@@ -68,6 +72,7 @@ class Options extends Component {
         this.changeColorSVG = this.changeColorSVG.bind(this);
         this.showOptions = true;
         this.lastState = null;
+        this.fontDetectInitialised = false;
     }
 
     getStickers(id) {
@@ -103,6 +108,23 @@ class Options extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        if (this.props.availableFonts && !this.fontDetectInitialised) {
+          this.fontDetectInitialised = true;
+          for (let font of this.props.availableFonts) {
+            this.state.loadedFonts[font] = false;
+            FontDetect.onFontLoaded(font, () => {
+              this.state.loadedFonts[font] = true;
+              if (this.props.activeTool === 'text') {
+                // if (!this.state.mobile) {
+                  this.forceUpdate();
+                // }
+              }
+            }, () => {
+              console.log(`${font} was not loaded!`);
+            }, {msTimeout: 300000});
+          }
+        }
+
         if((nextProps.availableFonts != this.props.availableFonts || nextProps.activeTool == 'text')
             && (typeof nextProps.availableFontsJP != 'undefined' || typeof nextProps.availableFontsEN != 'undefined')){
 
@@ -438,8 +460,13 @@ class Options extends Component {
                             <DropDownM
                               label="フォント"
                               value={textOptions.font}
-                              elements={this.state.availableFonts.map(font => ({ val: font,
-                                node: <span style={{ fontFamily: font }}>{font}</span> }))}
+                              elements={this.state.availableFonts.map(font => {
+                                  if (this.state.loadedFonts[font]) {
+                                    return { val: font, loaded: true, node: <span style={{ fontFamily: font }}>{font}</span> };
+                                  } else {
+                                    return { val: font, loaded: false, node: <span style={{ color: '#9E9E9E', cursor: 'not-allowed' }}>読み込み中</span> }
+                                  }
+                              })}
                               onChange={font => dispatch(actions.selectTextFont(font))}
                               className="fonts"
                             />

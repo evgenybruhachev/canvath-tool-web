@@ -54,6 +54,22 @@ class DropDownMaterial extends Component {
           {element.val + "pt"}
         </option>
       });
+    } else if (this.props.className === 'fonts') {
+      return elementsArr.map(function (element,i) {
+        if (element.loaded) {
+          return <option
+            key={i}
+            value={element.val}>
+            {element.val}
+          </option>
+        } else {
+          return <option
+            key={i}
+            value={element.val} disabled>
+            読み込み中
+          </option>
+        }
+      });
     } else {
       return elementsArr.map(function (element,i) {
         return <option
@@ -82,9 +98,13 @@ class DropDownMaterial extends Component {
       this.setState(state => Object.assign(state, { active: true }));
     }
   }
-  select(val, node) {
-    this.setState(state => Object.assign(state, { value: node, active: false }));
-    if (this.props.onChange) this.props.onChange(val);
+  select(val, node, el) {
+    if (typeof el.loaded !== 'undefined' && !el.loaded) {
+      return;
+    } else {
+      this.setState(state => Object.assign(state, { value: node, active: false }));
+      if (this.props.onChange) this.props.onChange(val);
+    }
   }
   render() {
     const { label, value, elements, className, style } = this.props;
@@ -146,7 +166,7 @@ class DropDownMaterial extends Component {
             >
               {
                 elements.map((el, key) => React.cloneElement(el.node,
-                  { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
+                  { onClick: () => this.select(el.val, el.node, el), key: key.toString(), className: 'list-item' }
                 ))
               }
             </Scrollbars>
