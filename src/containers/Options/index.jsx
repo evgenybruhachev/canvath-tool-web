@@ -120,6 +120,22 @@ class Options extends Component {
                     this.props.availableFontsCategories.splice(index, 1);
             });
         }
+
+        if (this.props.activeTool !== nextProps.activeTool && nextProps.activeTool == 'text') {
+          if (nextProps.categoriesFontsOptions.title === '\u65e5\u672c\u8a9e') {
+            if (nextProps.availableFontsJP[0] !== this.props.textOptions.font) {
+              let sameFontLanguageIsSelected = false;
+              for (let i = 0; i < nextProps.availableFontsJP.length; i++) {
+                if (nextProps.availableFontsJP[i] === this.props.textOptions.font) {
+                  sameFontLanguageIsSelected = true;
+                }
+              }
+              if (!sameFontLanguageIsSelected) {
+                this.props.textOptions.font = nextProps.availableFontsJP[0];
+              }
+            }
+          }
+        }
     }
 
     changeColorSVG() {
