@@ -62,6 +62,7 @@ class Options extends Component {
         this.state = {
           availableFonts: [],
           loadedFonts: {},
+          loadedFont: null,
           mobile: window.matchMedia('(max-width: 1079px)').matches
         };
 
@@ -116,6 +117,7 @@ class Options extends Component {
               this.state.loadedFonts[font] = true;
               if (this.props.activeTool === 'text') {
                 // if (!this.state.mobile) {
+                  this.state.loadedFont = font;
                   this.forceUpdate();
                 // }
               }
@@ -531,6 +533,9 @@ class Options extends Component {
                             <AddTextForm
                                 value={text}
                                 selected={!!textEl}
+                                loadedFonts={this.state.loadedFonts}
+                                loadedFont={this.state.loadedFont}
+                                selectedFont={this.props.textOptions.font}
                                 onSubmit={val => dispatch(textEl ? actions.changeText(val) : actions.addText(val))}
                                 onChange={val => dispatch(actions.changeTextVal(val))}
                             />
