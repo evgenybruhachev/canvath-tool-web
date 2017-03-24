@@ -88,6 +88,11 @@
       }
     }
   }
+  .fonts-list {
+    max-height: 300px;
+    overflow-y: auto;
+    @include visible-scroll();
+  }
 }
 
 @media screen and (max-width: $mobileBreakPoint) {
