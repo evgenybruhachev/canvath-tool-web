@@ -143,6 +143,29 @@ class DropDownMaterial extends Component {
           </select>
         </div>
       );
+    } else if (!this.state.mobile && className === 'fonts') {
+      view = (
+        <div
+          className={classNames('drop-down-material', { active: this.state.active }, className)}
+          ref={(node) => { this.node = node; return node; }}
+          style={style}
+        >
+          <div className="drop-down_head" onClick={this.openList}>
+            {label && <div className="label">{label}</div>}
+            <div className="value">
+              {valueNode ? valueNode.node : elements[0].node}
+              <div className="arrow" />
+            </div>
+          </div>
+          <div className="list fonts-list">
+              {
+                elements.map((el, key) => React.cloneElement(el.node,
+                  { onClick: () => this.select(el.val, el.node, el), key: key.toString(), className: 'list-item' }
+                ))
+              }
+          </div>
+        </div>
+      );
     } else {
       view = (
         <div
