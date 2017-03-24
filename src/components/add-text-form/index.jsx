@@ -9,6 +9,9 @@ class AddTextForm extends Component {
     onChange: React.PropTypes.func,
     value: React.PropTypes.string,
     selected: React.PropTypes.bool,
+    loadedFonts: React.PropTypes.object,
+    loadedFont: React.PropTypes.string,
+    selectedFont: React.PropTypes.string
   }
 
   constructor(props) {
@@ -22,13 +25,18 @@ class AddTextForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.loadedFont = null;
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      value: nextProps.value,
-      selected: nextProps.selected,
-    });
+    if (this.props.loadedFont !== this.loadedFont) {
+      this.loadedFont = this.props.loadedFont;
+    } else {
+      this.setState({
+        value: nextProps.value,
+        selected: nextProps.selected,
+      });
+    }
   }
 
   handleChange(event) {
@@ -60,6 +68,7 @@ class AddTextForm extends Component {
           label={this.state.selected ? 'テキストを編集' : 'テキストを追加'}
           onClick={this.handleSubmit}
           className="add-text"
+          disabled={!this.props.loadedFonts[this.props.selectedFont]}
         />
       </div>
     );
