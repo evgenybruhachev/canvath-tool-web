@@ -179,6 +179,9 @@ class Options extends Component {
             && file.type !== 'application/postscript' && file.type !== 'application/pdf')
             reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
 
+            if (file.size > 20971520)
+            reject('最大20MBまで')
+
             const img = new Image();
             img.onload = function () {
             resolve(img);
