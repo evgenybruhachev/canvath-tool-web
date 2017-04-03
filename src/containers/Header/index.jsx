@@ -46,7 +46,7 @@ class Header extends Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
     this.getSessionParse = this.getSessionParse.bind(this);
-    this.goToUpperDomain = this.goToUpperDomain.bind(this);
+    this.goToMainSite = this.goToMainSite.bind(this);
     this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
@@ -150,11 +150,8 @@ class Header extends Component {
     }, 500);
   }
 
-  goToUpperDomain() {
-    let currentHref = window.location.href;
-    if (currentHref.indexOf('drawer.')) {
-      window.location.href = currentHref.replace('drawer.', '');
-    }
+  goToMainSite() {
+    window.location.href = WEBHOST;
   }
 
   ifLayersEmpty() {
@@ -171,7 +168,7 @@ class Header extends Component {
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="Nobori" className="logo" onClick={this.goToUpperDomain} />
+        <img src="assets/img/logo.png" alt="Nobori" className="logo" onClick={this.goToMainSite} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
