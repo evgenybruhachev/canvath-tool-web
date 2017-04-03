@@ -23,6 +23,7 @@ class HeaderMobile extends Component {
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
     price: React.PropTypes.number,
+    layers: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -33,6 +34,7 @@ class HeaderMobile extends Component {
     this.goToCart = this.goToCart.bind(this);
     this.redo = this.redo.bind(this);
     this.undo = this.undo.bind(this);
+    this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
   toggleActiveTool(tool) {
@@ -95,6 +97,15 @@ class HeaderMobile extends Component {
     }, 500);
   }
 
+  ifLayersEmpty() {
+    for (let variable in this.props.layers) {
+      if (this.props.layers.hasOwnProperty(variable) && this.props.layers[variable].length !== 0) {
+        return false
+      }
+    }
+    return true;
+  }
+
   render() {
     const { activeTool, dispatch, selected, history, price } = this.props;
 
@@ -113,7 +124,7 @@ class HeaderMobile extends Component {
           onClick={() => dispatch(DrawToolActions.remove())}
           disabled={!selected}
         />
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
+      <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} disabled={this.ifLayersEmpty()}/>
       </div>
     );
   }
@@ -127,6 +138,7 @@ function mapStateToProps(state) {
     history: state.drawTool.history,
     colorSelected: state.product.colorSelected,
     price: state.product.price,
+    layers: state.drawTool.layers,
   };
 }
 
