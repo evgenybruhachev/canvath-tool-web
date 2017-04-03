@@ -64,37 +64,45 @@ class HeaderMobile extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    disableOnBeforeUnload();
 
-    dispatch(DrawToolActions.setLoading(true));
 
-    dispatch(DrawToolActions.setActiveTool('pointer'));
+    if (this.ifLayersEmpty()) {
+      setTimeout(() => {
+        window.alert('デザインなしの商品は追加できません');
+      }, 500);
+    } else {
+      disableOnBeforeUnload();
 
-    setTimeout(() => {
+      dispatch(DrawToolActions.setLoading(true));
 
-      DrawTool.sides._collection.forEach((side) => {
-        sides[side.id] = { content: side.toJSON() };
-      });
+      dispatch(DrawToolActions.setActiveTool('pointer'));
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+      setTimeout(() => {
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
-        }
+        DrawTool.sides._collection.forEach((side) => {
+          sides[side.id] = { content: side.toJSON() };
+        });
 
-        document.body.appendChild(form);
-        form.submit();
-      });
+        saveProduct(colorSelected.id, sides).then((data) => {
+          const form = document.createElement('form');
+          form.setAttribute('method', 'post');
+          form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
-    }, 500);
+          for (const key in data) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('value', data[key]);
+            input.setAttribute('name', key);
+            input.setAttribute('id', key);
+            form.appendChild(input);
+          }
+
+          document.body.appendChild(form);
+          form.submit();
+        });
+
+      }, 500);
+    }
   }
 
   ifLayersEmpty() {
@@ -124,7 +132,7 @@ class HeaderMobile extends Component {
           onClick={() => dispatch(DrawToolActions.remove())}
           disabled={!selected}
         />
-      <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} disabled={this.ifLayersEmpty()}/>
+      <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
   }

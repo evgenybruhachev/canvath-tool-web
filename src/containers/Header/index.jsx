@@ -118,36 +118,42 @@ class Header extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    disableOnBeforeUnload();
+    if (this.ifLayersEmpty()) {
+      setTimeout(() => {
+        window.alert('デザインなしの商品は追加できません');
+      }, 500);
+    } else {
+      disableOnBeforeUnload();
 
-    dispatch(DrawToolActions.setActiveTool('pointer'));
+      dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    dispatch(DrawToolActions.setLoading(true));
+      dispatch(DrawToolActions.setLoading(true));
 
-    setTimeout(() => {
-      DrawTool.sides._collection.forEach((side) => {
-        sides[side.id] = { content: side.toJSON() };
-      });
+      setTimeout(() => {
+        DrawTool.sides._collection.forEach((side) => {
+          sides[side.id] = { content: side.toJSON() };
+        });
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+        saveProduct(colorSelected.id, sides).then((data) => {
+          const form = document.createElement('form');
+          form.setAttribute('method', 'post');
+          form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
-        }
+          for (const key in data) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('value', data[key]);
+            input.setAttribute('name', key);
+            input.setAttribute('id', key);
+            form.appendChild(input);
+          }
 
-        document.body.appendChild(form);
-        form.submit();
-      });
+          document.body.appendChild(form);
+          form.submit();
+        });
 
-    }, 500);
+      }, 500);
+    }
   }
 
   goToMainSite() {
@@ -216,7 +222,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} disabled={this.ifLayersEmpty()}/>
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
   }
