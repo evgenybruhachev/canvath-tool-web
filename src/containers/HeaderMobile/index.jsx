@@ -24,6 +24,7 @@ class HeaderMobile extends Component {
     history: React.PropTypes.object,
     price: React.PropTypes.number,
     layers: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -66,7 +67,7 @@ class HeaderMobile extends Component {
 
 
 
-    if (this.ifLayersEmpty()) {
+    if (this.ifLayersEmpty() && this.props.activeTool !== 'brush') {
       setTimeout(() => {
         window.alert('デザインなしの商品は追加できません');
       }, 500);
@@ -153,6 +154,7 @@ function mapStateToProps(state) {
     colorSelected: state.product.colorSelected,
     price: state.product.price,
     layers: state.drawTool.layers,
+    activeTool: state.drawTool.activeTool,
   };
 }
 

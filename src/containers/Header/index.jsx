@@ -30,6 +30,7 @@ class Header extends Component {
     dispatch: React.PropTypes.func,
     price: React.PropTypes.number,
     layers: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -118,7 +119,7 @@ class Header extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    if (this.ifLayersEmpty()) {
+    if (this.ifLayersEmpty() && this.props.activeTool !== 'brush') {
       setTimeout(() => {
         window.alert('デザインなしの商品は追加できません');
       }, 500);
@@ -250,6 +251,7 @@ function mapStateToProps(state) {
     sideSelected: state.product.sideSelected,
     price: state.product.price,
     layers: state.drawTool.layers,
+    activeTool: state.drawTool.activeTool,
   };
 }
 
