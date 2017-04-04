@@ -29,6 +29,7 @@ class Header extends Component {
     sideSelected: React.PropTypes.object,
     dispatch: React.PropTypes.func,
     price: React.PropTypes.number,
+    layers: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -45,6 +46,8 @@ class Header extends Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
     this.getSessionParse = this.getSessionParse.bind(this);
+    this.goToUpperDomain = this.goToUpperDomain.bind(this);
+    this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
   openProductLoad() {
@@ -162,12 +165,28 @@ class Header extends Component {
     }, 500);
   }
 
+  goToUpperDomain() {
+    let currentHref = window.location.href;
+    if (currentHref.indexOf('drawer.')) {
+      window.location.href = currentHref.replace('drawer.', '');
+    }
+  }
+
+  ifLayersEmpty() {
+    for (let variable in this.props.layers) {
+      if (this.props.layers.hasOwnProperty(variable) && this.props.layers[variable].length !== 0) {
+        return false
+      }
+    }
+    return true;
+  }
+
   render() {
-    const { colors, colorSelected, sideSelected, product, price } = this.props;
+    const { colors, colorSelected, sideSelected, product, price, layers } = this.props;
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="UP-T" className="logo" />
+        <img src="assets/img/logo.png" alt="UP-T" className="logo" onClick={this.goToUpperDomain} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
@@ -215,7 +234,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} disabled={this.ifLayersEmpty()}/>
       </div>
     );
   }
@@ -228,6 +247,7 @@ function mapStateToProps(state) {
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
     price: state.product.price,
+    layers: state.drawTool.layers,
   };
 }
 
