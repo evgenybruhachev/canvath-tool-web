@@ -110,7 +110,7 @@ class Options extends Component {
         this.lastState = this.props.activeTool;
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (!this.fontDetectInitialised) {
           if (this.props.allFonts) {
             for (let font of this.props.allFonts) {
@@ -170,6 +170,17 @@ class Options extends Component {
               if (!sameFontLanguageIsSelected) {
                 this.props.textOptions.font = nextProps.availableFontsJP[0];
               }
+            }
+          }
+        }
+
+        if (nextProps.activeTool === 'text') {
+          if (this.props.textOptions.font !== nextProps.textOptions.font) {
+            if (!this.state.fontsStyles[nextProps.textOptions.font].bold_allowed) {
+              nextProps.textOptions.bold = false;
+            }
+            if (!this.state.fontsStyles[nextProps.textOptions.font].italic_allowed) {
+              nextProps.textOptions.italic = false;
             }
           }
         }
