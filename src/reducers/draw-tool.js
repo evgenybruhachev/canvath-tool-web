@@ -43,6 +43,7 @@ export default handleActions({
   }),
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
     availableFonts: action.payload.map(font => font.DrawerFont.title),
+    allFonts: action.payload.map(font => font.DrawerFont),
     textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
   }),
   UPDATE_FONTS_JP: (state, action) => Object.assign({}, state, {

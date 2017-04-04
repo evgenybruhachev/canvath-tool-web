@@ -35,6 +35,7 @@ class Options extends Component {
         availableFontsJP: React.PropTypes.array,
         availableFontsEN: React.PropTypes.array,
         availableFontsCategories: React.PropTypes.array,
+        allFonts: React.PropTypes.array,
         activeBrush: React.PropTypes.string,
         brushOptions: React.PropTypes.object,
         textOptions: React.PropTypes.object,
@@ -63,6 +64,7 @@ class Options extends Component {
           availableFonts: [],
           loadedFonts: {},
           loadedFont: null,
+          fontsStyles: {},
           mobile: window.matchMedia('(max-width: 1079px)').matches
         };
 
@@ -109,6 +111,17 @@ class Options extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        if (!this.fontDetectInitialised) {
+          if (this.props.allFonts) {
+            for (let font of this.props.allFonts) {
+              this.state.fontsStyles[font.title] = {
+                'bold_allowed': font.bold_allowed,
+                'italic_allowed': font.italic_allowed
+              }
+            }
+          }
+        }
+
         if (this.props.availableFonts && !this.fontDetectInitialised) {
           this.fontDetectInitialised = true;
           for (let font of this.props.availableFonts) {
@@ -296,6 +309,7 @@ class Options extends Component {
             availableFontsJP,
             availableFontsEN,
             availableFontsCategories,
+            allFonts,
             activeBrush,
             textOptions,
             categoriesFontsOptions,
@@ -509,18 +523,23 @@ class Options extends Component {
                                 active={textOptions.align === 'right'}
                             />
 
-                            <Button
-                                icon={'text-bold'}
-                                label={'ボールド'}
-                                onClick={() => dispatch(actions.selectTextBold(!textOptions.bold))}
-                                active={textOptions.bold}
-                            />
-                            <Button
-                                icon={'text-italic'}
-                                label={'イタリック'}
-                                onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
-                                active={textOptions.italic}
-                            />
+                            {this.state.fontsStyles[this.props.textOptions.font].bold_allowed &&
+                              <Button
+                                  icon={'text-bold'}
+                                  label={'ボールド'}
+                                  onClick={() => dispatch(actions.selectTextBold(!textOptions.bold))}
+                                  active={textOptions.bold}
+                              />
+                            }
+
+                            {this.state.fontsStyles[this.props.textOptions.font].italic_allowed &&
+                              <Button
+                                  icon={'text-italic'}
+                                  label={'イタリック'}
+                                  onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
+                                  active={textOptions.italic}
+                              />
+                            }
 
                             <Button
                                 icon={'text-vertical'}
@@ -720,6 +739,7 @@ function mapStateToProps(state) {
         availableFontsJP: state.drawTool.availableFontsJP,
         availableFontsEN: state.drawTool.availableFontsEN,
         availableFontsCategories: state.drawTool.availableFontsCategories,
+        allFonts: state.drawTool.allFonts,
         layers: state.drawTool.layers,
         side: state.product.sideSelected,
         shapeColor: state.drawTool.shapeColor,

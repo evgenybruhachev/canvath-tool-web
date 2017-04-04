@@ -46,7 +46,7 @@ class Header extends Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
     this.getSessionParse = this.getSessionParse.bind(this);
-    this.goToUpperDomain = this.goToUpperDomain.bind(this);
+    this.goToMainSite = this.goToMainSite.bind(this);
     this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
@@ -118,9 +118,14 @@ class Header extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    disableOnBeforeUnload();
+    if (this.ifLayersEmpty()) {
+      setTimeout(() => {
+        window.alert('デザインなしの商品は追加できません');
+      }, 500);
+    } else {
+      disableOnBeforeUnload();
 
-    dispatch(DrawToolActions.setActiveTool('pointer'));
+      dispatch(DrawToolActions.setActiveTool('pointer'));
 
     dispatch(DrawToolActions.setLoading(true));
 
@@ -158,18 +163,15 @@ class Header extends Component {
         }
 
         document.body.appendChild(form);
-
         form.submit();
       });
 
-    }, 500);
+      }, 500);
+    }
   }
 
-  goToUpperDomain() {
-    let currentHref = window.location.href;
-    if (currentHref.indexOf('drawer.')) {
-      window.location.href = currentHref.replace('drawer.', '');
-    }
+  goToMainSite() {
+    window.location.href = WEBHOST;
   }
 
   ifLayersEmpty() {
@@ -186,7 +188,7 @@ class Header extends Component {
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="UP-T" className="logo" onClick={this.goToUpperDomain} />
+        <img src="assets/img/logo.png" alt="UP-T" className="logo" onClick={this.goToMainSite} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
@@ -234,7 +236,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} disabled={this.ifLayersEmpty()}/>
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
   }
