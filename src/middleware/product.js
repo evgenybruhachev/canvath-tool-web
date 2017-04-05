@@ -72,7 +72,7 @@ export default store => next => (action) => {
                 }));
                 store.dispatch(actions.setLoading(false));
               });
-            }, true);            
+            }, true);
           });
         });
 
@@ -90,11 +90,38 @@ export default store => next => (action) => {
         break;
       }
 
+      const toDataURL = url => fetch(url)
+        .then(response => response.blob())
+        .then(blob => new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onloadend = () => resolve(reader.result)
+          reader.onerror = reject
+          reader.readAsDataURL(blob)
+      }))
+
       const imgB64 = DrawTool.sides.selected.getImagePreview();
       DrawTool.sides.selected.toSVG((svg) => {
-        Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg.split('\n').join(''), 'svg')]).then((values) => {
-          saveTemplate(values[0], values[1]);
-        });
+        if (svg.indexOf('xlink:href="http') < 0) {
+          Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg.split('\n').join(''), 'svg')]).then((values) => {
+            saveTemplate(values[0], values[1]);
+          });
+        } else {
+          let hrefs = svg.match(/xlink:href="http([^"]*)"/g);
+          let hrefsB64 = [];
+          for (let i = 0; i < hrefs.length; i++) {
+            hrefs[i] = hrefs[i].replace('xlink:href="', '');
+            hrefs[i] = hrefs[i].replace('"', '');
+            hrefsB64.push(toDataURL(hrefs[i]));
+          }
+          Promise.all(hrefsB64).then(arr => {
+            for (let i = 0; i < hrefs.length; i++) {
+              svg = svg.replace(hrefs[i], arr[i]);
+            }
+            Promise.all([uploadByString('image/png', imgB64, 'png'), uploadByString('image/svg+xml', svg.split('\n').join(''), 'svg')]).then((values) => {
+              saveTemplate(values[0], values[1]);
+            });
+          })
+        }
       }, true);
       break;
     }
