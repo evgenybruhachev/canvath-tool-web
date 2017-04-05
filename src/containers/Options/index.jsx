@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbar from 'react-smooth-scrollbar';
 
 import Layers from '../../components/layers';
 
@@ -583,6 +584,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                            <Scrollbar>
                             <div className="before"></div>
                             {stickersCat.map((cat, index) => <Button
                                 image={cat.content_url}
@@ -591,13 +593,16 @@ class Options extends Component {
                                 key={index}
                             />)}
                             <div className="after"></div>
+                            </Scrollbar>
                         </div>
                         {stickers.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                            <Scrollbar>
                             <div className="before"></div>
                             {stickers.map((sticker, index) => <Sticker
                                 path={sticker} key={index} onClick={url => dispatch(actions.insertSticker(url))}
                             />)}
                             <div className="after"></div>
+                            </Scrollbar>
                         </div> : null
                         }
                         <button onClick={this.toggleOptions}
@@ -609,6 +614,7 @@ class Options extends Component {
                 content = (
                     <div className="options">
                         <div className={this.showOptions ? 'top show' : 'top'}>
+                          <Scrollbar>
                             <div className="before"></div>
                             <ColorPicker
                                 label="カラー選択"
@@ -622,13 +628,16 @@ class Options extends Component {
                                 key={index}
                             />)}
                             <div className="after"></div>
+                          </Scrollbar>
                         </div>
                         {shapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                            <Scrollbar>
                             <div className="before"></div>
                             {shapes.map((sticker, index) => <Sticker
                                 path={sticker} key={index} onClick={url => dispatch(actions.insertShape(url))}
                             />)}
                             <div className="after"></div>
+                            </Scrollbar>
                         </div> : null
                         }
                         <button onClick={this.toggleOptions}

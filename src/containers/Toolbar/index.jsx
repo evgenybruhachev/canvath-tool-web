@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Scrollbars} from 'react-custom-scrollbars';
+import Scrollbar from 'react-smooth-scrollbar';
 import classNames from 'classnames';
 import Icon from '../../components/icon';
 
@@ -198,6 +198,7 @@ class Toolbar extends Component {
       view = (
         <div className="toolbar-container">
           <div className="toolbar">
+            <Scrollbar>
             <Button icon="zoom-in" label={'拡大'} onClick={() => dispatch(actions.zoomIn())}/>
             <Button icon="zoom-out" label={'縮小'} onClick={() => dispatch(actions.zoomOut())}/>
             <Button icon="undo" label={'戻る'} disabled={activeTool === 'brush' || history.currentIndex === 0}
@@ -232,6 +233,7 @@ class Toolbar extends Component {
                     disabled={layers <= 1}
                     active={activeTool === 'layers'}/>
             <Button icon="delete" ink={false} label={'全削除'} onClick={() => {dispatch(actions.empty()); this.forceUpdate();}}/>
+            </Scrollbar>
           </div>
         </div>
       );
