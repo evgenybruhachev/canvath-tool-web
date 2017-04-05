@@ -176,11 +176,11 @@ class Options extends Component {
 
         if (nextProps.activeTool === 'text') {
           if (this.props.textOptions.font !== nextProps.textOptions.font) {
-            if (!this.state.fontsStyles[nextProps.textOptions.font].bold_allowed) {
-              nextProps.textOptions.bold = false;
+            if (!this.state.fontsStyles[nextProps.textOptions.font].bold_allowed && this.props.textOptions.bold) {
+              this.props.dispatch(actions.selectTextBold(false));
             }
-            if (!this.state.fontsStyles[nextProps.textOptions.font].italic_allowed) {
-              nextProps.textOptions.italic = false;
+            if (!this.state.fontsStyles[nextProps.textOptions.font].italic_allowed && this.props.textOptions.italic) {
+              this.props.dispatch(actions.selectTextItalic(false));
             }
           }
         }
