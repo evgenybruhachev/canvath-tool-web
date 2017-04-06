@@ -75,20 +75,16 @@ class HeaderMobile extends Component {
       disableOnBeforeUnload();
 
       dispatch(DrawToolActions.setLoading(true));
-
-      DrawTool.sides._collection.forEach((side) => {
-            let contentObject = side.toObject();
-            if (contentObject.canvas.objects.length > 0) {
-                sides[side.id] = { content: side.toJSON() };
-            }
-        });
       dispatch(DrawToolActions.setActiveTool('pointer'));
 
       setTimeout(() => {
 
-        DrawTool.sides._collection.forEach((side) => {
-          sides[side.id] = { content: side.toJSON() };
-        });
+          DrawTool.sides._collection.forEach((side) => {
+              let contentObject = side.toObject();
+              if (contentObject.canvas.objects.length > 0) {
+                  sides[side.id] = { content: side.toJSON() };
+              }
+          });
 
         saveProduct(colorSelected.id, sides).then((data) => {
           const form = document.createElement('form');
