@@ -613,7 +613,7 @@ class Options extends Component {
             case 'shapes':
                 content = (
                     <div className="options">
-                        <div className={this.showOptions ? 'top show' : 'top'}>
+                        <div className={this.showOptions ? 'top show larger-top' : 'top larger-top'}>
                           <Scrollbar>
                             <div className="before"></div>
                             <ColorPicker
