@@ -42,10 +42,20 @@
   }
 
   .larger-top {
-    height: 75px;
+    height: 67px;
 
     .scroll-content {
-      height: 75px;
+      align-items: flex-start;
+      height: 67px;
+
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        width: 60px;
+      }
     }
   }
 

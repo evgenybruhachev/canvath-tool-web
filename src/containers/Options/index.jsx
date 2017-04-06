@@ -611,39 +611,75 @@ class Options extends Component {
                 );
                 break;
             case 'shapes':
-                content = (
-                    <div className="options">
-                        <div className={this.showOptions ? 'top show larger-top' : 'top larger-top'}>
-                          <Scrollbar>
-                            <div className="before"></div>
-                            <ColorPicker
-                                label="カラー選択"
-                                color={shapeColor}
-                                onChange={color => dispatch(actions.selectShapeColor(color))}
-                            />
-                          {shapesCat.map((cat, index) => <Button
-                                image={cat.content_url}
-                                label={cat.title}
-                                onClick={() => this.getShapes(cat.id)}
-                                key={index}
-                            />)}
-                            <div className="after"></div>
-                          </Scrollbar>
-                        </div>
-                        {shapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                if (shapesCat.length > 15) {
+                  content = (
+                      <div className="options">
+                          <div className={this.showOptions ? 'top show larger-top' : 'top larger-top'}>
                             <Scrollbar>
-                            <div className="before"></div>
-                            {shapes.map((sticker, index) => <Sticker
-                                path={sticker} key={index} onClick={url => dispatch(actions.insertShape(url))}
-                            />)}
-                            <div className="after"></div>
+                              <div className="before"></div>
+                              <ColorPicker
+                                  label="カラー選択"
+                                  color={shapeColor}
+                                  onChange={color => dispatch(actions.selectShapeColor(color))}
+                              />
+                            {shapesCat.map((cat, index) => <Button
+                                  image={cat.content_url}
+                                  label={cat.title}
+                                  onClick={() => this.getShapes(cat.id)}
+                                  key={index}
+                              />)}
+                              <div className="after"></div>
                             </Scrollbar>
-                        </div> : null
-                        }
-                        <button onClick={this.toggleOptions}
-                                className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                    </div>
-                );
+                          </div>
+                          {shapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                              <Scrollbar>
+                              <div className="before"></div>
+                              {shapes.map((sticker, index) => <Sticker
+                                  path={sticker} key={index} onClick={url => dispatch(actions.insertShape(url))}
+                              />)}
+                              <div className="after"></div>
+                              </Scrollbar>
+                          </div> : null
+                          }
+                          <button onClick={this.toggleOptions}
+                                  className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                      </div>
+                  );
+                } else {
+                  content = (
+                      <div className="options">
+                          <div className={this.showOptions ? 'top show' : 'top'}>
+                            <Scrollbar>
+                              <div className="before"></div>
+                              <ColorPicker
+                                  label="カラー選択"
+                                  color={shapeColor}
+                                  onChange={color => dispatch(actions.selectShapeColor(color))}
+                              />
+                            {shapesCat.map((cat, index) => <Button
+                                  image={cat.content_url}
+                                  label={cat.title}
+                                  onClick={() => this.getShapes(cat.id)}
+                                  key={index}
+                              />)}
+                              <div className="after"></div>
+                            </Scrollbar>
+                          </div>
+                          {shapes.length ? <div className={this.showOptions ? 'bottom show' : 'bottom'}>
+                              <Scrollbar>
+                              <div className="before"></div>
+                              {shapes.map((sticker, index) => <Sticker
+                                  path={sticker} key={index} onClick={url => dispatch(actions.insertShape(url))}
+                              />)}
+                              <div className="after"></div>
+                              </Scrollbar>
+                          </div> : null
+                          }
+                          <button onClick={this.toggleOptions}
+                                  className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                      </div>
+                  );
+                }
                 break;
             case 'removeColor':
                 if (!selected) {
