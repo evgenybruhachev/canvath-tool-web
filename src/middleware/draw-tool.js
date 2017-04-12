@@ -25,8 +25,10 @@ export default store => next => (action) => {
   }
 
   switch (action.type) {
+    case 'UPDATE_LAYERS':
+       DrawTool.trigger('layers:update', {});
+      break;
     case 'SET_ACTIVE_TOOL':
-
       if (action.payload === 'panning') {
         DrawTool.sides.selected.drawingMode(false);
         DrawTool.sides.selected.panning = true;

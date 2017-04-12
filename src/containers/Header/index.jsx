@@ -38,13 +38,46 @@ class Header extends Component {
       sessionToken: null
     };
 
+    this.changCountColor = this.changCountColor.bind(this);
     this.openProductLoad = this.openProductLoad.bind(this);
+    this.downloadColorLayers = this.downloadColorLayers.bind(this);
     this.openCategorySelect = this.openCategorySelect.bind(this);
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
     this.getSessionParse = this.getSessionParse.bind(this);
+
+    this.numberOfColors = 0;
+    this.maxColorCount = 0;
+
+    DrawTool.on('layers:update', () => {
+      DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+        this.numberOfColors = colors.count;
+        this.forceUpdate();
+      });
+    });
+  }
+
+  changCountColor(evt) {
+    this.maxColorCount = evt.target.value;
+    DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+      this.numberOfColors = colors.count;
+      this.forceUpdate();
+    });
+  }
+
+  downloadColorLayers() {
+    DrawTool.sides.selected.getPreviewForLayers().then((layers) => {
+      Array.prototype.forEach.call(layers, (layer, i) => {
+        var link = document.createElement('a');
+        link.href = layer.data;
+        link.target = '_tab';
+        link.download = 'layer-' + i +'.png';
+        link.click();
+       // console.log(window.open(layer.data));
+      });
+    });
   }
 
   openProductLoad() {
@@ -95,7 +128,7 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    this.getSessionParse()
+    this.getSessionParse();
   }
   // ...
 
@@ -200,6 +233,11 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
+        <div className="colors-number">
+          Number of colors: <span>{this.numberOfColors}</span>
+          <div>Max count: <input type="number" value={this.maxColorCount} onChange={this.changCountColor}/></div>
+        </div>
+        <Button label="DCL" className="cart-button dcl-button" onClick={this.downloadColorLayers} />
         <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
       </div>
     );

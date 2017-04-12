@@ -29,7 +29,10 @@ export const getProduct = (productId) => {
       method: 'GET',
       mode: 'cors',
     })
-    .then(response => response.json().then(data => resolve(data)))
+    .then(response => response.json().then(data => {
+      //console.log(data);
+      resolve(data)
+    }))
     .catch(err => reject(err));
   });
 };
@@ -50,7 +53,9 @@ export const getDefaultProduct = (color_id, model_id) => {
       method: 'GET',
       mode: 'cors',
     })
-      .then(response => response.json().then(data => resolve(data)))
+      .then(response => response.json().then(data => {
+        resolve(data)
+      }))
       .catch(err => reject(err));
   });
 };
@@ -136,6 +141,7 @@ export const saveProduct = (colorId, sides) => {
   };
 
   return new Promise((resolve, reject) => {
+    //console.log(JSON.stringify(payload));
     fetch(`${HOST}/products/product`, {
       method: 'PUT',
       mode: 'cors',
