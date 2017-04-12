@@ -29,11 +29,9 @@ const initialState = {
   stickers: [],
   colorPickerColor: 'rgba(0, 162, 255, 1)',
   colorPicker: false,
-  availableShapesCategories: [],
   availableFontsCategories: [],
-  availableShapes: [],
-  loadedAvailableShapes: [],
-  svgStickerShapesLoading: true,
+  shapesCat: [],
+  shapes: [],
   history: { currentIndex: 0, collection: [{}] },
   loading: true,
 };
@@ -45,6 +43,7 @@ export default handleActions({
   }),
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
     availableFonts: action.payload.map(font => font.DrawerFont.title),
+    allFonts: action.payload.map(font => font.DrawerFont),
     textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
   }),
   UPDATE_FONTS_JP: (state, action) => Object.assign({}, state, {
@@ -59,12 +58,10 @@ export default handleActions({
     availableFontsCategories: action.payload.map(categoriesFonts => categoriesFonts.DrawerFontCategory.title),
   }),
   UPDATE_SHAPES_CATEGORIES: (state, action) => Object.assign({}, state, {
-    availableShapesCategories: action.payload.map(shape => shape.DrawerShapeCategory),
+    shapesCat: action.payload.map(shape => shape.DrawerShapeCategory),
   }),
   UPDATE_SHAPES: (state, action) => Object.assign({}, state, {
-    loadedAvailableShapes: [],
-    svgStickerShapesLoading: true,
-    availableShapes: action.payload.map(shape => shape.DrawerShape.content_url),
+    shapes: action.payload.map(shape => shape.DrawerShape.content_url),
   }),
   UPDATE_STICKERS_CATEGORIES: (state, action) => Object.assign({}, state, {
     stickersCat: action.payload.map(cat => cat.DrawerStickerCategory),
@@ -209,24 +206,6 @@ export default handleActions({
 
   LOADING: (state, action) => Object.assign({}, state, {
     loading: action.payload,
-  }),
-
-  LOADING_SVG: (state, action) => Object.assign({}, state, {
-    loadedAvailableShapes: [],
-    svgStickerShapesLoading: action.payload,
-  }),
-
-  STICKER_SHAPE_SVG_LOAD: (state, action) => {
-    let urls = state.loadedAvailableShapes;
-
-    if(!state.loadedAvailableShapes.find(url => url === action.payload))
-    {
-      urls.push(action.payload);
-    }
-    return Object.assign({}, state, {
-      loadedAvailableShapes: urls,
-      svgStickerShapesLoading: state.availableShapes.length === urls.length
-    });
-  }
+  })
 
 }, initialState);

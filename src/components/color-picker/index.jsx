@@ -18,6 +18,7 @@ class ColorPicker extends Component {
         this.state = {
             displayColorPicker: false,
             displayThisTabOne: true,
+            displayLastUsagePicker: false,
             showLastUsegeBlock: false,
             color: props.color || 'rgba(0,162,255,1)',
             lastColors: [],
@@ -53,6 +54,9 @@ class ColorPicker extends Component {
     }
 
     handleClick() {
+        if (!this.state.displayLastUsagePicker) {
+          this.setState({displayLastUsagePicker: !this.state.displayLastUsagePicker});
+        }
         this.setState({displayColorPicker: !this.state.displayColorPicker});
         if(this.state.displayThisTabOne) {
             this.setState({displayThisTabTwo: false});
@@ -63,7 +67,7 @@ class ColorPicker extends Component {
 
         setTimeout("$('.colorpicker').wheelColorPicker('updateSelection')", 0);
 
-        $('.tab-content-custom span div div').click(function() {
+        $('.last-usage-wrap span div div').click(function() {
             $('.tab-content-custom span div div').removeClass('activeColor');
             $(this).addClass('activeColor');
         });
@@ -193,9 +197,11 @@ class ColorPicker extends Component {
                                 <LastUsagePicker updateColor={this.handleColorUpdate} colors={this.state.lastColors} />
                             </div>
 
-                            <div className="preinstalled-wrap">
-                                <PreinstalledPicker updateColor={this.handleColorUpdate}  />
-                            </div>
+                            {this.state.displayLastUsagePicker && (
+                              <div className="preinstalled-wrap">
+                                  <PreinstalledPicker updateColor={this.handleColorUpdate}  />
+                              </div>
+                            )}
 
                         </div>
 

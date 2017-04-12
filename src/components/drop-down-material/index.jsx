@@ -54,6 +54,22 @@ class DropDownMaterial extends Component {
           {element.val + "pt"}
         </option>
       });
+    } else if (this.props.className === 'fonts') {
+      return elementsArr.map(function (element,i) {
+        if (element.loaded) {
+          return <option
+            key={i}
+            value={element.val}>
+            {element.val}
+          </option>
+        } else {
+          return <option
+            key={i}
+            value={element.val} disabled>
+            読み込み中
+          </option>
+        }
+      });
     } else {
       return elementsArr.map(function (element,i) {
         return <option
@@ -82,9 +98,13 @@ class DropDownMaterial extends Component {
       this.setState(state => Object.assign(state, { active: true }));
     }
   }
-  select(val, node) {
-    this.setState(state => Object.assign(state, { value: node, active: false }));
-    if (this.props.onChange) this.props.onChange(val);
+  select(val, node, el) {
+    if (typeof el.loaded !== 'undefined' && !el.loaded) {
+      return;
+    } else {
+      this.setState(state => Object.assign(state, { value: node, active: false }));
+      if (this.props.onChange) this.props.onChange(val);
+    }
   }
   render() {
     const { label, value, elements, className, style } = this.props;
@@ -123,6 +143,29 @@ class DropDownMaterial extends Component {
           </select>
         </div>
       );
+    } else if (!this.state.mobile && className === 'fonts') {
+      view = (
+        <div
+          className={classNames('drop-down-material', { active: this.state.active }, className)}
+          ref={(node) => { this.node = node; return node; }}
+          style={style}
+        >
+          <div className="drop-down_head" onClick={this.openList}>
+            {label && <div className="label">{label}</div>}
+            <div className="value">
+              {valueNode ? valueNode.node : elements[0].node}
+              <div className="arrow" />
+            </div>
+          </div>
+          <div className="list fonts-list">
+              {
+                elements.map((el, key) => React.cloneElement(el.node,
+                  { onClick: () => this.select(el.val, el.node, el), key: key.toString(), className: 'list-item' }
+                ))
+              }
+          </div>
+        </div>
+      );
     } else {
       view = (
         <div
@@ -146,7 +189,7 @@ class DropDownMaterial extends Component {
             >
               {
                 elements.map((el, key) => React.cloneElement(el.node,
-                  { onClick: () => this.select(el.val, el.node), key: key.toString(), className: 'list-item' }
+                  { onClick: () => this.select(el.val, el.node, el), key: key.toString(), className: 'list-item' }
                 ))
               }
             </Scrollbars>

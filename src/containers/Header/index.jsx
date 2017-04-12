@@ -29,6 +29,8 @@ class Header extends Component {
     sideSelected: React.PropTypes.object,
     dispatch: React.PropTypes.func,
     price: React.PropTypes.number,
+    layers: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -45,6 +47,8 @@ class Header extends Component {
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this);
     this.goToCart = this.goToCart.bind(this);
     this.getSessionParse = this.getSessionParse.bind(this);
+    this.goToMainSite = this.goToMainSite.bind(this);
+    this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
   openProductLoad() {
@@ -115,44 +119,63 @@ class Header extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    disableOnBeforeUnload();
+    if (this.ifLayersEmpty() && this.props.activeTool !== 'brush') {
+      setTimeout(() => {
+        window.alert('デザインなしの商品は追加できません');
+      }, 500);
+    } else {
+      disableOnBeforeUnload();
 
-    dispatch(DrawToolActions.setActiveTool('pointer'));
+      dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    dispatch(DrawToolActions.setLoading(true));
+      dispatch(DrawToolActions.setLoading(true));
 
-    setTimeout(() => {
-      DrawTool.sides._collection.forEach((side) => {
-        sides[side.id] = { content: side.toJSON() };
-      });
+      setTimeout(() => {
+        DrawTool.sides._collection.forEach((side) => {
+          sides[side.id] = { content: side.toJSON() };
+        });
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+        saveProduct(colorSelected.id, sides).then((data) => {
+          const form = document.createElement('form');
+          form.setAttribute('method', 'post');
+          form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
-        }
+          for (const key in data) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('value', data[key]);
+            input.setAttribute('name', key);
+            input.setAttribute('id', key);
+            form.appendChild(input);
+          }
 
-        document.body.appendChild(form);
-        form.submit();
-      });
+          document.body.appendChild(form);
+          form.submit();
+        });
 
-    }, 500);
+      }, 500);
+    }
+  }
+
+  goToMainSite() {
+    window.location.href = WEBHOST;
+  }
+
+  ifLayersEmpty() {
+    for (let variable in this.props.layers) {
+      if (this.props.layers.hasOwnProperty(variable) && this.props.layers[variable].length !== 0) {
+        return false
+      }
+    }
+    return true;
   }
 
   render() {
-    const { colors, colorSelected, sideSelected, product, price } = this.props;
+    const { colors, colorSelected, sideSelected, product, price, layers } = this.props;
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="Nobori" className="logo" />
+        <img src="assets/img/logo.png" alt="Nobori" className="logo" onClick={this.goToMainSite} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
@@ -200,7 +223,7 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
+        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
   }
@@ -213,6 +236,8 @@ function mapStateToProps(state) {
     colorSelected: state.product.colorSelected,
     sideSelected: state.product.sideSelected,
     price: state.product.price,
+    layers: state.drawTool.layers,
+    activeTool: state.drawTool.activeTool,
   };
 }
 

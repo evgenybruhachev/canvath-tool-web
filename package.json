@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server -d --inline --progress --colors --port 3000",
+    "start": "webpack-dev-server -d --inline --progress --colors --port 3000 --host 0.0.0.0",
     "watch": "NODE_ENV=development webpack --watch",
     "build": "NODE_ENV=production webpack",
     "ghpages": "rm -rf build/; npm run build; cp _config.yml build/; gh-pages -d build;"
@@ -53,6 +53,7 @@
     "react-ink": "^5.1.1",
     "react-redux": "^4.4.5",
     "react-responsive": "^1.2.1",
+    "react-smooth-scrollbar": "^7.2.1",
     "react-sortable-hoc": "^0.1.1",
     "react-tabs": "^0.8.2",
     "redux": "^3.6.0",

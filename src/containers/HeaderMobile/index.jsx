@@ -13,6 +13,8 @@ import Button from '../../components/button';
 
 import { saveProduct } from '../../api/products';
 
+import disableOnBeforeUnload from '../../utils/onbeforeunload';
+
 class HeaderMobile extends Component {
 
   static propTypes = {
@@ -21,6 +23,8 @@ class HeaderMobile extends Component {
     selected: React.PropTypes.object,
     history: React.PropTypes.object,
     price: React.PropTypes.number,
+    layers: React.PropTypes.object,
+    activeTool: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -31,6 +35,7 @@ class HeaderMobile extends Component {
     this.goToCart = this.goToCart.bind(this);
     this.redo = this.redo.bind(this);
     this.undo = this.undo.bind(this);
+    this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
   }
 
   toggleActiveTool(tool) {
@@ -60,35 +65,54 @@ class HeaderMobile extends Component {
     const { dispatch, colorSelected } = this.props;
     const sides = {};
 
-    dispatch(DrawToolActions.setLoading(true));
 
-    dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    setTimeout(() => {
+    if (this.ifLayersEmpty() && this.props.activeTool !== 'brush') {
+      setTimeout(() => {
+        window.alert('デザインなしの商品は追加できません');
+      }, 500);
+    } else {
+      disableOnBeforeUnload();
 
-      DrawTool.sides._collection.forEach((side) => {
-        sides[side.id] = { content: side.toJSON() };
-      });
+      dispatch(DrawToolActions.setLoading(true));
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+      dispatch(DrawToolActions.setActiveTool('pointer'));
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
-        }
+      setTimeout(() => {
 
-        document.body.appendChild(form);
-        form.submit();
-      });
+        DrawTool.sides._collection.forEach((side) => {
+          sides[side.id] = { content: side.toJSON() };
+        });
 
-    }, 500);
+        saveProduct(colorSelected.id, sides).then((data) => {
+          const form = document.createElement('form');
+          form.setAttribute('method', 'post');
+          form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+
+          for (const key in data) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('value', data[key]);
+            input.setAttribute('name', key);
+            input.setAttribute('id', key);
+            form.appendChild(input);
+          }
+
+          document.body.appendChild(form);
+          form.submit();
+        });
+
+      }, 500);
+    }
+  }
+
+  ifLayersEmpty() {
+    for (let variable in this.props.layers) {
+      if (this.props.layers.hasOwnProperty(variable) && this.props.layers[variable].length !== 0) {
+        return false
+      }
+    }
+    return true;
   }
 
   render() {
@@ -109,7 +133,7 @@ class HeaderMobile extends Component {
           onClick={() => dispatch(DrawToolActions.remove())}
           disabled={!selected}
         />
-        <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart} />
+      <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
   }
@@ -123,6 +147,8 @@ function mapStateToProps(state) {
     history: state.drawTool.history,
     colorSelected: state.product.colorSelected,
     price: state.product.price,
+    layers: state.drawTool.layers,
+    activeTool: state.drawTool.activeTool,
   };
 }
 

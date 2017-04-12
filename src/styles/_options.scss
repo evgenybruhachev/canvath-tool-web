@@ -6,9 +6,9 @@
   left: 0;
   z-index: 10;
   user-select: none;
-  
+
   //overflow: visible;
-  
+
   // overflow: -moz-scrollbars-none;
   // &::-webkit-scrollbar { width: 0; }
 
@@ -28,6 +28,34 @@
     }
     .before, .after{
       margin: auto;
+    }
+    [data-scrollbar] {
+      width: 100%;
+    }
+    .scroll-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 60px;
+      width: 100%;
+    }
+  }
+
+  .larger-top {
+    height: 67px;
+
+    .scroll-content {
+      align-items: flex-start;
+      height: 67px;
+
+      .swatch {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 60px;
+        width: 60px;
+      }
     }
   }
 
