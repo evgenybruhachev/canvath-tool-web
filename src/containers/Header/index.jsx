@@ -40,7 +40,9 @@ class Header extends Component {
       sessionToken: null
     };
 
+    this.changCountColor = this.changCountColor.bind(this);
     this.openProductLoad = this.openProductLoad.bind(this);
+    this.downloadColorLayers = this.downloadColorLayers.bind(this);
     this.openCategorySelect = this.openCategorySelect.bind(this);
     this.selectColor = this.selectColor.bind(this);
     this.selectSide = this.selectSide.bind(this);
@@ -49,14 +51,45 @@ class Header extends Component {
     this.getSessionParse = this.getSessionParse.bind(this);
     this.goToMainSite = this.goToMainSite.bind(this);
     this.ifLayersEmpty = this.ifLayersEmpty.bind(this);
+
+    this.numberOfColors = 0;
+    this.maxColorCount = 0;
+
+    DrawTool.on('layers:update', () => {
+      DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+        this.numberOfColors = colors.count;
+        this.forceUpdate();
+      });
+    });
+  }
+
+  changCountColor(evt) {
+    this.maxColorCount = evt.target.value;
+    DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+      this.numberOfColors = colors.count;
+      this.forceUpdate();
+    });
+  }
+
+  downloadColorLayers() {
+    DrawTool.sides.selected.getPreviewForLayers().then((layers) => {
+      Array.prototype.forEach.call(layers, (layer, i) => {
+        var link = document.createElement('a');
+        link.href = layer.data;
+        link.target = '_tab';
+        link.download = 'layer-' + i +'.png';
+        link.click();
+        // console.log(window.open(layer.data));
+      });
+    });
   }
 
   openProductLoad() {
     const { dispatch } = this.props;
     getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
 
-    if (!this.state.sessionToken || !query.login_type || query.login_type != "user") {
-      setTimeout(() => alert("Up-Tに無料会員登録をいただければ、画像の保存と読み込みが可能になります。"), 500);
+    if (!this.state.sessionToken) {
+      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.toggleLoadProductContainer(true)), 500);
     }
@@ -72,7 +105,7 @@ class Header extends Component {
     dispatch(ProductActions.selectColor(id));
 
     if(DrawTool.sides.selected.draw === true){
-        setTimeout(() => dispatch(actions.setActiveTool('brush')), 500);
+      setTimeout(() => dispatch(actions.setActiveTool('brush')), 500);
     }
   }
 
@@ -99,7 +132,7 @@ class Header extends Component {
   }
 
   componentDidMount(){
-    this.getSessionParse()
+    this.getSessionParse();
   }
   // ...
 
@@ -108,8 +141,8 @@ class Header extends Component {
     const {dispatch} = this.props;
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    if (!this.state.sessionToken || !query.login_type || query.login_type != "user") {
-      setTimeout(() => alert("Up-Tに無料会員登録をいただければ、画像の保存と読み込みが可能になります。"), 500);
+    if (!this.state.sessionToken) {
+      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
@@ -128,44 +161,30 @@ class Header extends Component {
 
       dispatch(DrawToolActions.setActiveTool('pointer'));
 
-    dispatch(DrawToolActions.setLoading(true));
+      dispatch(DrawToolActions.setLoading(true));
 
-    setTimeout(() => {
-      DrawTool.sides._collection.forEach((side) => {
-          let contentObject = side.toObject();
-          if (contentObject.canvas.objects.length > 0) {
-              sides[side.id] = { content: side.toJSON() };
-          }
-      });
+      setTimeout(() => {
+        DrawTool.sides._collection.forEach((side) => {
+          sides[side.id] = { content: side.toJSON() };
+        });
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+        saveProduct(colorSelected.id, sides).then((data) => {
+          const form = document.createElement('form');
+          form.setAttribute('method', 'post');
+          form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
-        }
-
-        query.setData(parse(window.location.search.substring(1)));
-
-        if (query.cart_id) {
+          for (const key in data) {
             const input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('value', query.cart_id);
-            input.setAttribute('name', 'cart_id');
-            input.setAttribute('id', 'cart_id');
+            input.setAttribute('value', data[key]);
+            input.setAttribute('name', key);
+            input.setAttribute('id', key);
             form.appendChild(input);
-        }
+          }
 
-        document.body.appendChild(form);
-        form.submit();
-      });
+          document.body.appendChild(form);
+          form.submit();
+        });
 
       }, 500);
     }
@@ -189,43 +208,43 @@ class Header extends Component {
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="UP-T" className="logo" onClick={this.goToMainSite} />
+        <img src="assets/img/logo.png" alt="Nobori" className="logo" onClick={this.goToMainSite} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
         {/*<DropDownColors*/}
-          {/*label={colorSelected ? <div className="list-item">*/}
-            {/*<span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}*/}
+        {/*label={colorSelected ? <div className="list-item">*/}
+          {/*<span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}*/}
           {/*</div> : 'Color'*/}
           {/*}*/}
-          {/*onChange={this.selectColor}*/}
-          {/*selected={colorSelected || {title: 'none', value: '#ffffff'}}*/}
+        {/*onChange={this.selectColor}*/}
+        {/*selected={colorSelected || {title: 'none', value: '#ffffff'}}*/}
         {/*>*/}
-          {/*{*/}
-            {/*colors && colors.map((color, index) => <div*/}
-              {/*className={classNames('list-item', { 'active': color.ProductColor.id === colorSelected.id })}*/}
-              {/*key={index}*/}
-              {/*data-meta={color.ProductColor.id}*/}
-              {/*style={{ backgroundColor: color.ProductColor.value }}*/}
+        {/*{*/}
+          {/*colors && colors.map((color, index) => <div*/}
+          {/*className={classNames('list-item', { 'active': color.ProductColor.id === colorSelected.id })}*/}
+          {/*key={index}*/}
+          {/*data-meta={color.ProductColor.id}*/}
+          {/*style={{ backgroundColor: color.ProductColor.value }}*/}
 
-            {/*/>)*/}
+          {/*/>)*/}
           {/*}*/}
         {/*</DropDownColors>*/}
 
         <DropDown
-            label={colorSelected ? <div className="list-item">
+          label={colorSelected ? <div className="list-item">
               <span className="color" style={{ backgroundColor: colorSelected.value }} /> {colorSelected.title}
             </div> : 'Color'
             }
-            onChange={this.selectColor}
-            selected={colorSelected || {title: 'none', value: '#ffffff'}}
+          onChange={this.selectColor}
+          selected={colorSelected || {title: 'none', value: '#ffffff'}}
         >
-            {
-                colors && colors.map((color, index) => <div className="list-item" key={index} data-meta={color.ProductColor.id}>
-                      <span className="color" style={{ backgroundColor: color.ProductColor.value }} />
-                        {color.ProductColor.title}
-                    </div>
-                )
+          {
+            colors && colors.map((color, index) => <div className="list-item" key={index} data-meta={color.ProductColor.id}>
+              <span className="color" style={{ backgroundColor: color.ProductColor.value }} />
+              {color.ProductColor.title}
+            </div>
+              )
             }
         </DropDown>
 
@@ -237,6 +256,11 @@ class Header extends Component {
         >
           {colors && colors.find(color => color.ProductColor.id === colorSelected.id).sides.map((side, index) => <div className="list-item" key={index} data-meta={side.ProductColorSide.id}>{side.ProductColorSide.title}</div>)}
         </DropDown>
+        <div className="colors-number">
+          Number of colors: <span>{this.numberOfColors}</span>
+          <div>Max count: <input type="number" value={this.maxColorCount} onChange={this.changCountColor}/></div>
+        </div>
+        <Button label="DCL" className="cart-button dcl-button" onClick={this.downloadColorLayers} />
         <Button label={<span>レジへ進む<br />{price}円</span>} className="cart-button" onClick={this.goToCart}/>
       </div>
     );
