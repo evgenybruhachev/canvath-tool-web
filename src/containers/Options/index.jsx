@@ -615,13 +615,13 @@ class Options extends Component {
                   content = (
                       <div className="options">
                           <div className={this.showOptions ? 'top show larger-top' : 'top larger-top'}>
+                            <ColorPicker
+                              label="カラー選択"
+                              color={shapeColor}
+                              onChange={color => dispatch(actions.selectShapeColor(color))}
+                            />
                             <Scrollbar>
                               <div className="before"></div>
-                              <ColorPicker
-                                  label="カラー選択"
-                                  color={shapeColor}
-                                  onChange={color => dispatch(actions.selectShapeColor(color))}
-                              />
                             {shapesCat.map((cat, index) => <Button
                                   image={cat.content_url}
                                   label={cat.title}
@@ -652,9 +652,9 @@ class Options extends Component {
                             <Scrollbar>
                               <div className="before"></div>
                               <ColorPicker
-                                  label="カラー選択"
-                                  color={shapeColor}
-                                  onChange={color => dispatch(actions.selectShapeColor(color))}
+                                label="カラー選択"
+                                color={shapeColor}
+                                onChange={color => dispatch(actions.selectShapeColor(color))}
                               />
                             {shapesCat.map((cat, index) => <Button
                                   image={cat.content_url}
