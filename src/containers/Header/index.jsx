@@ -89,7 +89,7 @@ class Header extends Component {
     getTemplates().then(data => dispatch(ProductActions.updateTemplates(data)));
 
     if (!this.state.sessionToken) {
-      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
+      setTimeout(() => alert("Up-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.toggleLoadProductContainer(true)), 500);
     }
@@ -142,7 +142,7 @@ class Header extends Component {
     dispatch(DrawToolActions.setActiveTool('pointer'));
 
     if (!this.state.sessionToken) {
-      setTimeout(() => alert("noboriに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
+      setTimeout(() => alert("Up-Tに無料新規会員登録いただければ画像の保存と読み込み画像の可能になります"), 500);
     } else {
       setTimeout(() => dispatch(ProductActions.saveTemplate()), 500);
     }
@@ -208,7 +208,7 @@ class Header extends Component {
 
     return (
       <div className="app-header">
-        <img src="assets/img/logo.png" alt="Nobori" className="logo" onClick={this.goToMainSite} />
+        <img src="assets/img/logo.png" alt="Up-T" className="logo" onClick={this.goToMainSite} />
         <Button icon="poster" label="画像開く" onClick={this.openProductLoad} />
         <Button icon="save" label="画像保存" onClick={this.handleSaveTemplate} />
         <DropDown label={product ? product.title : 'アイテム変更'} style={{ width: '200px' }} onClick={this.openCategorySelect} />
