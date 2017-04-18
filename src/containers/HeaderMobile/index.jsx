@@ -24,7 +24,6 @@ class HeaderMobile extends Component {
     history: React.PropTypes.object,
     price: React.PropTypes.number,
     layers: React.PropTypes.object,
-    activeTool: React.PropTypes.string,
   }
 
   constructor(props) {
@@ -150,7 +149,6 @@ function mapStateToProps(state) {
     colorSelected: state.product.colorSelected,
     price: state.product.price,
     layers: state.drawTool.layers,
-    activeTool: state.drawTool.activeTool,
   };
 }
 

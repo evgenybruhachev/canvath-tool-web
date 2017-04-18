@@ -9,7 +9,7 @@ import DropDownColors from '../../components/drop-down-colors';
 
 import DrawTool from '../../draw-tool/drawtool';
 
-import { getTemplates, saveProduct } from '../../api/products';
+import { getTemplates, saveProduct, getPricesByColor } from '../../api/products';
 
 import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
@@ -55,12 +55,8 @@ class Header extends Component {
     this.numberOfColors = 0;
     this.maxColorCount = 0;
 
-    DrawTool.on('layers:update', () => {
-      DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
-        this.numberOfColors = colors.count;
-        this.forceUpdate();
-      });
-    });
+    DrawTool.on('layers:update', () => this.calcPrice());
+    DrawTool.on('product:load', () => this.getPrice());
   }
 
   changCountColor(evt) {
@@ -68,6 +64,66 @@ class Header extends Component {
     DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
       this.numberOfColors = colors.count;
       this.forceUpdate();
+    });
+  }
+
+  getPrice() {
+    const { colorSelected } = this.props;
+
+    getPricesByColor(colorSelected.id).then(productPrice => {
+      this.productPrice = productPrice;
+    });
+  }
+
+  calcPrice() {
+    const { dispatch } = this.props;
+
+    DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+      this.numberOfColors = colors.count;
+      this.forceUpdate();
+
+      if(this.productPrice) {
+        Array.prototype.forEach.call(this.productPrice.sides, (side) => {
+          if (side.side_name == DrawTool.sides.selected.id) {
+            let countColorPrice = 0;
+
+            Array.prototype.forEach.call(side.prices, (price) => {
+              if (price.colors_count_min <= this.numberOfColors && (this.numberOfColors <= price.colors_count_max || price.colors_count_max == null))
+                countColorPrice = price.price;
+            });
+            dispatch(ProductActions.updatePrice(countColorPrice));
+          }
+        });
+      }
+    });
+  }getPrice() {
+  const { colorSelected } = this.props;
+
+  getPricesByColor(colorSelected.id).then(productPrice => {
+    this.productPrice = productPrice;
+  });
+}
+
+  calcPrice() {
+    const { dispatch } = this.props;
+
+    DrawTool.sides.selected.getCountColors(this.maxColorCount).then((colors) => {
+      this.numberOfColors = colors.count;
+      this.forceUpdate();
+
+      if(this.productPrice) {
+        Array.prototype.forEach.call(this.productPrice.sides, (side) => {
+          if (side.side_name == DrawTool.sides.selected.id) {
+            let countColorPrice = 0;
+
+            Array.prototype.forEach.call(side.prices, (price) => {
+              if (price.colors_count_min <= this.numberOfColors && (this.numberOfColors <= price.colors_count_max || price.colors_count_max == null))
+                countColorPrice = price.price;
+            });
+            dispatch(ProductActions.updatePrice(countColorPrice));
+          }
+        });
+      }
     });
   }
 

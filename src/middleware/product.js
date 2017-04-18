@@ -48,6 +48,7 @@ export default store => next => (action) => {
               JSON.parse(JSON.parse(escapeJSON(color.sides[0].ProductColorSide.content))).id
           );
           store.dispatch(actions.setLoading(false));
+          DrawTool.trigger('product:load', {});
         });
       }
       break;
@@ -81,6 +82,7 @@ export default store => next => (action) => {
                 }
               }
           });
+          DrawTool.trigger('product:load', {});
         });
 
         DrawTool.sides.select(

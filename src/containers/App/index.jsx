@@ -42,7 +42,6 @@ class App extends Component {
     templates: React.PropTypes.array,
     currentCategory: React.PropTypes.number,
     loading: React.PropTypes.bool,
-    sidesPrice: React.PropTypes.object,
   }
 
   constructor(props) {
@@ -56,7 +55,6 @@ class App extends Component {
     this.removeTemplate = this.removeTemplate.bind(this);
     this.loadProductWithDesign = this.loadProductWithDesign.bind(this);
     this.loadDefaultProduct = this.loadDefaultProduct.bind(this);
-    this.calcPrice = this.calcPrice.bind(this);
 
     this.state = {
       category: '',
@@ -161,14 +159,6 @@ class App extends Component {
         dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
         dispatch(DrawToolActions.updateLayers(data));
       }
-
-      this.calcPrice();
-    });
-
-    DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
-      }
     });
 
     DrawTool.on('object:selected', () => {
@@ -219,14 +209,6 @@ class App extends Component {
         dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
         dispatch(DrawToolActions.updateLayers(data));
       }
-
-      this.calcPrice();
-    });
-
-    DrawTool.on('mouse:move', () => {
-      if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
-      }
     });
 
     DrawTool.on('object:selected', () => {
@@ -260,14 +242,6 @@ class App extends Component {
         dispatch(DrawToolActions.updateHistory(DrawTool.history.history[DrawTool.sides.selected.id]));
         dispatch(DrawToolActions.updateLayers(data));
       }
-
-      this.calcPrice();
-    });
-
-    DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
-      }
     });
 
     DrawTool.on('object:selected', () => {
@@ -283,22 +257,6 @@ class App extends Component {
       dispatch(DrawToolActions.toggleColorPicker(false));
       dispatch(DrawToolActions.updateColorPicker(JSON.parse(color)));
     });
-  }
-
-  calcPrice(){
-    const { dispatch, sidesPrice } = this.props;
-
-    let p = 0;
-
-    for (const side in sidesPrice) {
-      const sideObjects = DrawTool.sides.getSide(side).FabricCanvas.getObjects().filter(o => !o.excludeFromExport).length;
-      const moved = DrawTool.sides.getSide(side).FabricCanvas.freeDrawingBrush.moved;
-      if (sideObjects || moved) {
-        p += sidesPrice[side];
-      }
-    }
-
-    dispatch(ProductActions.updatePrice(p));
   }
 
   removeTemplate(id) {
@@ -468,7 +426,6 @@ function mapStateToProps(state) {
     activeTool: state.drawTool.activeTool,
     templates: state.product.templates,
     currentCategory: state.product.currentCategory,
-    sidesPrice: state.product.sidesPrice,
     loading: state.drawTool.loading,
   };
 }

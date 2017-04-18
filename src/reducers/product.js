@@ -13,7 +13,6 @@ const initialState = {
   templates: [],
   currentCategory: null,
   initial_price: 0,
-  sidesPrice: {},
   price: 0,
 };
 
@@ -61,7 +60,6 @@ export default handleActions({
       loadProductTypeContainer: false,
       mobileNavigation: false,
       initial_price: action.payload.Product.price,
-      sidesPrice: sides,
       price: action.payload.Product.price,
     });
   },
@@ -83,7 +81,6 @@ export default handleActions({
       loadProductTypeContainer: false,
       mobileNavigation: false,
       initial_price: action.payload.product.Product.price,
-      sidesPrice: sides,
       price: action.payload.product.Product.price,
     });
   },

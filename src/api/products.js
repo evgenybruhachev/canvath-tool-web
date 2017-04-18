@@ -145,3 +145,16 @@ export const saveProduct = (colorId, sides) => {
       .catch(err => reject(err));
   });
 };
+
+export const getPricesByColor = (color_id) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/prices?session=${query.session}&color_id=${color_id}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then(response => response.json().then(data => {
+        resolve(data)
+      }))
+      .catch(err => reject(err));
+  });
+};
