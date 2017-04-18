@@ -70,6 +70,7 @@ export default store => next => (action) => {
                   layers: DrawTool.sides.selected.layers.update().reverse(),
                   side: DrawTool.sides.selected.id,
                 }));
+                store.dispatch(actions.setActiveTool('pointer'));
                 store.dispatch(actions.setLoading(false));
               });
             }, true);
