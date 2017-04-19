@@ -170,6 +170,12 @@ class Header extends Component {
     return true;
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.loading && (this.props.loading !== nextProps.loading)) {
+      this.props.calcPrice();
+    }
+  }
+
   render() {
     const { colors, colorSelected, sideSelected, product, price, layers } = this.props;
 

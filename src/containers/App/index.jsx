@@ -328,11 +328,11 @@ class App extends Component {
         {loading ? <Loader /> : ''}
 
         <MediaQuery query="(min-width: 1080px)">
-          <Header />
+          <Header calcPrice={this.calcPrice} loading={this.props.loading}/>
         </MediaQuery>
 
         <MediaQuery query="(max-width: 1079px)">
-          <HeaderMobile />
+          <HeaderMobile calcPrice={this.calcPrice} loading={this.props.loading}/>
         </MediaQuery>
 
         <div className="app-container">
