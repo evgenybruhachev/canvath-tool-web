@@ -166,8 +166,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
@@ -224,8 +226,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
@@ -265,8 +269,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
@@ -306,6 +312,12 @@ class App extends Component {
     removeTemplate(id).then(() => dispatch(ProductActions.removeTemplate(id)));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.sidesPrice !== nextProps.sidesPrice) {
+      this.calcPrice();
+    }
+  }
+
   render() {
     const {
       loadProductContainer,
@@ -328,11 +340,11 @@ class App extends Component {
         {loading ? <Loader /> : ''}
 
         <MediaQuery query="(min-width: 1080px)">
-          <Header />
+          <Header calcPrice={this.calcPrice} loading={this.props.loading}/>
         </MediaQuery>
 
         <MediaQuery query="(max-width: 1079px)">
-          <HeaderMobile />
+          <HeaderMobile calcPrice={this.calcPrice} loading={this.props.loading}/>
         </MediaQuery>
 
         <div className="app-container">

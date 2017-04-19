@@ -88,11 +88,24 @@ export default handleActions({
     });
   },
 
-  SELECT_COLOR: (state, action) => Object.assign({}, state, {
-    colorSelected: state.colors
-    .find(color => color.ProductColor.id === action.payload).ProductColor,
-    mobileNavigation: false,
-  }),
+  SELECT_COLOR: (state, action) => {
+    const color = state.colors.find((c) => {
+      if (c.ProductColor.id === action.payload) {
+        return c.sides;
+      }
+    });
+
+    const sides = {};
+
+    color.sides.forEach(side => (sides[side.ProductColorSide.name] = side.ProductColorSide.print_price));
+
+    return Object.assign({}, state, {
+     colorSelected: state.colors
+     .find(color => color.ProductColor.id === action.payload).ProductColor,
+     sidesPrice: sides,
+     mobileNavigation: false,
+   })
+  },
 
   SELECT_SIDE: (state, action) => Object.assign({}, state, {
     sideSelected: state.colors
