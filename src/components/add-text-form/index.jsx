@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Button from '../button';
 
+import RestrictedInput from 'react-restricted-input';
+
 class AddTextForm extends Component {
 
   static propTypes = {
@@ -58,11 +60,12 @@ class AddTextForm extends Component {
   render() {
     return (
       <div className="add-text-form">
-        <input
+        <RestrictedInput
           value={this.state.value}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           className="add-text-input"
+          illegal={/[\u2600-\u26FF]/g}
         />
         <Button
           label={this.state.selected ? 'テキストを編集' : 'テキストを追加'}
