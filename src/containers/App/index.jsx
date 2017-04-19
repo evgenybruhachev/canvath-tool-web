@@ -312,6 +312,12 @@ class App extends Component {
     removeTemplate(id).then(() => dispatch(ProductActions.removeTemplate(id)));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.sidesPrice !== nextProps.sidesPrice) {
+      this.calcPrice();
+    }
+  }
+
   render() {
     const {
       loadProductContainer,
