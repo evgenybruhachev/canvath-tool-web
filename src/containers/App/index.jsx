@@ -166,8 +166,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
@@ -224,8 +226,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if (DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
@@ -265,8 +269,10 @@ class App extends Component {
     });
 
     DrawTool.on('mouse:move', () => {
-      if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
-        this.calcPrice();
+      if (DrawTool.sides.selected) {
+        if(DrawTool.sides.selected.drawingMode() && DrawTool.sides.selected.FabricCanvas.freeDrawingBrush.moved) {
+          this.calcPrice();
+        }
       }
     });
 
