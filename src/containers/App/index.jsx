@@ -311,9 +311,6 @@ class App extends Component {
         this.loadFonts();
       }
     }
-    if (this.props.sidesPrice !== nextProps.sidesPrice) {
-      this.calcPrice();
-    }
   }
 
   loadFonts() {

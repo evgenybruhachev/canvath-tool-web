@@ -174,6 +174,9 @@ class Header extends Component {
     if (this.props.loading && (this.props.loading !== nextProps.loading)) {
       this.props.calcPrice();
     }
+    if (this.props.colorSelected !== nextProps.colorSelected && (this.props.product == nextProps.product)) {
+      this.props.calcPrice();
+    }
   }
 
   render() {
