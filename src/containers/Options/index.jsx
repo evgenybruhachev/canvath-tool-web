@@ -535,7 +535,7 @@ class Options extends Component {
                                 active={textOptions.align === 'right'}
                             />
 
-                            {this.state.fontsStyles[this.props.textOptions.font].bold_allowed &&
+                            {/* {this.state.fontsStyles[this.props.textOptions.font].bold_allowed &&
                               <Button
                                   icon={'text-bold'}
                                   label={'ボールド'}
@@ -551,7 +551,7 @@ class Options extends Component {
                                   onClick={() => dispatch(actions.selectTextItalic(!textOptions.italic))}
                                   active={textOptions.italic}
                               />
-                            }
+                            } */}
 
                             <Button
                                 icon={'text-vertical'}
