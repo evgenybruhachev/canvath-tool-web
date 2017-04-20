@@ -64,22 +64,23 @@ export default store => next => (action) => {
 
         DrawTool.importJSON(JSON.stringify(data)).then(() => {
           DrawTool.sides._collection.forEach((side) => {
-              if (action.payload.sides[side.id]) {
-                if (action.payload.sides[side.id].startsWith('http')) {
-                    side.items.addImage(`${action.payload.sides[side.id]}?_`);
-                    store.dispatch(actions.setLoading(false));
-                } else {
-                  side.fromJSON(action.payload.sides[side.id], () => {
-                      setTimeout(() => {
-                          store.dispatch(actions.updateLayers({
-                              layers: DrawTool.sides.selected.layers.update().reverse(),
-                              side: DrawTool.sides.selected.id,
-                            }));
-                          store.dispatch(actions.setLoading(false));
-                      });
-                  }, true);
-                }
+            if (action.payload.sides[side.id]) {
+              if (action.payload.sides[side.id].startsWith('http')) {
+                  side.items.addImage(`${action.payload.sides[side.id]}?_`);
+                  store.dispatch(actions.setLoading(false));
+              } else {
+                side.fromJSON(action.payload.sides[side.id], () => {
+                    setTimeout(() => {
+                        store.dispatch(actions.updateLayers({
+                            layers: DrawTool.sides.selected.layers.update().reverse(),
+                            side: DrawTool.sides.selected.id,
+                          }));
+                        store.dispatch(actions.setActiveTool('pointer'));
+                        store.dispatch(actions.setLoading(false));
+                    });
+                }, true);
               }
+            }
           });
         });
 
