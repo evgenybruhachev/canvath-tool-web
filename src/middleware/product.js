@@ -12,7 +12,27 @@ export default store => next => (action) => {
 
   switch (action.type) {
     case 'UPDATE_FONTS':
-      action.payload.map(font => DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls));
+      action.payload.map(font => {
+        if (navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1)) {
+          var style = document.createElement('style');
+          style.type = "text/css";
+          var fontFace = document.createTextNode(
+            `@font-face {font-family: ${font.DrawerFont.title};
+            src: url('${font.DrawerFont.urls.eot}');
+            src: url('${font.DrawerFont.urls.eot}?#iefix') format('embedded-opentype'),
+              url('${font.DrawerFont.urls.woff2}') format('woff2'),
+              url('${font.DrawerFont.urls.woff}') format('woff'),
+              url('${font.DrawerFont.urls.ttf}') format('truetype'),
+              url('${font.DrawerFont.urls.svg}') format('svg');
+            font-weight: normal;
+            font-style: normal; }`
+          );
+          style.appendChild(fontFace);
+          document.head.appendChild(style);
+        } else {
+          DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls)
+        }
+      });
       break;
     case 'SELECT_COLOR': {
       DrawTool.sides.selected.items.finalizeBrush();
