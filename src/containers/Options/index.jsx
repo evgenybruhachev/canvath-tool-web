@@ -508,6 +508,7 @@ class Options extends Component {
                                 elements={[6, 8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72]
                                     .map(size => ({ val: size.toString(), node: <span>{size}</span> }))}
                                 onChange={size => dispatch(actions.selectTextSize(size))}
+                                className="textSize"
                             />
 
                             {/* <Button
