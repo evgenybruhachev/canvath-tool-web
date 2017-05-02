@@ -95,6 +95,10 @@
   }
 }
 
+.textSize .list {
+  width: 35px;
+}
+
 @media screen and (max-width: $mobileBreakPoint) {
   .drop-down-material {
     &.fonts {
