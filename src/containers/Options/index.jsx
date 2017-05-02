@@ -150,13 +150,13 @@ class Options extends Component {
                 this.setState({ availableFonts: nextProps.availableFontsEN });
             }
 
-            Array.prototype.forEach.call(this.props.availableFontsCategories, (item, index, arr) => {
-                if(typeof this.props.availableFontsJP == 'undefined' && item == '\u65e5\u672c\u8a9e')
-                    this.props.availableFontsCategories.splice(index, 1);
-
-                if(typeof this.props.availableFontsEN == 'undefined' && item == '\u82f1\u8a9e')
-                    this.props.availableFontsCategories.splice(index, 1);
-            });
+            // Array.prototype.forEach.call(this.props.availableFontsCategories, (item, index, arr) => {
+            //     if(typeof this.props.availableFontsJP == 'undefined' && item == '\u65e5\u672c\u8a9e')
+            //         this.props.availableFontsCategories.splice(index, 1);
+            //
+            //     if(typeof this.props.availableFontsEN == 'undefined' && item == '\u82f1\u8a9e')
+            //         this.props.availableFontsCategories.splice(index, 1);
+            // });
         }
 
         if (this.props.activeTool !== nextProps.activeTool && nextProps.activeTool == 'text') {
