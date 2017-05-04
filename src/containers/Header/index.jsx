@@ -15,7 +15,7 @@ import * as ProductActions from '../../actions/product';
 import * as DrawToolActions from '../../actions/draw-tool';
 import * as actions from '../../actions/draw-tool';
 
-import { WEBHOST } from '../../constants';
+import { WEBHOST, HOST } from '../../constants';
 import query from '../../constants/query';
 
 import disableOnBeforeUnload from '../../utils/onbeforeunload';
@@ -131,40 +131,125 @@ class Header extends Component {
     dispatch(DrawToolActions.setLoading(true));
 
     setTimeout(() => {
-      DrawTool.sides._collection.forEach((side) => {
-          let contentObject = side.toObject();
-          if (contentObject.canvas.objects.length > 0) {
+
+      DrawTool.rasterizeText(`${HOST}/designs/design/file/upload`, query.session).then((data) => {
+        if (data) {
+          DrawTool.sides._collection.forEach((side) => {
+            let contentObject = side.toObject();
+            if (contentObject.canvas.objects.length > 0) {
+              for (let i = 0; i < contentObject.canvas.objects.length; i++) {
+                if (contentObject.canvas.objects[i].type.includes('text') && data[contentObject.canvas.objects[i].uuid]) {
+                  contentObject.canvas.objects[i] = {
+                    "type": "image",
+                    "originX": "center",
+                    "originY": "center",
+                    "left": contentObject.canvas.objects[i].left,
+                    "top": contentObject.canvas.objects[i].top,
+                    "width": contentObject.canvas.objects[i].width,
+                    "height": contentObject.canvas.objects[i].height,
+                    "fill": "rgb(0,0,0)",
+                    "stroke": null,
+                    "strokeWidth": 0,
+                    "strokeDashArray": null,
+                    "strokeLineCap": "butt",
+                    "strokeLineJoin": "miter",
+                    "strokeMiterLimit": 10,
+                    "scaleX": contentObject.canvas.objects[i].scaleX,
+                    "scaleY": contentObject.canvas.objects[i].scaleY,
+                    "angle": contentObject.canvas.objects[i].angle,
+                    "flipX": false,
+                    "flipY": false,
+                    "opacity": 1,
+                    "shadow": null,
+                    "visible": true,
+                    "clipTo": null,
+                    "backgroundColor": "",
+                    "fillRule": "nonzero",
+                    "globalCompositeOperation": "source-over",
+                    "transformMatrix": null,
+                    "skewX": contentObject.canvas.objects[i].skewX,
+                    "skewY": contentObject.canvas.objects[i].skewY,
+                    "crossOrigin": "anonymous",
+                    "alignX": "none",
+                    "alignY": "none",
+                    "meetOrSlice": "meet",
+                    "uuid": contentObject.canvas.objects[i].uuid,
+                    "src": data[contentObject.canvas.objects[i].uuid],
+                    "filters": [],
+                    "resizeFilters": []
+                  }
+                }
+              }
+              sides[side.id] = { content: JSON.stringify(contentObject) };
+            }
+          });
+
+          saveProduct(colorSelected.id, sides).then((data) => {
+            const form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+
+            for (const key in data) {
+              const input = document.createElement('input');
+              input.setAttribute('type', 'hidden');
+              input.setAttribute('value', data[key]);
+              input.setAttribute('name', key);
+              input.setAttribute('id', key);
+              form.appendChild(input);
+            }
+
+            query.setData(parse(window.location.search.substring(1)));
+
+            if (query.cart_id) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('value', query.cart_id);
+                input.setAttribute('name', 'cart_id');
+                input.setAttribute('id', 'cart_id');
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+          });
+
+        } else {
+          DrawTool.sides._collection.forEach((side) => {
+            let contentObject = side.toObject();
+            if (contentObject.canvas.objects.length > 0) {
               sides[side.id] = { content: side.toJSON() };
-          }
-      });
+            }
+          });
 
-      saveProduct(colorSelected.id, sides).then((data) => {
-        const form = document.createElement('form');
-        form.setAttribute('method', 'post');
-        form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
+          saveProduct(colorSelected.id, sides).then((data) => {
+            const form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', WEBHOST + '/proc.php?run=appli2web');
 
-        for (const key in data) {
-          const input = document.createElement('input');
-          input.setAttribute('type', 'hidden');
-          input.setAttribute('value', data[key]);
-          input.setAttribute('name', key);
-          input.setAttribute('id', key);
-          form.appendChild(input);
+            for (const key in data) {
+              const input = document.createElement('input');
+              input.setAttribute('type', 'hidden');
+              input.setAttribute('value', data[key]);
+              input.setAttribute('name', key);
+              input.setAttribute('id', key);
+              form.appendChild(input);
+            }
+
+            query.setData(parse(window.location.search.substring(1)));
+
+            if (query.cart_id) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('value', query.cart_id);
+                input.setAttribute('name', 'cart_id');
+                input.setAttribute('id', 'cart_id');
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+          });
         }
-
-        query.setData(parse(window.location.search.substring(1)));
-
-        if (query.cart_id) {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('value', query.cart_id);
-            input.setAttribute('name', 'cart_id');
-            input.setAttribute('id', 'cart_id');
-            form.appendChild(input);
-        }
-
-        document.body.appendChild(form);
-        form.submit();
       });
 
       }, 500);
