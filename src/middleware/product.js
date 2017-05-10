@@ -17,7 +17,7 @@ export default store => next => (action) => {
           var style = document.createElement('style');
           style.type = "text/css";
           var fontFace = document.createTextNode(
-            `@font-face {font-family: ${font.DrawerFont.title};
+            `@font-face {font-family: ${font.DrawerFont.name};
             src: url('${font.DrawerFont.urls.eot}');
             src: url('${font.DrawerFont.urls.eot}?#iefix') format('embedded-opentype'),
               url('${font.DrawerFont.urls.woff2}') format('woff2'),
@@ -30,7 +30,7 @@ export default store => next => (action) => {
           style.appendChild(fontFace);
           document.head.appendChild(style);
         } else {
-          DrawTool.fontLoader(font.DrawerFont.title, font.DrawerFont.urls)
+          DrawTool.fontLoader(font.DrawerFont.name, font.DrawerFont.urls)
         }
       });
       break;
