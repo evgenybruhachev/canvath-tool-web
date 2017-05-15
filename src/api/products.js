@@ -136,6 +136,7 @@ export const saveProduct = (colorId, sides) => {
   };
 
   return new Promise((resolve, reject) => {
+    //console.log(JSON.stringify(payload));
     fetch(`${HOST}/products/product`, {
       method: 'PUT',
       mode: 'cors',

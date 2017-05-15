@@ -99,3 +99,14 @@ export const getStickers = (id) => {
     .catch(err => reject(err));
   });
 };
+
+export const getColors = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${HOST}/drawer/colors?session=${query.session}`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+        .then(response => response.json().then(data => resolve(data)))
+        .catch(err => reject(err));
+  });
+};
