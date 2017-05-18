@@ -7,12 +7,15 @@ class DropFiles extends Component {
 
   static propTypes = {
     onUpload: React.PropTypes.func.isRequired,
+    bottom: React.PropTypes.number,
+    showOptions: React.PropTypes.boolean,
   };
 
   constructor(props) {
     super(props);
     this.state = {};
 
+    console.log(this.props.bottom);
     this.onDrop = this.onDrop.bind(this);
   }
 
@@ -24,9 +27,9 @@ class DropFiles extends Component {
     return (
       <MediaQuery query='(min-device-width: 1024px)'>
         <Dropzone style={{display: 'none'}}/>
-        <FileDrop frame={document} onDrop={this.onDrop} className="drop-zone">
-          <div className="drop-zone__area"><p>Drop your file here</p></div>
-        </FileDrop>
+          <FileDrop frame={document} onDrop={this.onDrop} className={'drop-zone ' + (this.props.bottom ? 'drop-zone_bottom ' : '') + (!this.props.showOptions ? 'drop-zone_no-options ' : '')}>
+            <div className="drop-zone__area"><p>Drop your file here</p></div>
+          </FileDrop>
       </MediaQuery>
     );
   }
