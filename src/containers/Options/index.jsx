@@ -33,6 +33,7 @@ class Options extends Component {
         activeTool: React.PropTypes.string,
         availableBrushes: React.PropTypes.array,
         availableFonts: React.PropTypes.array,
+        availableFontsTitle: React.PropTypes.object,
         availableFontsJP: React.PropTypes.array,
         availableFontsEN: React.PropTypes.array,
         availableFontsCategories: React.PropTypes.array,
@@ -115,7 +116,7 @@ class Options extends Component {
         if (!this.fontDetectInitialised) {
           if (this.props.allFonts) {
             for (let font of this.props.allFonts) {
-              this.state.fontsStyles[font.title] = {
+              this.state.fontsStyles[font.name] = {
                 'bold_allowed': font.bold_allowed,
                 'italic_allowed': font.italic_allowed
               }
@@ -318,6 +319,7 @@ class Options extends Component {
             activeTool,
             availableBrushes,
             availableFonts,
+            availableFontsTitle,
             availableFontsJP,
             availableFontsEN,
             availableFontsCategories,
@@ -493,7 +495,7 @@ class Options extends Component {
                               value={textOptions.font}
                               elements={this.state.availableFonts.map(font => {
                                   if (this.state.loadedFonts[font]) {
-                                    return { val: font, loaded: true, node: <span style={{ fontFamily: font }}>{font}</span> };
+                                    return { val: font, loaded: true, node: <span style={{ fontFamily: font }}>{this.props.availableFontsTitle[font]}</span> };
                                   } else {
                                     return { val: font, loaded: false, node: <span style={{ color: '#9E9E9E', cursor: 'not-allowed' }}>読み込み中</span> }
                                   }
@@ -793,6 +795,7 @@ function mapStateToProps(state) {
         categoriesFontsOptions: state.drawTool.categoriesFontsOptions,
         availableBrushes: state.drawTool.availableBrushes,
         availableFonts: state.drawTool.availableFonts,
+        availableFontsTitle: state.drawTool.availableFontsTitle,
         availableFontsJP: state.drawTool.availableFontsJP,
         availableFontsEN: state.drawTool.availableFontsEN,
         availableFontsCategories: state.drawTool.availableFontsCategories,

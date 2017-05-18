@@ -36,23 +36,32 @@ const initialState = {
   loading: true,
 };
 
+const getFontsTitle = (fonts) => {
+  let obj = {};
+  fonts.map(font => {
+    obj[font.DrawerFont.name] = font.DrawerFont.title;
+  });
+  return obj;
+}
+
 export default handleActions({
   UPDATE_BRUSHES: (state, action) => Object.assign({}, state, {
     availableBrushes: action.payload.map(brush => brush.DrawerBrush.value),
     activeBrush: action.payload[0].DrawerBrush.value,
   }),
   UPDATE_FONTS: (state, action) => Object.assign({}, state, {
-    availableFonts: action.payload.map(font => font.DrawerFont.title),
+    availableFonts: action.payload.map(font => font.DrawerFont.name),
+    availableFontsTitle: Object.assign({}, getFontsTitle(action.payload)),
     allFonts: action.payload.map(font => font.DrawerFont),
-    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.name }),
   }),
   UPDATE_FONTS_JP: (state, action) => Object.assign({}, state, {
-    availableFontsJP: action.payload.map(font => font.DrawerFont.title),
-    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+    availableFontsJP: action.payload.map(font => font.DrawerFont.name),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.name }),
   }),
   UPDATE_FONTS_EN: (state, action) => Object.assign({}, state, {
-    availableFontsEN: action.payload.map(font => font.DrawerFont.title),
-    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.title }),
+    availableFontsEN: action.payload.map(font => font.DrawerFont.name),
+    textOptions: Object.assign(state.textOptions, { font: action.payload[0].DrawerFont.name }),
   }),
   UPDATE_CATEGORIES_FONTS: (state, action) => Object.assign({}, state, {
     availableFontsCategories: action.payload.map(categoriesFonts => categoriesFonts.DrawerFontCategory.title),
