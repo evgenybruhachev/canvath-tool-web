@@ -15,7 +15,6 @@ class DropFiles extends Component {
     super(props);
     this.state = {};
 
-    console.log(this.props.bottom);
     this.onDrop = this.onDrop.bind(this);
   }
 
