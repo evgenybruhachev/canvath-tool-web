@@ -59,7 +59,7 @@
   right: 20px;
   bottom: 20px;
   display: block;
-  z-index: 1;
+  z-index: -11;
   .drop-zone__area {
     width: 100% !important;
     height: calc(100vh - 160px) !important;
@@ -69,7 +69,7 @@
     align-items: center;
     border-radius: 2px;
     background: rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    z-index: -11;
     p {
       font-size: 18px;
       background: url(../assets/img/image-icon.svg) no-repeat top center;
@@ -84,6 +84,21 @@
     right: 20px;
     bottom: 20px;
     height: calc(100vh - 180px) !important;
-    z-index: 10;
+    //z-index: 10;
   }
+
+  &.drop-zone_bottom{
+    top: 140px;
+    .drop-zone__area {
+      height: calc(100vh - 220px) !important;
+    }
+  }
+
+  &.drop-zone_no-options{
+    top: 20px !important;
+    .drop-zone__area {
+      height: calc(100vh - 100px) !important;
+    }
+  }
+
 }

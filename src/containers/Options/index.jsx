@@ -394,7 +394,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -425,7 +425,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -450,7 +450,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -486,7 +486,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -601,7 +601,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -632,7 +632,7 @@ class Options extends Component {
                         }
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} bottom={stickers.length} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -669,7 +669,7 @@ class Options extends Component {
                           }
                           <button onClick={this.toggleOptions}
                                   className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                          <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                          <DropFiles onUpload={files => this.fileUpload(files[0])} bottom={shapes.length} showOptions={this.showOptions} />
                       </div>
                   );
                 } else {
@@ -704,7 +704,7 @@ class Options extends Component {
                           }
                           <button onClick={this.toggleOptions}
                                   className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                          <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                          <DropFiles onUpload={files => this.fileUpload(files[0])} bottom={shapes.length} showOptions={this.showOptions} />
                       </div>
                   );
                 }
@@ -722,7 +722,7 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                         </div>
                     );
                 } else {
@@ -748,7 +748,7 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                     className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                         </div>
                     );
                 }
@@ -784,7 +784,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                        <DropFiles style={{top: '100px'}} onUpload={files => this.fileUpload(files[0])} bottom={1} showOptions={this.showOptions} />
                     </div>
                 );
                 break;
@@ -801,12 +801,12 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} showOptions={this.showOptions} />
                         </div>
                     );
                 break;
             default:
-                content = (<DropFiles onUpload={files => this.fileUpload(files[0])} />);
+              content = (<div className="options"><DropFiles onUpload={files => this.fileUpload(files[0])} bottom={11} /></div>);
         }
 
         return content;
