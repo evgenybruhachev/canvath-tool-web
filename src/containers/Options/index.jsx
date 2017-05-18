@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import Scrollbar from 'react-smooth-scrollbar';
-import FileDrop from 'react-file-drop';
-import MediaQuery from 'react-responsive';
 
 import Layers from '../../components/layers';
 
@@ -13,6 +11,7 @@ import Shape from '../../components/shape';
 
 import Button from '../../components/button';
 import Upload from '../../components/upload';
+import DropFiles from '../../components/drop-files';
 
 import EXIF from 'exif-js';
 import {uploadByString, uploadPdf, uploadPsd} from '../../api/extras';
@@ -78,6 +77,7 @@ class Options extends Component {
         this.getSideTitle = this.getSideTitle.bind(this);
         this.toggleOptions = this.toggleOptions.bind(this);
         this.changeColorSVG = this.changeColorSVG.bind(this);
+        this.onDrop = this.onDrop.bind(this);
         this.showOptions = true;
         this.lastState = null;
         this.fontDetectInitialised = false;
@@ -392,6 +392,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -422,6 +423,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -446,6 +448,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -481,6 +484,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -595,6 +599,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -625,6 +630,7 @@ class Options extends Component {
                         }
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -661,6 +667,7 @@ class Options extends Component {
                           }
                           <button onClick={this.toggleOptions}
                                   className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                          <DropFiles onUpload={files => this.fileUpload(files[0])} />
                       </div>
                   );
                 } else {
@@ -695,6 +702,7 @@ class Options extends Component {
                           }
                           <button onClick={this.toggleOptions}
                                   className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                          <DropFiles onUpload={files => this.fileUpload(files[0])} />
                       </div>
                   );
                 }
@@ -712,6 +720,7 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
                         </div>
                     );
                 } else {
@@ -737,6 +746,7 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                     className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
                         </div>
                     );
                 }
@@ -772,6 +782,7 @@ class Options extends Component {
                         </div>
                         <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                        <DropFiles onUpload={files => this.fileUpload(files[0])} />
                     </div>
                 );
                 break;
@@ -788,16 +799,12 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
-                            <MediaQuery query='(min-device-width: 1024px)'>
-                              <FileDrop frame={document} onDrop={this.onDrop.bind(this)} className="drop-zone">
-                                <div className="drop-zone__area"><p>Drop your file here</p></div>
-                              </FileDrop>
-                            </MediaQuery>
+                            <DropFiles onUpload={files => this.fileUpload(files[0])} />
                         </div>
                     );
                 break;
             default:
-                content = (null);
+                content = (<DropFiles onUpload={files => this.fileUpload(files[0])} />);
         }
 
         return content;
