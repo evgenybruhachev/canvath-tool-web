@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { parse } from 'querystring';
 
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-56273164-17');
+
 import MediaQuery from 'react-responsive';
 
 import query from '../../constants/query';
@@ -62,6 +65,9 @@ class App extends Component {
       category: '',
       loadFont: false
     };
+
+    ReactGA.set({ page: window.location.pathname + window.location.search });
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }
 
   componentWillMount() {

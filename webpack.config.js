@@ -35,7 +35,7 @@ config.module = {
       test: /src.*\.(js|jsx$)/,
       exclude: /(node_modules|drawtool.js|jm-color-picker.js)/,
       loader: 'babel',
-    },
+    }
   ],
 };
 

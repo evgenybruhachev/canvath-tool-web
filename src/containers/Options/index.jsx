@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 import Scrollbar from 'react-smooth-scrollbar';
+import FileDrop from 'react-file-drop';
+import MediaQuery from 'react-responsive';
 
 import Layers from '../../components/layers';
 
@@ -13,7 +15,7 @@ import Button from '../../components/button';
 import Upload from '../../components/upload';
 
 import EXIF from 'exif-js';
-import {uploadByString, uploadPdf} from '../../api/extras';
+import {uploadByString, uploadPdf, uploadPsd} from '../../api/extras';
 
 import DropDownM from '../../components/drop-down-material';
 import ColorPicker from '../../components/color-picker';
@@ -66,7 +68,9 @@ class Options extends Component {
           loadedFonts: {},
           loadedFont: null,
           fontsStyles: {},
-          mobile: window.matchMedia('(max-width: 1079px)').matches
+          mobile: window.matchMedia('(max-width: 1079px)').matches,
+          //files: []
+          dropzoneActive: false
         };
 
         this.getStickers = this.getStickers.bind(this);
@@ -77,6 +81,18 @@ class Options extends Component {
         this.showOptions = true;
         this.lastState = null;
         this.fontDetectInitialised = false;
+    }
+
+    onDrop(files) {
+      Array.prototype.forEach.call(files, (file) => {
+        this.fileUpload(file);
+      });
+    }
+
+    onDragLeave() {
+      this.setState({
+        dropzoneActive: false
+      });
     }
 
     getStickers(id) {
@@ -201,7 +217,7 @@ class Options extends Component {
         const getImage = (file) => {
         return new Promise((resolve, reject) => {
             if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
-            && file.type !== 'application/postscript' && file.type !== 'application/pdf')
+            && file.type !== 'application/postscript' && file.type !== 'application/pdf' && file.type !== 'image/vnd.adobe.photoshop')
             reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
 
             if (file.size > 20971520)
@@ -280,7 +296,7 @@ class Options extends Component {
         };
 
         // separate img and pdf
-        if (file.type === 'application/postscript' || file.type === 'application/pdf') {
+        if (file.type === 'application/postscript' || file.type === 'application/pdf' || file.type === 'image/vnd.adobe.photoshop') {
         uploadPdf(file.type, file).then(
             url => {
                 DrawTool.sides.selected.items.addImage(url).then(() => {
@@ -293,22 +309,21 @@ class Options extends Component {
             }
         );
 
-        }
-        else {
-        getImage(file)
-            .then(image => getBase64(file, image))
-            .then(base64 => uploadByString('image/png', base64, 'png'))
-            .then(
-            url => {
-                DrawTool.sides.selected.items.addImage(url).then(() => {
-                dispatch(actions.setLoading(false));
-                });
-            },
-            err => {
-                dispatch(actions.setLoading(false));
-                window.alert(err);
-            }
-            );
+        } else {
+          getImage(file)
+              .then(image => getBase64(file, image))
+              .then(base64 => uploadByString('image/png', base64, 'png'))
+              .then(
+              url => {
+                  DrawTool.sides.selected.items.addImage(url).then(() => {
+                  dispatch(actions.setLoading(false));
+                  });
+              },
+              err => {
+                  dispatch(actions.setLoading(false));
+                  window.alert(err);
+              }
+              );
         }
     }
 
@@ -342,6 +357,8 @@ class Options extends Component {
             colors,
             colorSelected,
         } = this.props;
+
+        const { dropzoneActive } = this.state;
 
         let content;
 
@@ -771,6 +788,11 @@ class Options extends Component {
                             </div>
                             <button onClick={this.toggleOptions}
                                 className="options-toggle-button"><div>{this.showOptions ? '非表示' : '表示'}</div></button>
+                            <MediaQuery query='(min-device-width: 1024px)'>
+                              <FileDrop frame={document} onDrop={this.onDrop.bind(this)} className="drop-zone">
+                                <div className="drop-zone__area"><p>Drop your file here</p></div>
+                              </FileDrop>
+                            </MediaQuery>
                         </div>
                     );
                 break;
