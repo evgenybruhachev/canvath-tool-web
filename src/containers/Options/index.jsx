@@ -212,26 +212,32 @@ class Options extends Component {
         const {dispatch} = this.props;
         const vCanv = document.createElement('canvas');
         const vCtx = vCanv.getContext('2d');
+        let isPsdExpansion = false;
 
         dispatch(actions.setLoading(true));
 
         const getImage = (file) => {
-        return new Promise((resolve, reject) => {
-            if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
-            && file.type !== 'application/postscript' && file.type !== 'application/pdf' && file.type !== 'image/vnd.adobe.photoshop')
-            reject('JPEG,GIF,PNG,PDF,AIのみ対応しています');
+          return new Promise((resolve, reject) => {
+              let rexString = /.+\.(.+$)/;
+              let fileExpansion = rexString.exec(file.name);
 
-            if (file.size > 20971520)
-            reject('最大20MBまで')
+              if(fileExpansion[fileExpansion.length - 1] === 'psd')
+                isPsdExpansion = true;
 
-            const img = new Image();
-            img.onload = function () {
-            resolve(img);
-            };
+              if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
+                  && file.type !== 'application/postscript' && file.type !== 'application/pdf' && file.type !== 'image/vnd.adobe.photoshop' && file.type !== 'application/x-photoshop' && !isPsdExpansion)
+                reject('JPEG,GIF,PNG,PDF,AI,PSDのみ対応しています');
 
-            img.src = URL.createObjectURL(file);
+              if (file.size > 20971520) reject('最大20MBまで')
 
-        });
+              const img = new Image();
+              img.onload = function () {
+                resolve(img);
+              };
+
+              img.src = URL.createObjectURL(file);
+
+          });
         };
 
         const getBase64 = (file, image) => {
@@ -297,8 +303,8 @@ class Options extends Component {
         };
 
         // separate img and pdf
-        if (file.type === 'application/postscript' || file.type === 'application/pdf' || file.type === 'image/vnd.adobe.photoshop') {
-        uploadPdf(file.type, file).then(
+        if (file.type === 'application/postscript' || file.type === 'application/pdf' || file.type === 'image/vnd.adobe.photoshop' || file.type === 'application/x-photoshop' || isPsdExpansion) {
+          uploadPdf(file.type, file).then(
             url => {
                 DrawTool.sides.selected.items.addImage(url).then(() => {
                     dispatch(actions.setLoading(false));
@@ -794,7 +800,7 @@ class Options extends Component {
                             <div className={this.showOptions ? 'top top__upload show' : 'top top__upload'}>
                                 <div className="before"></div>
                                 <span className="loading">
-                                    アップロードをクリックして取り込みたい画像を選択してください。<br className="visible-xs"/>JPEG,GIF,PNG,AI,PDFに対応。<br className="visible-xs"/>最大20MBまで
+                                    アップロードをクリックして取り込みたい画像を選択してください。<br className="visible-xs"/>JPEG,GIF,PNG,AI,PDF,PSDに対応。<br className="visible-xs"/>最大20MBまで
                                 </span>
                                 <Upload className="cart-button complete-drawing" label={'アップロード'} onUpload={files => this.fileUpload(files[0])}/>
                                 <div className="after"></div>
