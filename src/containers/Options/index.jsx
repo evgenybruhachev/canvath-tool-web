@@ -213,17 +213,15 @@ class Options extends Component {
         const vCanv = document.createElement('canvas');
         const vCtx = vCanv.getContext('2d');
         let isPsdExpansion = false;
+        let rexString = /.+\.(.+$)/;
+        let fileExpansion = rexString.exec(file.name);
+
+        if(fileExpansion[fileExpansion.length - 1] === 'psd' && file.type === '')  isPsdExpansion = true;
 
         dispatch(actions.setLoading(true));
 
         const getImage = (file) => {
           return new Promise((resolve, reject) => {
-              let rexString = /.+\.(.+$)/;
-              let fileExpansion = rexString.exec(file.name);
-
-              if(fileExpansion[fileExpansion.length - 1] === 'psd')
-                isPsdExpansion = true;
-
               if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif'
                   && file.type !== 'application/postscript' && file.type !== 'application/pdf' && file.type !== 'image/vnd.adobe.photoshop' && file.type !== 'application/x-photoshop' && !isPsdExpansion)
                 reject('JPEG,GIF,PNG,PDF,AI,PSDのみ対応しています');
@@ -236,7 +234,6 @@ class Options extends Component {
               };
 
               img.src = URL.createObjectURL(file);
-
           });
         };
 
