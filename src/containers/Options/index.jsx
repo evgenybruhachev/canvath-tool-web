@@ -13,6 +13,8 @@ import Button from '../../components/button';
 import Upload from '../../components/upload';
 import DropFiles from '../../components/drop-files';
 
+import DrawTool from '../../draw-tool/drawtool';
+
 import EXIF from 'exif-js';
 import {uploadByString, uploadPdf, uploadPsd} from '../../api/extras';
 
@@ -152,6 +154,13 @@ class Options extends Component {
                   this.forceUpdate();
                 // }
               }
+              delete fabric.charWidthsCache[font];
+              Array.prototype.forEach.call(DrawTool.sides.selected.FabricCanvas._objects, (object) => {
+                if(object.fontFamily && object.fontFamily === font) {
+                  object._initDimensions();
+                  DrawTool.sides.selected.FabricCanvas.renderAll();
+                }
+              });
             }, () => {
               console.log(`${font} was not loaded!`);
             }, {msTimeout: 300000});
