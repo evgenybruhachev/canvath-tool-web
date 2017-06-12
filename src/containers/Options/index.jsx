@@ -225,7 +225,9 @@ class Options extends Component {
         let rexString = /.+\.(.+$)/;
         let fileExpansion = rexString.exec(file.name);
 
-        if(fileExpansion[fileExpansion.length - 1] === 'psd' && file.type === '')  isPsdExpansion = true;
+        if(fileExpansion[fileExpansion.length - 1] === 'psd'){
+          isPsdExpansion = true;
+        }
 
         dispatch(actions.setLoading(true));
 
