@@ -179,12 +179,16 @@ class Header extends Component {
   }
 
   ifLayersEmpty() {
-    for (let variable in this.props.layers) {
-      if (this.props.layers.hasOwnProperty(variable) && this.props.layers[variable].length !== 0) {
-        return false
+    let isEmpty = true;
+
+    if(DrawTool.sides._collection) {
+      for (let sideNumber in DrawTool.sides._collection) {
+        if (DrawTool.sides._collection[sideNumber].layers.list.length > 0) {
+          isEmpty = false;
+        }
       }
     }
-    return true;
+    return isEmpty;
   }
 
   componentWillReceiveProps(nextProps) {
